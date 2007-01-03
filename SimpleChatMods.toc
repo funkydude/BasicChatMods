@@ -1,0 +1,13 @@
+## Interface: 20000
+## X-Credits: Rabbit
+## Title: Simple Chat Mods
+## OptionalDeps: Ace2
+
+buttons.lua
+channelnames.lua
+editbox.lua
+playernames.lua
+scroll.lua
+timestamps.lua
+telltarget.lua
+
