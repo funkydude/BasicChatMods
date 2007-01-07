@@ -94,9 +94,11 @@ function Playernames:addName(Name, Class)
 end
 
 function Playernames:AddMessage(frame, text, r, g, b, id)
-	local name = text:gsub(".*|Hplayer:(.-)|h.*", "%1")
-	if self.Names[name] then name = self.Names[name] end
-	text = text:gsub("|Hplayer:(.-)|h%[.-%]|h.-:", "<|Hplayer:%1|h" .. name .. "|h>")
+	if type(text) == "string" then
+		local name = text:gsub(".*|Hplayer:(.-)|h.*", "%1")
+		if self.Names[name] then name = self.Names[name] end
+		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h.-:", "<|Hplayer:%1|h" .. name .. "|h>")
+	end
 
 	self.hooks[frame].AddMessage(frame, text, r, g, b, id)
 end
