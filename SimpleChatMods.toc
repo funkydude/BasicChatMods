@@ -1,4 +1,4 @@
-## Interface: 20000
+## Interface: 20003
 ## X-Credits: Rabbit
 ## Title: Simple Chat Mods
 ## OptionalDeps: Ace2
