@@ -25,8 +25,10 @@ function Channelnames:OnEnable()
 end
 
 function Channelnames:AddMessage(frame, text, r, g, b, id)
-	for k, v in pairs(replace) do
-		text = text:gsub(k, v)
+	if type(text) == "string" then
+		for k, v in pairs(replace) do
+			text = text:gsub(k, v)
+		end
 	end
 	return self.hooks[frame].AddMessage(frame, text, r, g, b, id)
 end
