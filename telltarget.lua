@@ -1,16 +1,16 @@
-TellTarget = {}
+scmTellTarget = {}
 
-function TellTarget:Enable()
+function scmTellTarget:Enable()
 	SlashCmdList["TELLTARGET"] = function(str) self:tellTarget(str) end
 	SLASH_TELLTARGET1 = "/tt"
 end
 
-function TellTarget:Disable()
+function scmTellTarget:Disable()
 	SlashCmdList["TELLTARGET"] = nil
 	SLASH_TELLTARGET1 = nil
 end
 
-function TellTarget:tellTarget(str)
+function scmTellTarget:tellTarget(str)
 	if not (UnitExists("target")
 		and UnitName("target")
 		and UnitIsPlayer("target")
@@ -27,5 +27,5 @@ function TellTarget:tellTarget(str)
 	SendChatMessage(str, "WHISPER", nil, name)
 end
 
-TellTarget:Enable()
+scmTellTarget:Enable()
 

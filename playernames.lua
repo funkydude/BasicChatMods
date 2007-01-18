@@ -1,5 +1,5 @@
-Playernames = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceHook-2.1")
-Playernames.Colors = {
+scmPlayernames = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceHook-2.1")
+scmPlayernames.Colors = {
 	DRUID   = "ff7c0a",
 	HUNTER  = "aad372",
 	MAGE    = "68ccef",
@@ -10,9 +10,9 @@ Playernames.Colors = {
 	WARLOCK = "9382c9",
 	WARRIOR = "c69b6d"
 }
-Playernames.Names = {}
+scmPlayernames.Names = {}
 
-function Playernames:OnEnable()
+function scmPlayernames:OnEnable()
 	self:Hook(ChatFrame1, "AddMessage")
 	self:Hook(ChatFrame2, "AddMessage")
 	self:Hook(ChatFrame3, "AddMessage")
@@ -39,7 +39,7 @@ function Playernames:OnEnable()
 	end
 end
 
-function Playernames:updateFriends()
+function scmPlayernames:updateFriends()
 	local Name, Class
 	for i = 1, GetNumFriends() do
 		Name, _, Class = GetFriendInfo(i)
@@ -47,7 +47,7 @@ function Playernames:updateFriends()
 	end
 end
 
-function Playernames:updateGuild()
+function scmPlayernames:updateGuild()
 	local Name, Class
 	for i = 1, GetNumGuildMembers() do
 		Name, _, _, _, Class = GetGuildRosterInfo(i)
@@ -55,7 +55,7 @@ function Playernames:updateGuild()
 	end
 end
 
-function Playernames:updateRaid()
+function scmPlayernames:updateRaid()
 	local Name, Class
 	for i = 1, GetNumRaidMembers() do
 		Name, _, _, _, _, Class = GetRaidRosterInfo(i)
@@ -63,7 +63,7 @@ function Playernames:updateRaid()
 	end
 end
 
-function Playernames:updateParty()
+function scmPlayernames:updateParty()
 	local Name, Class
 	for i = 1, GetNumPartyMembers() do
 		Name = UnitName("party" .. i)
@@ -72,13 +72,13 @@ function Playernames:updateParty()
 	end
 end
 
-function Playernames:updateTarget()
+function scmPlayernames:updateTarget()
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") then return end
 	local _, Class = UnitClass("target")
 	self:addName(UnitName("target"), Class)
 end
 
-function Playernames:updateWho()
+function scmPlayernames:updateWho()
 	local Name, Class
 	for i = 1, GetNumWhoResults() do
 		Name, _, _, _, Class = GetWhoInfo(i)
@@ -86,14 +86,14 @@ function Playernames:updateWho()
 	end
 end
 
-function Playernames:addName(Name, Class)
+function scmPlayernames:addName(Name, Class)
 	if not Class then return end
 	Class = string.upper(Class)
 	if Class == "UNKNOWN" or not self.Colors[Class] then return end
 	self.Names[Name] = string.format("|cff%s%s|r", self.Colors[Class], Name)
 end
 
-function Playernames:AddMessage(frame, text, r, g, b, id)
+function scmPlayernames:AddMessage(frame, text, r, g, b, id)
 	if type(text) == "string" then
 		local name = text:gsub(".*|Hplayer:(.-)|h.*", "%1")
 		if self.Names[name] then name = self.Names[name] end

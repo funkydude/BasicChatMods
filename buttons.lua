@@ -1,25 +1,35 @@
-Buttons = {}
+scmButtons = {}
+
+SMC_BUTTONS_SHOW_UP = nil
+SMC_BUTTONS_SHOW_DOWN = nil
+SMC_BUTTONS_SHOW_BOTTOM = nil
 
 local _G = getfenv(0)
 
-function Buttons:Enable()
+function scmButtons:Enable()
 	local a
 	ChatFrameMenuButton:Hide()
 	for i = 1, 7 do
-		a = _G["ChatFrame"..i.."UpButton"]
-		a:SetScript("OnShow", function() this:Hide() end)
-		a:Hide()
+		if not SMC_BUTTONS_SHOW_UP then
+			a = _G["ChatFrame"..i.."UpButton"]
+			a:SetScript("OnShow", function() this:Hide() end)
+			a:Hide()
+		end
 
-		a = _G["ChatFrame"..i.."DownButton"]
-		a:SetScript("OnShow", function() this:Hide() end)
-		a:Hide()
+		if not SMC_BUTTONS_SHOW_DOWN then
+			a = _G["ChatFrame"..i.."DownButton"]
+			a:SetScript("OnShow", function() this:Hide() end)
+			a:Hide()
+		end
 
-		a = _G["ChatFrame"..i.."BottomButton"]
-		a:SetScript("OnShow", function() this:Hide() end)
-		a:Hide()
+		if not SMC_BUTTONS_SHOW_BOTTOM then
+			a = _G["ChatFrame"..i.."BottomButton"]
+			a:SetScript("OnShow", function() this:Hide() end)
+			a:Hide()
+		end
 	end
 end
-function Buttons:Disable()
+function scmButtons:Disable()
 	local a
 	ChatFrameMenuButton:Show()
 	for i = 1, 7 do
@@ -37,5 +47,5 @@ function Buttons:Disable()
 	end
 end
 
-Buttons:Enable()
+scmButtons:Enable()
 
