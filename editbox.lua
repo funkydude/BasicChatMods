@@ -14,4 +14,16 @@ function scmEditbox:Disable()
 	eb:SetPoint("TOPRIGHT", "ChatFrame1", "BOTTOMRIGHT", 5, 0)
 end
 
+scmEditboxAltKey = {}
+
+function scmEditboxAltKey:Enable()
+	ChatFrameEditBox:SetAltArrowKeyMode(false)
+end
+
+function scmEditboxAltKey:Disable()
+	ChatFrameEditBox:SetAltArrowKeyMode(true)
+end
+
 scmEditbox:Enable()
+scmEditboxAltKey:Enable(
+)
