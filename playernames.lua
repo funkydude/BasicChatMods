@@ -1,4 +1,8 @@
 scmPlayernames = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceHook-2.1")
+
+SCM_PLAYERNAMES_LEFTBRACKET = "<"
+SCM_PLAYERNAMES_RIGHTBRACKET = ">"
+
 scmPlayernames.Colors = {
 	DRUID   = "ff7c0a",
 	HUNTER  = "aad372",
@@ -12,15 +16,12 @@ scmPlayernames.Colors = {
 }
 scmPlayernames.Names = {}
 
-function scmPlayernames:OnEnable()
-	self:Hook(ChatFrame1, "AddMessage", true)
-	self:Hook(ChatFrame2, "AddMessage", true)
-	self:Hook(ChatFrame3, "AddMessage", true)
-	self:Hook(ChatFrame4, "AddMessage", true)
-	self:Hook(ChatFrame5, "AddMessage", true)
-	self:Hook(ChatFrame6, "AddMessage", true)
-	self:Hook(ChatFrame7, "AddMessage", true)
+local _G = getfenv(0)
 
+function scmPlayernames:OnEnable()
+	for i=1,NUM_CHAT_WINDOWS do
+		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
+	end
 	self:RegisterBucketEvent("FRIENDLIST_UPDATE", 5, "updateFriends")
 	self:RegisterBucketEvent("GUILD_ROSTER_UPDATE", 5, "updateGuild")
 	self:RegisterBucketEvent("RAID_ROSTER_UPDATE", 5, "updateRaid")
@@ -93,13 +94,13 @@ function scmPlayernames:addName(Name, Class)
 	self.Names[Name] = string.format("|cff%s%s|r", self.Colors[Class], Name)
 end
 
-function scmPlayernames:AddMessage(frame, text, r, g, b, id)
+function scmPlayernames:AddMessage(frame, text, ...)
 	if type(text) == "string" then
 		local name = text:gsub(".*|Hplayer:(.-)|h.*", "%1")
 		if self.Names[name] then name = self.Names[name] end
-		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h.-:", "<|Hplayer:%1|h" .. name .. "|h>")
+		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h.-:", SCM_PLAYERNAMES_LEFTBRACKET.."|Hplayer:%1|h" .. name .. "|h"..SCM_PLAYERNAMES_RIGHTBRACKET)
 	end
 
-	self.hooks[frame].AddMessage(frame, text, r, g, b, id)
+	self.hooks[frame].AddMessage(frame, text, ...)
 end
 

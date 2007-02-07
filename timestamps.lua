@@ -8,7 +8,7 @@ local _G = getfenv(0)
 
 function scmTimestamps:OnEnable()
 	for i=1,NUM_CHAT_WINDOWS do
-		self:Hook(getglobal("ChatFrame"..i), "AddMessage", true)
+		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
 	end
 end
 
