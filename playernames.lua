@@ -13,13 +13,13 @@ scmPlayernames.Colors = {
 scmPlayernames.Names = {}
 
 function scmPlayernames:OnEnable()
-	self:Hook(ChatFrame1, "AddMessage")
-	self:Hook(ChatFrame2, "AddMessage")
-	self:Hook(ChatFrame3, "AddMessage")
-	self:Hook(ChatFrame4, "AddMessage")
-	self:Hook(ChatFrame5, "AddMessage")
-	self:Hook(ChatFrame6, "AddMessage")
-	self:Hook(ChatFrame7, "AddMessage")
+	self:Hook(ChatFrame1, "AddMessage", true)
+	self:Hook(ChatFrame2, "AddMessage", true)
+	self:Hook(ChatFrame3, "AddMessage", true)
+	self:Hook(ChatFrame4, "AddMessage", true)
+	self:Hook(ChatFrame5, "AddMessage", true)
+	self:Hook(ChatFrame6, "AddMessage", true)
+	self:Hook(ChatFrame7, "AddMessage", true)
 
 	self:RegisterBucketEvent("FRIENDLIST_UPDATE", 5, "updateFriends")
 	self:RegisterBucketEvent("GUILD_ROSTER_UPDATE", 5, "updateGuild")

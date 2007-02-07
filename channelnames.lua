@@ -20,7 +20,7 @@ SCM_CHANNELNAMES_REGEXPS = {
 
 function scmChannelnames:OnEnable()
 	for i = 1, 7 do
-		self:Hook(_G["ChatFrame"..i], "AddMessage")
+		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
 	end
 end
 
