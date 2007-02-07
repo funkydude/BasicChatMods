@@ -2,6 +2,7 @@ scmPlayernames = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceHook-2.1")
 
 SCM_PLAYERNAMES_LEFTBRACKET = "<"
 SCM_PLAYERNAMES_RIGHTBRACKET = ">"
+SCM_PLAYERNAMES_MOUSEOVER = nil
 
 scmPlayernames.Colors = {
 	DRUID   = "ff7c0a",
@@ -28,6 +29,10 @@ function scmPlayernames:OnEnable()
 	self:RegisterBucketEvent("PARTY_MEMBERS_CHANGED", 5, "updateParty")
 	self:RegisterBucketEvent("WHO_LIST_UPDATE", 5, "updateWho")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", "updateTarget")
+	self:RegisterEvent("CHAT_MSG_SYSTEM", "updateSystem")
+	if SCM_PLAYERNAMES_MOUSEOVER then
+		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", "updateMouseover")
+	end
 
 	local _, pclass = UnitClass("player")
 	self:addName(UnitName("player"), pclass)
@@ -77,6 +82,19 @@ function scmPlayernames:updateTarget()
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") then return end
 	local _, Class = UnitClass("target")
 	self:addName(UnitName("target"), Class)
+end
+
+function scmPlayernames:updateMouseover()
+	if not UnitExists("mouseover") or not UnitIsPlayer("mouseover") or not UnitIsFriend("player", "mouseover") then return end
+	local _, Class = UnitClass("mouseover")
+	self:addName(UnitName("mouseover"), Class)
+end
+
+function scmPlayernames:updateSystem( msg )
+	local _,_,name, class = msg:find("^|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+ (%w+) %- .+$")
+	if name and class then 
+		self:addName(name, class) 
+	end
 end
 
 function scmPlayernames:updateWho()
