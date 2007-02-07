@@ -11,7 +11,7 @@ scmPlayernames.Colors = {
 	PALADIN = "f48cba",
 	PRIEST  = "ffffff",
 	ROGUE   = "fff468",
-	SHAMAN  = "f48cba",
+	SHAMAN  = "00dbba",
 	WARLOCK = "9382c9",
 	WARRIOR = "c69b6d"
 }
