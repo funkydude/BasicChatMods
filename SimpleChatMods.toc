@@ -11,3 +11,5 @@ scroll.lua
 timestamps.lua
 telltarget.lua
 
+myconfig.lua
+
