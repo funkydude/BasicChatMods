@@ -1,4 +1,4 @@
-scmSticky = AceLibrary("AceAddon-2.0"):new()
+scmSticky = {}
 
 SCM_STICKY = {
 	["SAY"] = true,
@@ -14,7 +14,7 @@ SCM_STICKY = {
 	["EMOTE"] = true
 }
 
-function scmSticky:OnEnable()
+function scmSticky:Enable()
 	for k, v in pairs( SCM_STICKY ) do
 		if v then
 			ChatTypeInfo[k].sticky = 1
@@ -24,8 +24,9 @@ function scmSticky:OnEnable()
 	end
 end
 
-function scmSticky:OnDisable()
+function scmSticky:Disable()
 	for k, v in pairs( SCM_STICKY ) do
 		ChatTypeInfo[k].sticky = 0
 	end
 end
+
