@@ -10,6 +10,7 @@ playernames.lua
 scroll.lua
 timestamps.lua
 telltarget.lua
+sticky.lua
 
 myconfig.lua
 
