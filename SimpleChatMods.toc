@@ -3,6 +3,7 @@
 ## Title: Simple Chat Mods
 ## OptionalDeps: Ace2
 
+antispam.lua
 buttons.lua
 channelnames.lua
 editbox.lua
