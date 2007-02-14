@@ -37,6 +37,7 @@ local tokens = {
 	["wowsupplier"] = true,
 	["zlywy"] = true,
 }
+local spammers = {}
 
 local spam = {}
 local prehook = nil
@@ -45,6 +46,7 @@ function scmAntiSpam:Enable()
 	prehook = ChatFrame_MessageEventHandler
 	ChatFrame_MessageEventHandler = function(...)
 		if type(arg1) == "string" and type(arg2) == "string" then
+			if spammers[arg2] then return end
 			local x = arg1..arg2
 			if spam[x] then return end
 			if #spam > SCM_ANTISPAM_HISTORY then
@@ -55,7 +57,10 @@ function scmAntiSpam:Enable()
 
 			local spamString = arg1:gsub("%A", ""):trim():lower()
 			for k, v in pairs(tokens) do
-				if spamString:find(k) then return end
+				if spamString:find(k) then
+					spammers[arg2] = true
+					return
+				end
 			end
 		end
 
