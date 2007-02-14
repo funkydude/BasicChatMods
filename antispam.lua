@@ -1,6 +1,7 @@
 local scmAntiSpam = {}
 
 SCM_ANTISPAM_HISTORY = 5
+SCM_ANTISPAM_BLOCKSPAMMERS = true
 
 local tokens = {
 	["29games"] = true,
@@ -46,7 +47,7 @@ function scmAntiSpam:Enable()
 	prehook = ChatFrame_MessageEventHandler
 	ChatFrame_MessageEventHandler = function(...)
 		if type(arg1) == "string" and type(arg2) == "string" then
-			if spammers[arg2] then return end
+			if spammers[arg2] and SCM_ANTISPAM_BLOCKSPAMMERS then return end
 			local x = arg1..arg2
 			if spam[x] then return end
 			if #spam > SCM_ANTISPAM_HISTORY then
