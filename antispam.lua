@@ -4,39 +4,39 @@ SCM_ANTISPAM_HISTORY = 5
 SCM_ANTISPAM_BLOCKSPAMMERS = true
 
 local tokens = {
-	["29games"] = true,
-	["365ig"] = true,
-	["agamego"] = true,
-	["buyw0wgame"] = true,
-	["gamenoble"] = true,
-	["gmwork"] = true,
-	["gmw0rk"] = true,
-	["goldwithyou"] = true,
-	["hugold"] = true,
-	["igs36"] = true,
-	["igamebuy"] = true,
-	["itembay"] = true,
-	["mmoinn"] = true,
-	["ogchannel"] = true,
-	["ogmarket"] = true,
-	["gs365"] = true,
-	["ogs4u"] = true,
-	["okstar2008"] = true,
-	["peons4"] = true,
-	["player123"] = true,
-	["ssegames"] = true,
-	["speedpanda"] = true,
-	["wowcoming"] = true,
-	["woweurope.cn"] = true,
-	["wowforever"] = true,
-	["wowfreebuy"] = true,
-	["wowgoldsky"] = true,
-	["wowpanning"] = true,
-	["wowpfs"] = true,
-	["wowspa"] = true,
-	["wowstar2008"] = true,
-	["wowsupplier"] = true,
-	["zlywy"] = true,
+	"29games",
+	"365ig",
+	"agamego",
+	"buyw0wgame",
+	"gamenoble",
+	"gmwork",
+	"gmw0rk",
+	"goldwithyou",
+	"hugold",
+	"igs36",
+	"igamebuy",
+	"itembay",
+	"mmoinn",
+	"ogchannel",
+	"ogmarket",
+	"gs365",
+	"ogs4u",
+	"okstar2008",
+	"peons4",
+	"player123",
+	"ssegames",
+	"speedpanda",
+	"wowcoming",
+	"woweurope.cn",
+	"wowforever",
+	"wowfreebuy",
+	"wowgoldsky",
+	"wowpanning",
+	"wowpfs",
+	"wowspa",
+	"wowstar2008",
+	"wowsupplier",
+	"zlywy",
 }
 local spammers = {}
 
@@ -46,7 +46,7 @@ local prehook = nil
 function scmAntiSpam:Enable()
 	prehook = ChatFrame_MessageEventHandler
 	ChatFrame_MessageEventHandler = function(...)
-		if type(arg1) == "string" and type(arg2) == "string" then
+		if type(arg1) == "string" and type(arg2) == "string" and not arg1:find("^/") then
 			if spammers[arg2] and SCM_ANTISPAM_BLOCKSPAMMERS then return end
 			local x = arg1..arg2
 			if spam[x] then return end
@@ -57,8 +57,8 @@ function scmAntiSpam:Enable()
 			spam[x] = 1
 
 			local spamString = arg1:gsub("%A", ""):trim():lower()
-			for k, v in pairs(tokens) do
-				if spamString:find(k) then
+			for i, v in ipairs(tokens) do
+				if spamString:find(v) then
 					spammers[arg2] = true
 					return
 				end
