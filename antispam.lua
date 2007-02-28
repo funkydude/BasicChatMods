@@ -27,7 +27,7 @@ local tokens = {
 	"ssegames",
 	"speedpanda",
 	"wowcoming",
-	"woweurope.cn",
+	"woweuropecn",
 	"wowforever",
 	"wowfreebuy",
 	"wowgoldsky",
@@ -37,6 +37,8 @@ local tokens = {
 	"wowstar2008",
 	"wowsupplier",
 	"zlywy",
+	"gmauthorization",
+	"woweuropegold",
 }
 local spammers = {}
 
