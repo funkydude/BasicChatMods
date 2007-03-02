@@ -13,6 +13,8 @@ function scmTimestamps:OnEnable()
 end
 
 function scmTimestamps:AddMessage(frame, text, ...)
-	text = string.format("|cff"..SCM_TIMESTAMP_COLOR..SCM_TIMESTAMP_OUTPUT_FORMAT, date(SCM_TIMESTAMP_FORMAT), text or "")
+	if type(text) == "string" then
+		text = string.format("|cff"..SCM_TIMESTAMP_COLOR..SCM_TIMESTAMP_OUTPUT_FORMAT, date(SCM_TIMESTAMP_FORMAT), text or "")
+	end
 	self.hooks[frame].AddMessage(frame, text, ...)
 end
