@@ -52,7 +52,7 @@ function scmUrlCopy:OnEnable()
 end
 
 function scmUrlCopy:AddMessage(frame, text, ...)
-	if type(text) == "string" then
+	if type(text) == "string" and text:len() > 7 then
 		for k, v in pairs( patterns ) do
 			text = text:gsub( k, SCM_URL_STYLE:format( v, v ) )
 		end
