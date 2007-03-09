@@ -1,4 +1,4 @@
-scmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1", "AceConsole-2.0")
+scmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 
 SCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
 
