@@ -12,6 +12,7 @@ local patterns = {
 	[" ([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%:([_0-9-]+)%s?"] = "%1.%2.%3:%4",
 }
 
+local currentLink
 local _G = getfenv(0)
 
 function scmUrlCopy:OnEnable()
@@ -19,6 +20,36 @@ function scmUrlCopy:OnEnable()
 		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
 	end
 	self:Hook( "SetItemRef", true )
+
+	StaticPopupDialogs["SCMUrlCopyDialog"] = {
+		text = "URL",
+		button2 = TEXT(CLOSE),
+		hasEditBox = 1,
+		hasWideEditBox = 1,
+		showAlert = 1,
+		OnShow = function()
+			local editBox = _G[this:GetName().."WideEditBox"]
+			if editBox then
+				editBox:SetText(currentLink)
+				editBox:SetFocus()
+				editBox:HighlightText(0)
+			end
+			local button = _G[this:GetName().."Button2"]
+			if button then
+				button:ClearAllPoints()
+				button:SetWidth(200)
+				button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
+			end
+			local icon = _G[this:GetName().."AlertIcon"]
+			if icon then
+				icon:Hide()
+			end
+		end,
+		EditBoxOnEscapePressed = function() this:GetParent():Hide() end,
+		timeout = 0,
+		whileDead = 1,
+		hideOnEscape = 1,
+	}
 end
 
 function scmUrlCopy:AddMessage(frame, text, ...)
@@ -30,9 +61,9 @@ function scmUrlCopy:AddMessage(frame, text, ...)
 	self.hooks[frame].AddMessage(frame, text, ...)
 end
 
-function scmUrlCopy:SetItemRef( link, text, button )
-	if ( strsub(link, 1, 3) == "url" ) then
-		self:StaticPopupUrl( strsub(link, 5) )
+function scmUrlCopy:SetItemRef(link, text, button)
+	if link:sub(1, 3) == "url" then
+		self:StaticPopupUrl(link:sub(5))
 		return
 	end
 	self.hooks["SetItemRef"](link, text, button)
@@ -40,35 +71,7 @@ end
 
 -- Ripped the popup straight from Prat.
 function scmUrlCopy:StaticPopupUrl(link)
-    StaticPopupDialogs["SHOW_URL"] = {
-        text = "URL : %s",
-        button2 = TEXT(ACCEPT),
-        hasEditBox = 1,
-        hasWideEditBox = 1,
-        showAlert = 1, -- HACK : it"s the only way I found to make de StaticPopup have sufficient width to show WideEditBox :(
-
-        OnShow = function()
-            local editBox = getglobal(this:GetName().."WideEditBox")
-            editBox:SetText(format(link))
-            editBox:SetFocus()
-            editBox:HighlightText(0)
-
-            local button = getglobal(this:GetName().."Button2")
-            button:ClearAllPoints()
-            button:SetWidth(200)
-            button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
-
-            getglobal(this:GetName().."AlertIcon"):Hide() -- HACK : we hide the false AlertIcon
-        end,
-
-        OnHide = function() end,
-        OnAccept = function() end,
-        OnCancel = function() end,
-        EditBoxOnEscapePressed = function() this:GetParent():Hide(); end,
-        timeout = 0,
-        whileDead = 1,
-        hideOnEscape = 1
-    };
-
-    StaticPopup_Show ("SHOW_URL", link);
+	currentLink = link
+	StaticPopup_Show("SCMUrlCopyDialog")
 end
+
