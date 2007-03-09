@@ -52,12 +52,12 @@ function scmAntiSpam:Enable()
 			if spammers[arg2] and SCM_ANTISPAM_BLOCKSPAMMERS then return end
 			local x = arg1..arg2
 			if spam[x] then return end
+			table.insert(spam, x)
+			spam[x] = 1
 			if #spam > SCM_ANTISPAM_HISTORY then
 				spam[table.remove(spam, 1)] = nil
 			end
-			table.insert(spam, x)
-			spam[x] = 1
-
+			
 			local spamString = arg1:gsub("%A", ""):trim():lower()
 			for i, v in ipairs(tokens) do
 				if spamString:find(v) then
