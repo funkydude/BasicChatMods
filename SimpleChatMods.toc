@@ -12,6 +12,7 @@ scroll.lua
 timestamps.lua
 telltarget.lua
 sticky.lua
+urlcopy.lua
 
 myconfig.lua
 
