@@ -40,6 +40,7 @@ local tokens = {
 	"gmauthorization",
 	"woweuropegold",
 	"1225game",
+	"plsalec",
 }
 local spammers = {}
 
