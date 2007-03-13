@@ -15,6 +15,7 @@ local tokens = {
 	"hugold",
 	"igs36",
 	"igamebuy",
+	"igdollarc",
 	"itembay",
 	"mmoinn",
 	"ogchannel",
