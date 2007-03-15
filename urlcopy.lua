@@ -3,12 +3,12 @@ scmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 SCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
 
 local patterns = {
-	[" www%.([_A-Za-z0-9-]+)%.([_A-Za-z0-9-%.&/]+)%s?"] = "http://www.%1.%2",
-	[" (%a+)://(%S+)%s?"] = "%1://%2",
-	[" ([_A-Za-z0-9-%.]+)@([_A-Za-z0-9-]+)(%.+)([_A-Za-z0-9-%.]+)%s?"] = "%1@%2%3%4",
-	[" ([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%s?"] = "%1.%2.%3",
-	[" ([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%:([_0-9-]+)%s?"] = "%1.%2.%3:%4",
-	[" ([_A-Za-z0-9-]+)%.(%a%a%a)%s?"] = "%1.%2",
+	{ " www%.([_A-Za-z0-9-]+)%.([_A-Za-z0-9-%.&/]+)%s?", "http://www.%1.%2"},
+	{ " (%a+)://(%S+)%s?", "%1://%2"},
+	{ " ([_A-Za-z0-9-%.]+)@([_A-Za-z0-9-]+)(%.+)([_A-Za-z0-9-%.]+)%s?", "%1@%2%3%4"},
+	{ " ([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%s?", "%1.%2.%3"},
+	{ " ([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%:([_0-9-]+)%s?", "%1.%2.%3:%4"},
+	{ " ([_A-Za-z0-9-]+)%.(%a%a%a)%s?", "%1.%2"},
 }
 local currentLink
 local _G = getfenv(0)
@@ -52,8 +52,8 @@ end
 
 function scmUrlCopy:AddMessage(frame, text, ...)
 	if type(text) == "string" and text:len() > 7 then
-		for k, v in pairs( patterns ) do
-			text = text:gsub( k, SCM_URL_STYLE:format( v, v ) )
+		for i, v in ipairs( patterns ) do
+			text = text:gsub( v[1], SCM_URL_STYLE:format( v[2], v[2] ) )
 		end
 	end
 	self.hooks[frame].AddMessage(frame, text, ...)
