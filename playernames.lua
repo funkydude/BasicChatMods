@@ -34,7 +34,7 @@ function scmPlayernames:OnEnable()
 		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", "updateMouseover")
 	end
 
-	local _, pclass = UnitClass("player")
+	local pclass = select(2, UnitClass("player"))
 	self:addName(UnitName("player"), pclass)
 
 	if IsInGuild() then
@@ -73,25 +73,25 @@ function scmPlayernames:updateParty()
 	local Name, Class
 	for i = 1, GetNumPartyMembers() do
 		Name = UnitName("party" .. i)
-		_, Class = UnitClass("party" .. i)
+		Class = select(2, UnitClass("party" .. i))
 		self:addName(Name, Class)
 	end
 end
 
 function scmPlayernames:updateTarget()
 	if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") then return end
-	local _, Class = UnitClass("target")
+	local Class = select(2, UnitClass("target"))
 	self:addName(UnitName("target"), Class)
 end
 
 function scmPlayernames:updateMouseover()
 	if not UnitExists("mouseover") or not UnitIsPlayer("mouseover") or not UnitIsFriend("player", "mouseover") then return end
-	local _, Class = UnitClass("mouseover")
+	local Class = select(2, UnitClass("mouseover"))
 	self:addName(UnitName("mouseover"), Class)
 end
 
 function scmPlayernames:updateSystem( msg )
-	local _,_,name, class = msg:find("^|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+ (%w+) %- .+$")
+	local name, class = select(3, msg:find("^|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+ (%w+) %- .+$"))
 	if name and class then 
 		self:addName(name, class) 
 	end
@@ -106,8 +106,8 @@ function scmPlayernames:updateWho()
 end
 
 function scmPlayernames:addName(Name, Class)
-	if not Class then return end
-	Class = string.upper(Class)
+	if not Class or not Name then return end
+	Class = Class:upper()
 	if Class == "UNKNOWN" or not self.Colors[Class] then return end
 	self.Names[Name] = string.format("|cff%s%s|r", self.Colors[Class], Name)
 end
