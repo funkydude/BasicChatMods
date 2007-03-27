@@ -63,7 +63,7 @@ function scmAntiSpam:Enable()
 				spam[table.remove(spam, 1)] = nil
 			end
 			
-			local spamString = arg1:gsub("%A", ""):trim():lower()
+			local spamString = arg1:gsub("%p", ""):trim():lower()
 			for i, v in ipairs(tokens) do
 				if spamString:find(v) then
 					spammers[arg2] = true
