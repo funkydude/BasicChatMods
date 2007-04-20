@@ -31,6 +31,7 @@ local tokens = {
 	"player123",
 	"ssegames",
 	"speedpanda",
+	"wow7gold",
 	"wowcoming",
 	"woweuropecn",
 	"wowforever",
