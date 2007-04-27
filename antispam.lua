@@ -44,6 +44,7 @@ local tokens = {
 	"wowspa",
 	"wowstar2008",
 	"wowsupplier",
+	"wowseller",
 	"zlywy",
 	"gmauthorization",
 	"woweuropegold",
