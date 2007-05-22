@@ -1,5 +1,5 @@
-## Interface: 20003
-## X-Credits: Rabbit
+## Interface: 20100
+## X-Credits: Rabbit, Ammo
 ## Title: Simple Chat Mods
 ## OptionalDeps: Ace2
 
