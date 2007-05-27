@@ -4,14 +4,15 @@ SCM_PLAYERNAMES_LEFTBRACKET = "<"
 SCM_PLAYERNAMES_RIGHTBRACKET = ">"
 SCM_PLAYERNAMES_MOUSEOVER = nil
 
-scmPlayernames.Colors = {
+SCM_PLAYERNAMES_COLORS = {
 	DRUID   = "ff7c0a",
 	HUNTER  = "aad372",
 	MAGE    = "68ccef",
 	PALADIN = "f48cba",
 	PRIEST  = "ffffff",
 	ROGUE   = "fff468",
-	SHAMAN  = "00dbba",
+	-- SHAMAN  = "00dbba", -- Old lightblue shaman color
+	SHAMAN  = "2359ff",
 	WARLOCK = "9382c9",
 	WARRIOR = "c69b6d"
 }
@@ -108,8 +109,8 @@ end
 function scmPlayernames:addName(Name, Class)
 	if not Class or not Name then return end
 	Class = Class:upper()
-	if Class == "UNKNOWN" or not self.Colors[Class] then return end
-	self.Names[Name] = string.format("|cff%s%s|r", self.Colors[Class], Name)
+	if Class == "UNKNOWN" or not SCM_PLAYERNAMES_COLORS[Class] then return end
+	self.Names[Name] = string.format("|cff%s%s|r", SCM_PLAYERNAMES_COLORS[Class], Name)
 end
 
 function scmPlayernames:AddMessage(frame, text, ...)
