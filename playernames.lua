@@ -115,7 +115,7 @@ end
 
 function scmPlayernames:AddMessage(frame, text, ...)
 	if type(text) == "string" then
-		local name = text:gsub(".*|Hplayer:(.-):%d+|h.*", "%1")
+		local name = text:gsub(".*|Hplayer:(.-):?%d*|h.*", "%1")
 		if self.Names[name] then name = self.Names[name] end
 		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h.-:", SCM_PLAYERNAMES_LEFTBRACKET.."|Hplayer:%1|h" .. name .. "|h"..SCM_PLAYERNAMES_RIGHTBRACKET)
 	end

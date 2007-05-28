@@ -14,5 +14,5 @@ telltarget.lua
 sticky.lua
 urlcopy.lua
 
+config.lua
 myconfig.lua
-
