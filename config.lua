@@ -27,6 +27,10 @@ SCM_CHANNELNAMES_REGEXPS = {
 --
 -- scmEditbox:Disable()
 -- scmEditboxAltKey:Disable()
+
+-- SCM_PLAYERNAMES_LEFTBRACKET = "<"
+-- SCM_PLAYERNAMES_RIGHTBRACKET = ">"
+-- SCM_PLAYERNAMES_MOUSEOVER = true
 --
 -- scmPlayernames:UnregisterAllEvents()
 -- scmPlayernames:UnhookAll()
@@ -40,5 +44,4 @@ SCM_CHANNELNAMES_REGEXPS = {
 -- SCM_TIMESTAMP_FORMAT = "%X"
 -- SCM_TIMESTAMP_COLOR = "777777"
 -- SCM_TIMESTAMP_OUTPUT_FORMAT = "(%s)|r %s"
--- scmTimestamps:Disable()
-
+-- scmTimestamps:UnhookAll()
