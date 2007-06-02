@@ -12,6 +12,7 @@ local tokens = {
 	"gmwork",
 	"gmw0rk",
 	"goldwithyou",
+	"gold4guild",
 	"hugold",
 	"igs36",
 	"igm365",
