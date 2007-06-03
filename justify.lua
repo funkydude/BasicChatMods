@@ -2,7 +2,7 @@ scmJustify = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 
 SCM_JUSTIFY_CHANNEL = {
 	"LEFT",		--[1]
-	"RIGHT",	--[2]
+	"LEFT",		--[2]
 	"LEFT",		--[3]
 	"LEFT", 	--[4]
 	"LEFT", 	--[5]
