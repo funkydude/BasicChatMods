@@ -18,6 +18,7 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[%d+%. General.-%]"] = "|cff990066(|rGEN|cff990066)|r",
 	["%[%d+%. LocalDefense.-%]"] = "|cff990066(|rLD|cff990066)|r",
 	["%[%d+%. Trade.-%]"] = "|cff990066(|rT|cff990066)|r",
+	["%[%d+%. LookingForGroup.-%]"] = "|cff990066(|rLFG|cff990066)|r",
 	["%[Battleground%]"] = "|cffff3399(|rBG|cffff3399)|r",
 	["%[Battleground Leader%]"] = "|cffff0000(|rBGL|cffff0000)|r",
 	["%[%d+%.%s(.-)%]"] = "|cff990066(|r%1|cff990066)|r",
@@ -45,3 +46,15 @@ SCM_CHANNELNAMES_REGEXPS = {
 -- SCM_TIMESTAMP_COLOR = "777777"
 -- SCM_TIMESTAMP_OUTPUT_FORMAT = "(%s)|r %s"
 -- scmTimestamps:UnhookAll()
+
+--[[
+SCM_JUSTIFY_CHANNEL = {
+	"LEFT",		--[1]
+	"RIGHT",	--[2]
+	"LEFT",		--[3]
+	"LEFT", 	--[4]
+	"LEFT", 	--[5]
+	"LEFT", 	--[6]
+	"LEFT", 	--[7]
+}
+]]

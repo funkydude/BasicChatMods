@@ -13,6 +13,7 @@ timestamps.lua
 telltarget.lua
 sticky.lua
 urlcopy.lua
+justify.lua
 
 config.lua
 myconfig.lua
