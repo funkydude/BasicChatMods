@@ -1,6 +1,8 @@
 
 -- Configuration file for SCM.
 --
+-- SCM_ANTISPAM_BLOCKSPAMMERS = true
+--
 -- SMC_BUTTONS_SHOW_UP = nil
 -- SMC_BUTTONS_SHOW_DOWN = nil
 -- SMC_BUTTONS_SHOW_BOTTOM = nil

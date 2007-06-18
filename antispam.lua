@@ -1,7 +1,6 @@
 local scmAntiSpam = {}
 
 SCM_ANTISPAM_HISTORY = 5
-SCM_ANTISPAM_BLOCKSPAMMERS = true
 
 local tokens = {
 	"29games",
@@ -69,12 +68,14 @@ function scmAntiSpam:Enable()
 			if #spam > SCM_ANTISPAM_HISTORY then
 				spam[table.remove(spam, 1)] = nil
 			end
-			
-			local spamString = arg1:gsub("%p", ""):trim():lower()
-			for i, v in ipairs(tokens) do
-				if spamString:find(v) then
-					spammers[arg2] = true
-					return
+
+			if SCM_ANTISPAM_BLOCKSPAMMERS then
+				local spamString = arg1:gsub("%p", ""):trim():lower()
+				for i, v in ipairs(tokens) do
+					if spamString:find(v) then
+						spammers[arg2] = true
+						return
+					end
 				end
 			end
 		end
