@@ -71,17 +71,18 @@ function scmPlayernames:updateFriends()
 	end
 end
 
-do
-	local first = true
-	function scmPlayernames:updateGuild(a)
-		if (tonumber(a) and a == 1) or first then
-			first = nil
-			for i = 1, GetNumGuildMembers() do
-				local name, _, _, _, class = GetGuildRosterInfo(i)
-				addName(name, class)
-			end
-		end
+function scmPlayernames:updateGuild()
+	self:UnregisterEvent("GUILD_ROSTER_UPDATE")
+	local offline = GetGuildRosterShowOffline()
+	local selection = GetGuildRosterSelection()
+	SetGuildRosterShowOffline(true)
+	SetGuildRosterSelection(0)
+	GetGuildRosterInfo(0)
+	for i = 1, GetNumGuildMembers() do
+		local name, _, _, _, class = GetGuildRosterInfo(i)
+		addName(name, class)
 	end
+
 end
 
 function scmPlayernames:updateRaid()
