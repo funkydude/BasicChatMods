@@ -80,7 +80,7 @@ end
 
 function scmPlayernames:updateRaid()
 	for i = 1, GetNumRaidMembers() do
-		name, _, _, _, _, class = GetRaidRosterInfo(i)
+		local name, _, _, _, _, class = GetRaidRosterInfo(i)
 		addName(name, class)
 	end
 end
