@@ -42,7 +42,7 @@ function scmPlayernames:OnEnable()
 	end
 
 	self:RegisterBucketEvent("FRIENDLIST_UPDATE", 5, "updateFriends")
-	self:RegisterBucketEvent("GUILD_ROSTER_UPDATE", 5, "updateGuild")
+	self:RegisterEvent("GUILD_ROSTER_UPDATE", "updateGuild")
 	self:RegisterBucketEvent("RAID_ROSTER_UPDATE", 5, "updateRaid")
 	self:RegisterBucketEvent("PARTY_MEMBERS_CHANGED", 5, "updateParty")
 	self:RegisterBucketEvent("WHO_LIST_UPDATE", 5, "updateWho")
@@ -71,10 +71,16 @@ function scmPlayernames:updateFriends()
 	end
 end
 
-function scmPlayernames:updateGuild()
-	for i = 1, GetNumGuildMembers() do
-		local name, _, _, _, class = GetGuildRosterInfo(i)
-		addName(name, class)
+do
+	local first = true
+	function scmPlayernames:updateGuild(a)
+		if (tonumber(a) and a == 1) or first then
+			first = nil
+			for i = 1, GetNumGuildMembers() do
+				local name, _, _, _, class = GetGuildRosterInfo(i)
+				addName(name, class)
+			end
+		end
 	end
 end
 
