@@ -82,7 +82,8 @@ function scmPlayernames:updateGuild()
 		local name, _, _, _, class = GetGuildRosterInfo(i)
 		addName(name, class)
 	end
-
+	SetGuildRosterShowOffline(offline)
+	SetGuildRosterSelection(selection)
 end
 
 function scmPlayernames:updateRaid()
