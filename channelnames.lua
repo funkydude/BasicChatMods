@@ -17,7 +17,7 @@ SCM_CHANNELNAMES_REGEXPS = {
 }
 
 local customChannels = {
-	["%[%d+%.%s(.-)%]"] = "|cff990066(|r%1|cff990066)|r",
+	["%[%d+%.%s(%w*)%]"] = "|cff990066(|r%1|cff990066)|r",
 }
 
 function scmChannelnames:OnEnable()
