@@ -1,4 +1,4 @@
-local scmAntiSpam = {}
+scmAntiSpam = {}
 
 SCM_ANTISPAM_HISTORY = 5
 
