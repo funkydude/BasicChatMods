@@ -7,7 +7,7 @@ local _G = getfenv(0)
 
 function scmScroll:Enable()
 	if not SCM_DISABLE_MOUSE_SCROLL then
-		for i = 1, 7 do
+		for i = 1, 3 do
 			local cf = _G["ChatFrame"..i]
 			cf:SetScript("OnMouseWheel", function() self:Scroll() end)
 			cf:EnableMouseWheel(true)
@@ -16,7 +16,7 @@ function scmScroll:Enable()
 end
 
 function scmScroll:Disable(msg)
-	for i = 1, 7 do
+	for i = 1, 3 do
 		local cf = _G["ChatFrame"..i]
 		cf:SetScript("OnMouseWheel", nil)
 		cf:EnableMouseWheel(false)

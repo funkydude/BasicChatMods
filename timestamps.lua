@@ -2,7 +2,7 @@ scmTimestamps = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 
 SCM_TIMESTAMP_FORMAT = "%X"
 SCM_TIMESTAMP_COLOR = "777777"
-SCM_TIMESTAMP_OUTPUT_FORMAT = "(%s)|r %s"
+SCM_TIMESTAMP_OUTPUT_FORMAT = "[%s]|r %s"
 
 local format = nil
 
@@ -10,7 +10,7 @@ function scmTimestamps:OnEnable()
 	format = "|cff"..SCM_TIMESTAMP_COLOR..SCM_TIMESTAMP_OUTPUT_FORMAT
 
 	local _G = getfenv(0)
-	for i=1,NUM_CHAT_WINDOWS do
+	for i=1, 3 do
 		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
 	end
 end

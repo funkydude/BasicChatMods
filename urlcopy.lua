@@ -14,9 +14,7 @@ local currentLink
 local _G = getfenv(0)
 
 function scmUrlCopy:OnEnable()
-	for i=1,NUM_CHAT_WINDOWS do
-		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
-	end
+	self:Hook(_G["ChatFrame1"], "AddMessage", true)
 	self:Hook( "SetItemRef", true )
 
 	StaticPopupDialogs["SCMUrlCopyDialog"] = {
