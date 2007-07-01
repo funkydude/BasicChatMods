@@ -24,8 +24,16 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[Battleground%]"] = "|cffff3399(|rBG|cffff3399)|r",
 	["%[Battleground Leader%]"] = "|cffff0000(|rBGL|cffff0000)|r",
 	["%[%d+%.%s(.-)%]"] = "|cff990066(|r%1|cff990066)|r",
+	["%[4. mhfrombehind%]"] = "(4)",
+	["%[5. mhheal%]"] = "(5)",
+	["%[6. mhpaladins%]"] = "(6)",
+	["%[7. mhtanks%]"] = "(7)",
+	["%[8. mhlocks%]"] = "(8)",
+	["%[9. tflchat%]"] = "(9)",
+	["%[10. mhdps%]"] = "(10)",
 }
-]]
+	]]
+
 -- scmChannelnames:UnhookAll()
 --
 -- scmEditbox:Disable()

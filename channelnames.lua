@@ -14,11 +14,18 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[%d+%. GuildRecruitment %- .*%]"] = "|cff990066(|rGR|cff990066)|r",
 	["%[Battleground%]"] = "|cffff3399(|rBG|cffff3399)|r",
 	["%[Battleground Leader%]"] = "|cffff0000(|rBGL|cffff0000)|r",
+	["%[4. mhfrombehind%]"] = "(4)",
+	["%[5. mhheal%]"] = "(5)",
+	["%[6. mhpaladins%]"] = "(6)",
+	["%[7. mhtanks%]"] = "(7)",
+	["%[8. mhlocks%]"] = "(8)",
+	["%[9. tflchat%]"] = "(9)",
+	["%[10. mhdps%]"] = "(10)",
 }
 
-local customChannels = {
+--[[ local customChannels = {
 	["%[%d+%.%s(%w*)%]"] = "|cff990066(|r%1|cff990066)|r",
-}
+} ]]
 
 function scmChannelnames:OnEnable()
 	local _G = getfenv(0)
@@ -32,9 +39,9 @@ function scmChannelnames:AddMessage(frame, text, r, g, b, id)
 		for k, v in pairs(SCM_CHANNELNAMES_REGEXPS) do
 			text = text:gsub(k, v)
 		end
-		for k, v in pairs(customChannels) do
-			text = text:gsub(k, v)
-		end
+		--for k, v in pairs(customChannels) do
+		--	text = text:gsub(k, v)
+		--end
 	end
 	return self.hooks[frame].AddMessage(frame, text, r, g, b, id)
 end

@@ -2,7 +2,6 @@ scmSticky = {}
 
 SCM_STICKY = {
 	["SAY"] = true,
-	["WHISPER"] = true,
 	["YELL"] = true,
 	["PARTY"] = true,
 	["GUILD"] = true,

@@ -1,19 +1,19 @@
-## Interface: 20100
+﻿## Interface: 20100
 ## X-Credits: Rabbit, Ammo
+## Notes: Customized version of SCM by Ammo & Rabbit
 ## Title: Simple Chat Mods
 ## OptionalDeps: Ace2
 
-antispam.lua
+# antispam.lua
 buttons.lua
 channelnames.lua
 editbox.lua
-playernames.lua
+# playernames.lua
 scroll.lua
 timestamps.lua
-telltarget.lua
+# telltarget.lua
 sticky.lua
 urlcopy.lua
 justify.lua
-
 config.lua
-myconfig.lua
+# myconfig.lua
