@@ -8,6 +8,7 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[Raid Warning%]"] = "|cffff0000[|rRW|cffff0000]|r",
 	["%[Officer%]"] = "[O]",
 	["%[%d+%. WorldDefense%]"] = "|cff990066[|rWD|cff990066]|r",
+	["%[%d+%. LookingForGroup%]"] = "[LFG]",
 	["%[%d+%. General%]"] = "|cff990066[|rGEN|cff990066]|r",
 	["%[%d+%. LocalDefense%]"] = "|cff990066[|rLD|cff990066]|r",
 	["%[%d+%. Trade%]"] = "|cff990066[|rT|cff990066]|r",
