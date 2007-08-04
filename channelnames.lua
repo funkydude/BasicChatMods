@@ -15,13 +15,7 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[%d+%. GuildRecruitment %- .*%]"] = "|cff990066[|rGR|cff990066]|r",
 	["%[Battleground%]"] = "|cffff3399[|rBG|cffff3399]|r",
 	["%[Battleground Leader%]"] = "|cffff0000[|rBGL|cffff0000]|r",
-	["%[%d+%. (.*)frombehind%]"] = "[4]",
-	["%[%d+%. (.*)heal%]"] = "[5]",
-	["%[%d+%. (.*)paladins%]"] = "[6]",
-	["%[%d+%. (.*)tanks%]"] = "[7]",
-	["%[%d+%. (.*)locks%]"] = "[8]",
-	["%[%d+%. tflchat%]"] = "[9]",
-	["%[%d+%. (.*)dps%]"] = "[10]",
+	["%[%d+%. (.*)priest%]"] = "[4]",
 }
 
 --[[ local customChannels = {

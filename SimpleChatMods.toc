@@ -14,5 +14,5 @@ timestamps.lua
 sticky.lua
 urlcopy.lua
 # justify.lua
-config.lua
+# config.lua
 # myconfig.lua
