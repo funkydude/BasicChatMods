@@ -10,7 +10,7 @@ function scmTimestamps:OnEnable()
 	format = "|cff"..SCM_TIMESTAMP_COLOR..SCM_TIMESTAMP_OUTPUT_FORMAT
 
 	local _G = getfenv(0)
-	for i=1, 3 do
+	for i = 1, 2 do
 		self:Hook(_G["ChatFrame"..i], "AddMessage", true)
 	end
 end
@@ -21,4 +21,3 @@ function scmTimestamps:AddMessage(frame, text, ...)
 	end
 	self.hooks[frame].AddMessage(frame, text, ...)
 end
-
