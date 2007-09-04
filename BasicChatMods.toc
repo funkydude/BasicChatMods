@@ -3,6 +3,7 @@
 ## X-Credits: Rabbit, Ammo
 ## Notes: Basic customized version of SCM by Ammo & Rabbit (total rip)
 ## Title: Basic Chat Mods
+## X-Category: Chat/Communication
 ## OptionalDeps: Ace2
 
 embeds.xml
