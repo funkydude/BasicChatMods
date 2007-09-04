@@ -1,6 +1,7 @@
-scmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+bcmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+local bcmUrlCopy = bcmUrlCopy
 
-SCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
+BCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
 
 local patterns = {
 	{ " www%.([_A-Za-z0-9-]+)%.([_A-Za-z0-9-%.&/]+)%s?", "http://www.%1.%2"},
@@ -13,11 +14,11 @@ local patterns = {
 local currentLink
 local _G = getfenv(0)
 
-function scmUrlCopy:OnEnable()
+function bcmUrlCopy:OnEnable()
 	self:Hook(_G["ChatFrame1"], "AddMessage", true)
-	self:Hook( "SetItemRef", true )
+	self:Hook("SetItemRef", true)
 
-	StaticPopupDialogs["SCMUrlCopyDialog"] = {
+	StaticPopupDialogs["BCMUrlCopyDialog"] = {
 		text = "URL",
 		button2 = TEXT(CLOSE),
 		hasEditBox = 1,
@@ -48,16 +49,16 @@ function scmUrlCopy:OnEnable()
 	}
 end
 
-function scmUrlCopy:AddMessage(frame, text, ...)
+function bcmUrlCopy:AddMessage(frame, text, ...)
 	if type(text) == "string" and text:len() > 7 then
 		for i, v in ipairs( patterns ) do
-			text = text:gsub( v[1], SCM_URL_STYLE:format( v[2], v[2] ) )
+			text = text:gsub( v[1], BCM_URL_STYLE:format( v[2], v[2] ) )
 		end
 	end
 	self.hooks[frame].AddMessage(frame, text, ...)
 end
 
-function scmUrlCopy:SetItemRef(link, text, button)
+function bcmUrlCopy:SetItemRef(link, text, button)
 	if link:sub(1, 3) == "url" then
 		self:StaticPopupUrl(link:sub(5))
 		return
@@ -66,8 +67,8 @@ function scmUrlCopy:SetItemRef(link, text, button)
 end
 
 -- Ripped the popup straight from Prat.
-function scmUrlCopy:StaticPopupUrl(link)
+function bcmUrlCopy:StaticPopupUrl(link)
 	currentLink = link
-	StaticPopup_Show("SCMUrlCopyDialog")
+	StaticPopup_Show("BCMUrlCopyDialog")
 end
 

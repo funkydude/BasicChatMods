@@ -1,6 +1,6 @@
-scmSticky = {}
+bcmSticky = {}
 
-SCM_STICKY = {
+BCM_STICKY = {
 	["SAY"] = true,
 	["YELL"] = true,
 	["PARTY"] = true,
@@ -13,8 +13,8 @@ SCM_STICKY = {
 	["EMOTE"] = true
 }
 
-function scmSticky:Enable()
-	for k, v in pairs( SCM_STICKY ) do
+function bcmSticky:Enable()
+	for k, v in pairs( BCM_STICKY ) do
 		if v then
 			ChatTypeInfo[k].sticky = 1
 		else
@@ -23,8 +23,8 @@ function scmSticky:Enable()
 	end
 end
 
-function scmSticky:Disable()
-	for k, v in pairs( SCM_STICKY ) do
+function bcmSticky:Disable()
+	for k, v in pairs( BCM_STICKY ) do
 		ChatTypeInfo[k].sticky = 0
 	end
 end

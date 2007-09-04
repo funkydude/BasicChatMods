@@ -1,6 +1,7 @@
-scmChannelnames = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+bcmChannelnames = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+local bcmChannelnames = bcmChannelnames
 
-SCM_CHANNELNAMES_REGEXPS = {
+BCM_CHANNELNAMES_REGEXPS = {
 	["%[Guild%]"] = "[G]",
 	["%[Party%]"] = "[P]",
 	["%[Raid%]"] = "[R]",
@@ -21,14 +22,14 @@ local customChannels = {
 	["%[(%w+)%.%s(%w*)%]"] = "[%1]", --%2 for channel names instead of numbers
 }
 
-function scmChannelnames:OnEnable()
+function bcmChannelnames:OnEnable()
 	local _G = getfenv(0)
 	self:Hook(_G["ChatFrame1"], "AddMessage", true)
 end
 
-function scmChannelnames:AddMessage(frame, text, r, g, b, id)
+function bcmChannelnames:AddMessage(frame, text, r, g, b, id)
 	if type(text) == "string" then
-		for k, v in pairs(SCM_CHANNELNAMES_REGEXPS) do
+		for k, v in pairs(BCM_CHANNELNAMES_REGEXPS) do
 			text = text:gsub(k, v)
 		end
 		for k, v in pairs(customChannels) do

@@ -1,29 +1,29 @@
-scmEditbox = {}
+bcmEditbox = {}
 
-function scmEditbox:Enable()
+function bcmEditbox:Enable()
 	local eb = ChatFrameEditBox
 	eb:ClearAllPoints()
 	eb:SetPoint("BOTTOMLEFT",  "ChatFrame1", "TOPLEFT",  -5, 0)
 	eb:SetPoint("BOTTOMRIGHT", "ChatFrame1", "TOPRIGHT", 5, 0)
 end
 
-function scmEditbox:Disable()
+function bcmEditbox:Disable()
 	local eb = ChatFrameEditBox
 	eb:ClearAllPoints()
 	eb:SetPoint("TOPLEFT",  "ChatFrame1", "BOTTOMLEFT",  -5, 0)
 	eb:SetPoint("TOPRIGHT", "ChatFrame1", "BOTTOMRIGHT", 5, 0)
 end
 
-scmEditboxAltKey = {}
+bcmEditboxAltKey = {}
 
-function scmEditboxAltKey:Enable()
+function bcmEditboxAltKey:Enable()
 	ChatFrameEditBox:SetAltArrowKeyMode(false)
 end
 
-function scmEditboxAltKey:Disable()
+function bcmEditboxAltKey:Disable()
 	ChatFrameEditBox:SetAltArrowKeyMode(true)
 end
 
-scmEditbox:Enable()
-scmEditboxAltKey:Enable(
+bcmEditbox:Enable()
+bcmEditboxAltKey:Enable(
 )

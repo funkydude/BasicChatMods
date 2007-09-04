@@ -1,12 +1,12 @@
-scmScroll = {}
+bcmScroll = {}
 
-SCM_DISABLE_MOUSE_SCROLL = nil
-SCM_SCROLL_LINES = 1
+BCM_DISABLE_MOUSE_SCROLL = nil
+BCM_SCROLL_LINES = 1
 
 local _G = getfenv(0)
 
-function scmScroll:Enable()
-	if not SCM_DISABLE_MOUSE_SCROLL then
+function bcmScroll:Enable()
+	if not BCM_DISABLE_MOUSE_SCROLL then
 		for i = 1, 2 do
 			local cf = _G["ChatFrame"..i]
 			cf:SetScript("OnMouseWheel", function() self:Scroll() end)
@@ -15,7 +15,7 @@ function scmScroll:Enable()
 	end
 end
 
-function scmScroll:Disable(msg)
+function bcmScroll:Disable(msg)
 	for i = 1, 2 do
 		local cf = _G["ChatFrame"..i]
 		cf:SetScript("OnMouseWheel", nil)
@@ -23,14 +23,14 @@ function scmScroll:Disable(msg)
 	end
 end
 
-function scmScroll:Scroll()
+function bcmScroll:Scroll()
 	if arg1 > 0 then
 		if IsShiftKeyDown() then
 			this:ScrollToTop()
 		elseif IsControlKeyDown() then
 			this:PageUp()
 		else
-			for i = 1, SCM_SCROLL_LINES do
+			for i = 1, BCM_SCROLL_LINES do
 				this:ScrollUp()
 			end
 		end
@@ -40,12 +40,12 @@ function scmScroll:Scroll()
 		elseif IsControlKeyDown() then
 			this:PageDown()
 		else
-			for i = 1, SCM_SCROLL_LINES do
+			for i = 1, BCM_SCROLL_LINES do
 				this:ScrollDown()
 			end
 		end
 	end
 end
 
-scmScroll:Enable()
+bcmScroll:Enable()
 
