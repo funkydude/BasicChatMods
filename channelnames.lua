@@ -15,11 +15,10 @@ SCM_CHANNELNAMES_REGEXPS = {
 	["%[%d+%. GuildRecruitment %- .*%]"] = "|cff990066[|rGR|cff990066]|r",
 	["%[Battleground%]"] = "|cffff3399[|rBG|cffff3399]|r",
 	["%[Battleground Leader%]"] = "|cffff0000[|rBGL|cffff0000]|r",
-	--change this to your class channel and number,
-	--note (.*) where your guild name would be e.g. ISpriest,
-	--sometimes it bugs if you have the first user join with a capital letter e.g.
-	--ISPriest and ISpriest so you can remove the p if that happens.
-	["%[%d+%. (.*)priest%]"] = "[4]",
+}
+
+local customChannels = {
+	["%[(%w+)%.%s(%w*)%]"] = "[%1]", --%2 for channel names instead of numbers
 }
 
 function scmChannelnames:OnEnable()
@@ -30,6 +29,9 @@ end
 function scmChannelnames:AddMessage(frame, text, r, g, b, id)
 	if type(text) == "string" then
 		for k, v in pairs(SCM_CHANNELNAMES_REGEXPS) do
+			text = text:gsub(k, v)
+		end
+		for k, v in pairs(customChannels) do
 			text = text:gsub(k, v)
 		end
 	end
