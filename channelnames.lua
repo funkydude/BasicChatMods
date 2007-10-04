@@ -1,7 +1,7 @@
 bcmChannelnames = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 local bcmChannelnames = bcmChannelnames
 
-BCM_CHANNELNAMES_REGEXPS = {
+local BCM_CHANNELNAMES_REGEXPS = {
 	["%[Guild%]"] = "[G]",
 	["%[Party%]"] = "[P]",
 	["%[Raid%]"] = "[R]",

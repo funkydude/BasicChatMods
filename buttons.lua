@@ -1,8 +1,9 @@
 bcmButtons = {}
+local bcmButtons = bcmButtons
 
-BCM_BUTTONS_SHOW_UP = nil
-BCM_BUTTONS_SHOW_DOWN = nil
-BCM_BUTTONS_SHOW_BOTTOM = nil
+local BCM_BUTTONS_SHOW_UP = nil
+local BCM_BUTTONS_SHOW_DOWN = nil
+local BCM_BUTTONS_SHOW_BOTTOM = nil
 
 local _G = getfenv(0)
 
@@ -13,19 +14,19 @@ function bcmButtons:Enable()
 	ChatFrameMenuButton:Hide()
 	for i = 1, 2 do
 		if not BCM_BUTTONS_SHOW_UP then
-			a = _G["ChatFrame"..i.."UpButton"]
+			a = _G[("%s%d%s"):format("ChatFrame", i, "UpButton")]
 			a:SetScript("OnShow", hide)
 			a:Hide()
 		end
 
 		if not BCM_BUTTONS_SHOW_DOWN then
-			a = _G["ChatFrame"..i.."DownButton"]
+			a = _G[("%s%d%s"):format("ChatFrame", i, "DownButton")]
 			a:SetScript("OnShow", hide)
 			a:Hide()
 		end
 
 		if not BCM_BUTTONS_SHOW_BOTTOM then
-			a = _G["ChatFrame"..i.."BottomButton"]
+			a = _G[("%s%d%s"):format("ChatFrame", i, "BottomButton")]
 			a:SetScript("OnShow", hide)
 			a:Hide()
 		end

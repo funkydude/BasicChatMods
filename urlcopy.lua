@@ -1,7 +1,7 @@
 bcmUrlCopy = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 local bcmUrlCopy = bcmUrlCopy
 
-BCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
+local BCM_URL_STYLE = " |cffffffff|Hurl:%s|h[%s]|h|r "
 
 local patterns = {
 	{ " www%.([_A-Za-z0-9-]+)%.([_A-Za-z0-9-%.&/]+)%s?", "http://www.%1.%2"},

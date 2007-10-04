@@ -1,4 +1,5 @@
 bcmEditbox = {}
+local bcmEditbox = bcmEditbox
 
 function bcmEditbox:Enable()
 	local eb = ChatFrameEditBox
@@ -15,6 +16,7 @@ function bcmEditbox:Disable()
 end
 
 bcmEditboxAltKey = {}
+local bcmEditboxAltKey = bcmEditboxAltKey
 
 function bcmEditboxAltKey:Enable()
 	ChatFrameEditBox:SetAltArrowKeyMode(false)

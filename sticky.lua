@@ -1,6 +1,7 @@
 bcmSticky = {}
+local bcmSticky = bcmSticky
 
-BCM_STICKY = {
+local BCM_STICKY = {
 	["SAY"] = true,
 	["YELL"] = true,
 	["PARTY"] = true,
