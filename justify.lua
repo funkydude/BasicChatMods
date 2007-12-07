@@ -1,7 +1,15 @@
-scmJustify = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
-local scmJustify = scmJustify
 
-function scmJustify:OnEnable()
-	local cf = getglobal("ChatFrame2")
-	cf:SetJustifyH("RIGHT")
-end
+--[[		Justify Module		]]--
+
+
+--[[
+	Justify your chat frames!
+	valid options are: "LEFT","RIGHT", or "CENTER"
+	ChatFrames 1 - 7
+	e.g.
+	ChatFrame4:SetJustifyH("CENTER")
+	We justify ChatFrame2 to the right here (combatlog)
+]]--
+
+
+ChatFrame2:SetJustifyH("RIGHT")
