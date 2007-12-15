@@ -1,24 +1,24 @@
-bcmTimestamps = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
-local bcmTimestamps = bcmTimestamps
 
-local BCM_TIMESTAMP_FORMAT = "%X"
-local BCM_TIMESTAMP_COLOR = "777777"
-local BCM_TIMESTAMP_OUTPUT_FORMAT = "[%s]|r %s"
+--[[		Timestamp Module		]]--
+local bcmTimestamps = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 
-local format = nil
 
+
+--[[		Timestamp Color		]]--
+local COLOR = "777777"
+
+
+local date = date
+local fmt = string.format
 function bcmTimestamps:OnEnable()
-	format = "|cff"..BCM_TIMESTAMP_COLOR..BCM_TIMESTAMP_OUTPUT_FORMAT
-
 	local _G = getfenv(0)
 	for i = 1, 2 do
-		self:Hook(_G[("%s%d"):format("ChatFrame", i)], "AddMessage", true)
+		self:Hook(_G[fmt("%s%d", "ChatFrame", i)], "AddMessage", true)
 	end
 end
 
+local msg = "|cff"..COLOR.."[%s]|r %s"
 function bcmTimestamps:AddMessage(frame, text, ...)
-	if type(text) == "string" then
-		text = format:format(date(BCM_TIMESTAMP_FORMAT), text)
-	end
+	text = fmt(msg, date("%X"), text)
 	self.hooks[frame].AddMessage(frame, text, ...)
 end
