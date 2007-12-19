@@ -1,36 +1,36 @@
-bcmButtons = {}
-local bcmButtons = bcmButtons
 
-local BCM_BUTTONS_SHOW_UP = nil
-local BCM_BUTTONS_SHOW_DOWN = nil
-local BCM_BUTTONS_SHOW_BOTTOM = nil
-
+--[[		Button Hide Module		]]--
 local _G = getfenv(0)
+local fmt = string.format
 
-local function hide() this:Hide() end
+local function hide() this:Hide() end --local function to hide the frame
 
-function bcmButtons:Enable()
-	local a
-	ChatFrameMenuButton:Hide()
-	for i = 1, 2 do
-		if not BCM_BUTTONS_SHOW_UP then
-			a = _G[("%s%d%s"):format("ChatFrame", i, "UpButton")]
-			a:SetScript("OnShow", hide)
-			a:Hide()
-		end
+--[[
+	~~	Hide the chat buttons	~~
+	This module hides the buttons next to the chat frames
+	for the selected chat frames only.
 
-		if not BCM_BUTTONS_SHOW_DOWN then
-			a = _G[("%s%d%s"):format("ChatFrame", i, "DownButton")]
-			a:SetScript("OnShow", hide)
-			a:Hide()
-		end
+	Here we hide buttons from ChatFrame1 and 2 only.
+	Change for i = 1,2 to for i = 1, x
+	x being the amount of chat frames you want to hide buttons for.
+	The max chat frames is 7
+	e.g.
+	for i = 1, 7 do
+]]--
 
-		if not BCM_BUTTONS_SHOW_BOTTOM then
-			a = _G[("%s%d%s"):format("ChatFrame", i, "BottomButton")]
-			a:SetScript("OnShow", hide)
-			a:Hide()
-		end
-	end
+
+local b --local button variable
+ChatFrameMenuButton:Hide()
+for i = 1, 2 do
+	b = _G[fmt("%s%d%s", "ChatFrame", i, "UpButton")]
+	b:SetScript("OnShow", hide)
+	b:Hide()
+
+	b = _G[fmt("%s%d%s", "ChatFrame", i, "DownButton")]
+	b:SetScript("OnShow", hide)
+	b:Hide()
+
+	b = _G[fmt("%s%d%s", "ChatFrame", i, "BottomButton")]
+	b:SetScript("OnShow", hide)
+	b:Hide()
 end
-
-bcmButtons:Enable()
