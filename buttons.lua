@@ -34,3 +34,4 @@ for i = 1, 2 do
 	b:SetScript("OnShow", hide)
 	b:Hide()
 end
+b = nil
