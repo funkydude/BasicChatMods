@@ -21,8 +21,6 @@ local BCM_CHANNELS = {
 	["%[%d+%. GuildRecruitment %- .*%]"] = "|cff990066[|rGR|cff990066]|r",
 	["%[Battleground%]"] = "|cffff3399[|rBG|cffff3399]|r",
 	["%[Battleground Leader%]"] = "|cffff0000[|rBGL|cffff0000]|r",
-	--custom channels replaced below
-	["%[(%w+)%.%s(%w*)%]"] = "|cffff0000[|r%1|cffff0000]", --%2 for channel name replacement instead of channel number
 }
 
 --[[
@@ -42,6 +40,8 @@ function bcmChannelNames:AddMessage(frame, text, r, g, b, id)
 	for k, v in pairs(BCM_CHANNELS) do
 		text = gsub(text, k, v)
 	end
+	--custom channels replaced below
+	text = gsub(text, "%[(%w+)%.%s(%w*)%]", "|cffff0000[|r%1|cffff0000]|r") --%2 for channel name replacement instead of channel number
 	return self.hooks[frame].AddMessage(frame, text, r, g, b, id)
 end
 
