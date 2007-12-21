@@ -1,39 +1,16 @@
-bcmScroll = {}
-local bcmScroll = bcmScroll
 
-local BCM_DISABLE_MOUSE_SCROLL = nil
-local BCM_SCROLL_LINES = 1
-
+--[[		Chat Scroll Module		]]--
 local _G = getfenv(0)
+local fmt = string.format
 
-function bcmScroll:Enable()
-	if not BCM_DISABLE_MOUSE_SCROLL then
-		for i = 1, 2 do
-			local cf = _G[("%s%d"):format("ChatFrame", i)]
-			cf:SetScript("OnMouseWheel", function() self:Scroll() end)
-			cf:EnableMouseWheel(true)
-		end
-	end
-end
-
-function bcmScroll:Disable(msg)
-	for i = 1, 2 do
-		local cf = _G[("%s%d"):format("ChatFrame", i)]
-		cf:SetScript("OnMouseWheel", nil)
-		cf:EnableMouseWheel(false)
-	end
-end
-
-function bcmScroll:Scroll()
+local function Scroll()
 	if arg1 > 0 then
 		if IsShiftKeyDown() then
 			this:ScrollToTop()
 		elseif IsControlKeyDown() then
 			this:PageUp()
 		else
-			for i = 1, BCM_SCROLL_LINES do
-				this:ScrollUp()
-			end
+			this:ScrollUp()
 		end
 	elseif arg1 < 0 then
 		if IsShiftKeyDown() then
@@ -41,12 +18,32 @@ function bcmScroll:Scroll()
 		elseif IsControlKeyDown() then
 			this:PageDown()
 		else
-			for i = 1, BCM_SCROLL_LINES do
-				this:ScrollDown()
-			end
+			this:ScrollDown()
 		end
 	end
 end
 
-bcmScroll:Enable()
+--[[
+	~~	Chat Frame Scroll	~~
+	This module allows scrolling of the chat frames
+	for the selected chat frames only.
+
+	Here we scroll ChatFrame1 and 2 only.
+	Change for i = 1,2 to for i = 1, x
+	x being the amount of chat frames you want to enable scroll for.
+	The max chat frames is 7
+	e.g.
+	for i = 1, 7 do
+]]--
+
+local cf
+for i = 1, 2 do
+	cf = _G[fmt("%s%d", "ChatFrame", i)]
+	cf:SetScript("OnMouseWheel", Scroll)
+	cf:EnableMouseWheel(true)
+end
+cf = nil
+
+
+
 

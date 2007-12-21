@@ -1,7 +1,8 @@
 ﻿## Interface: 20300
 ## Author: Funkydude
 ## X-Credits: Rabbit, Ammo
-## Notes: Basic customized version of SCM by Ammo & Rabbit (total rip)
+## Notes: Basic Chat Mods! (Originally SCM by Ammo & Rabbit)
+## Version: 1.5
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-Website: http://wowace.com/wiki/BasicChatMods
