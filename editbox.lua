@@ -1,31 +1,18 @@
-bcmEditbox = {}
-local bcmEditbox = bcmEditbox
 
-function bcmEditbox:Enable()
-	local eb = ChatFrameEditBox
-	eb:ClearAllPoints()
-	eb:SetPoint("BOTTOMLEFT",  "ChatFrame1", "TOPLEFT",  -5, 0)
-	eb:SetPoint("BOTTOMRIGHT", "ChatFrame1", "TOPRIGHT", 5, 0)
-end
+--[[		EditBox Module		]]--
 
-function bcmEditbox:Disable()
-	local eb = ChatFrameEditBox
-	eb:ClearAllPoints()
-	eb:SetPoint("TOPLEFT",  "ChatFrame1", "BOTTOMLEFT",  -5, 0)
-	eb:SetPoint("TOPRIGHT", "ChatFrame1", "BOTTOMRIGHT", 5, 0)
-end
+--[[
+	Move the editbox to the top of the
+	chat frame instead of the bottom.
 
-bcmEditboxAltKey = {}
-local bcmEditboxAltKey = bcmEditboxAltKey
+	Change ChatFrame1 to ChatFramex
+	x being the number of the ChatFrame
+	you want to attach the box to.
+	Max chat frames is 7
+]]--
 
-function bcmEditboxAltKey:Enable()
-	ChatFrameEditBox:SetAltArrowKeyMode(false)
-end
-
-function bcmEditboxAltKey:Disable()
-	ChatFrameEditBox:SetAltArrowKeyMode(true)
-end
-
-bcmEditbox:Enable()
-bcmEditboxAltKey:Enable(
-)
+local eb = ChatFrameEditBox
+eb:ClearAllPoints()
+eb:SetPoint("BOTTOMLEFT",  "ChatFrame1", "TOPLEFT",  -5, 0)
+eb:SetPoint("BOTTOMRIGHT", "ChatFrame1", "TOPRIGHT", 5, 0)
+eb:SetAltArrowKeyMode(false)
