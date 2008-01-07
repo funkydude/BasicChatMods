@@ -1,14 +1,11 @@
 ﻿## Interface: 20300
 ## Author: Funkydude
-## X-Credits: Rabbit, Ammo
-## Notes: Basic Chat Mods! (Originally SCM by Ammo & Rabbit)
-## Version: 1.5
+## X-Credits: Rabbit & Ammo (SCM)
+## Notes: Basic Chat Mods!
+## Version: 2.0
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-Website: http://wowace.com/wiki/BasicChatMods
-## OptionalDeps: Ace2
-
-embeds.xml
 
 buttons.lua
 channelnames.lua
@@ -18,4 +15,3 @@ timestamps.lua
 sticky.lua
 urlcopy.lua
 justify.lua
-

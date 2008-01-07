@@ -1,0 +1,12 @@
+To disable modules open the BasicChatMods.toc
+file and locate the line of the module
+you want to disable:
+
+e.g.
+buttons.lua for the buttons module
+
+replace this line with
+# buttons.lua
+
+You will need to quit wow for the changes
+to take effect

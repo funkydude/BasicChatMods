@@ -1,11 +1,13 @@
 
 --[[		Channel Name Module		]]--
-local bcmChannelNames = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+local _G = getfenv(0)
 local gsub = string.gsub
 local pairs = pairs
+local hooks = {}
+local h = nil
 
 --[[		Replacements		]]--
-local BCM_CHANNELS = {
+local channels = {
 	--standard channels replaced below
 	["%[Guild%]"] = "|cffff3399[|rG|cffff3399]|r",
 	["%[Party%]"] = "|cffff3399[|rP|cffff3399]|r",
@@ -23,25 +25,38 @@ local BCM_CHANNELS = {
 	["%[Battleground Leader%]"] = "|cffff0000[|rBGL|cffff0000]|r",
 }
 
---[[
-	We enable replacements for ChatFrame1 only.
-	To enable it for more chatframes add the lines in OnEnable()
-	An example is already added of how to enable it for ChatFrame3
-	but commented out.
-]]--
-
-function bcmChannelNames:OnEnable()
-	local _G = getfenv(0)
-	self:Hook(_G["ChatFrame1"], "AddMessage", true)
-	--self:Hook(_G["ChatFrame3"], "AddMessage", true)
-end
-
-function bcmChannelNames:AddMessage(frame, text, r, g, b, id)
-	for k, v in pairs(BCM_CHANNELS) do
+local function AddMessage(frame, text, ...)
+	for k, v in pairs(channels) do
 		text = gsub(text, k, v)
 	end
 	--custom channels replaced below
 	text = gsub(text, "%[(%w+)%.%s(%w*)%]", "|cffff0000[|r%1|cffff0000]|r") --%2 for channel name replacement instead of channel number
-	return self.hooks[frame].AddMessage(frame, text, r, g, b, id)
+	return hooks[frame](frame, text, ...)
 end
+
+--[[
+	We enable replacements for ChatFrame1 only.
+	To enable it for more Chat Frames replace the
+	3 lines below this comment with:
+
+	for i = 1, x do
+		h = _G[("%s%d"):format("ChatFrame", i)]
+		hooks[h] = h.AddMessage
+		h.AddMessage = AddMessage
+	end
+
+	Change for i = 1, x do
+	x being the amount of chat frames you want to enable channel names for.
+	The max chat frames is 7
+	e.g.
+	for i = 1, 7 do
+]]--
+
+h = _G["ChatFrame1"]
+hooks[h] = h.AddMessage
+h.AddMessage = AddMessage
+
+
+
+
 
