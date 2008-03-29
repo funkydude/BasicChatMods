@@ -1,8 +1,8 @@
 
 --[[		Channel Name Module		]]--
 local _G = getfenv(0)
-local gsub = string.gsub
-local pairs = pairs
+local gsub = _G.string.gsub
+local pairs = _G.pairs
 local hooks = {}
 local h = nil
 
@@ -55,8 +55,3 @@ end
 h = _G["ChatFrame1"]
 hooks[h] = h.AddMessage
 h.AddMessage = AddMessage
-
-
-
-
-
