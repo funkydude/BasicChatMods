@@ -16,16 +16,10 @@ local function AddMessage(frame, text, ...)
 	return hooks[frame](frame, text, ...)
 end
 
---[[
-	Here we stamp ChatFrame1 and 2 only.
-	Change for i = 1, 2 to for i = 1, x
-	x being the amount of chat frames you want to enable stamps for.
-	The max chat frames is 7
-	e.g.
-	for i = 1, 7 do
-]]--
-for i = 1, 2 do
-	h = _G[fmt("%s%d", "ChatFrame", i)]
-	hooks[h] = h.AddMessage
-	h.AddMessage = AddMessage
-end
+h = _G["ChatFrame1"]
+hooks[h] = h.AddMessage
+h.AddMessage = AddMessage
+
+TEXT_MODE_A_STRING_TIMESTAMP = "$time"
+Blizzard_CombatLog_Filters.filters[Blizzard_CombatLog_Filters.currentFilter].settings.timestamp = true
+Blizzard_CombatLog_Filters.filters[Blizzard_CombatLog_Filters.currentFilter].settings.timestampFormat = "|cff"..COLOR.."[%X]|r"
