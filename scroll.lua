@@ -1,6 +1,6 @@
 --[[		Chat Scroll Module		]]--
 
-for i = 1, 7 do
+for i = 1, NUM_CHAT_WINDOWS do
 	local cf = _G[("%s%d"):format("ChatFrame", i)]
 	cf:SetScript("OnMouseWheel", function()
 		if arg1 > 0 then
