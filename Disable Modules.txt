@@ -9,4 +9,4 @@ replace this line with
 # buttons.lua
 
 You will need to quit wow for the changes
-to take effect
+to take effect.
