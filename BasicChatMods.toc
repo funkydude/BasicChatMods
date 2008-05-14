@@ -1,4 +1,4 @@
-﻿## Interface: 20400
+## Interface: 20400
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
@@ -6,6 +6,7 @@
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-Website: http://wowace.com/wiki/BasicChatMods
+## OptionalDeps: Blizzard_CombatLog
 
 buttons.lua
 channelnames.lua

@@ -1,6 +1,5 @@
 
 --[[		Channel Name Module		]]--
-local _G = getfenv(0)
 local gsub = _G.string.gsub
 local pairs = _G.pairs
 local hooks = {}
