@@ -6,12 +6,11 @@ local mailrep = hurl.."%1@%2.%3%4|h[%1@%2.%3%4]|h|r"
 local urltrig = "(%S+)%.(%S+)(%.?%S*)(%.?%S*)"
 local mailtrig = "(%S+)%@(%S+)%.(%S+)(%.?%S*)"
 
-local currentLink
+local currentLink = nil
 local gsub = _G.string.gsub
 local sub = _G.string.sub
 local ref = _G["SetItemRef"]
 
-local prev = 0
 local function URL(msg)
 	local n
 	msg, n = gsub(msg, mailtrig, mailrep)
