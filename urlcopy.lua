@@ -1,31 +1,22 @@
 --[[		URLCopy Module		]]--
 
-local url = " |cffffffff|Hurl:"
-local one = url.."http://www.%1.%2|h[http://www.%1.%2]|h|r "
-local two = url.."%1://%2|h[%1://%2]|h|r "
-local three = url.."%1@%2%3%4|h[%1@%2%3%4]|h|r "
-local four = url.."%1.%2.%3|h[%1.%2.%3]|h|r "
-local five = url.."%1.%2.%3:%4|h[%1.%2.%3:%4]|h|r "
-local six = url.."%1.%2|h[%1.%2]|h|r "
-local patterns = {
-	["www%.([_A-Za-z0-9-]+)%.([_A-Za-z0-9-%.&/]+)%s?"] = one,
-	["(%a+)://(%S+)%s?"] = two,
-	["([_A-Za-z0-9-%.]+)@([_A-Za-z0-9-]+)(%.+)([_A-Za-z0-9-%.]+)%s?"] = three,
-	["([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%s?"] = four,
-	["([_A-Za-z0-9-]+)%.([_A-Za-z0-9-]+)%.(%S+)%:([_0-9-]+)%s?"] = five,
-	["([_A-Za-z0-9-]+)%.(%a%a%a)%s?"] = six,
-}
+local hurl = "|cffffffff|Hurl:"
+local urlrep = hurl.."%1.%2%3%4|h[%1.%2%3%4]|h|r"
+local mailrep = hurl.."%1@%2.%3%4|h[%1@%2.%3%4]|h|r"
+local urltrig = "(%S+)%.(%S+)(%.?%S*)(%.?%S*)"
+local mailtrig = "(%S+)%@(%S+)%.(%S+)(%.?%S*)"
 
 local currentLink
 local gsub = _G.string.gsub
-local pairs = _G.pairs
 local sub = _G.string.sub
 local ref = _G["SetItemRef"]
 
+local prev = 0
 local function URL(msg)
-	for k, v in pairs(patterns) do
-		msg = gsub(msg, k, v)
-	end
+	local n
+	msg, n = gsub(msg, mailtrig, mailrep)
+	if n > 0 then return false, msg end
+	msg = gsub(msg, urltrig, urlrep)
 	return false, msg
 end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", URL)
