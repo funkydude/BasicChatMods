@@ -2,7 +2,7 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 2.0
+## Version: 2.1
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-Website: http://wowace.com/wiki/BasicChatMods
@@ -10,9 +10,14 @@
 
 buttons.lua
 channelnames.lua
+chatcopy.lua
 editbox.lua
-scroll.lua
-timestamps.lua
-sticky.lua
-urlcopy.lua
 justify.lua
+scroll.lua
+sticky.lua
+timestamps.lua
+
+#URLCopy disabled, replaced by chatcopy, but might come back one day
+#if requested enough and I cba to fix it to work properly
+#Enable it at your own risk
+#urlcopy.lua
