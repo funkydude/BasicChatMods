@@ -2,22 +2,19 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 2.1
+## Version: 3.0
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-Website: http://wowace.com/wiki/BasicChatMods
-## OptionalDeps: Blizzard_CombatLog
+## OptionalDeps: Blizzard_CombatLog, LibSharedMedia-3.0, SharedMedia
 
 buttons.lua
 channelnames.lua
 chatcopy.lua
 editbox.lua
+font.lua
 justify.lua
 scroll.lua
 sticky.lua
 timestamps.lua
-
-#URLCopy disabled, replaced by chatcopy, but might come back one day
-#if requested enough and I cba to fix it to work properly
-#Enable it at your own risk
-#urlcopy.lua
+urlcopy.lua
