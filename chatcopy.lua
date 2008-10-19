@@ -66,10 +66,10 @@ end
 local function Copy(cf)
 	--[[		Stick all the grabbed text into our copying frame		]]--
 	local _, size = cf:GetFont()
-	FCF_SetChatWindowFontSize(cf, 0.01)
+	FCF_SetChatWindowFontSize(cf, cf, 0.01)
 	local lineCt = GetLines(cf:GetRegions())
 	local text = table.concat(lines, "\n", 1, lineCt)
-	FCF_SetChatWindowFontSize(cf, size)
+	FCF_SetChatWindowFontSize(cf, cf, size)
 	if not f then createFrames() end
 	frame:Show()
 	editBox:SetText(text)
