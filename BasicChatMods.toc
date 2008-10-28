@@ -2,7 +2,7 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 3.1
+## Version: 3.2
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## OptionalDeps: Blizzard_CombatLog, LibSharedMedia-3.0, SharedMedia
