@@ -1,4 +1,5 @@
 --[[		URLCopy Module		]]--
+--[[		DON'T MODIFY		]]--
 
 local currentLink = nil
 local ref = _G["SetItemRef"]
