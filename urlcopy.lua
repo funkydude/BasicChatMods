@@ -67,16 +67,31 @@ local patterns = {
 	{ pattern = "%f[%S]([%w_-%%%.]+[%w_-%%]%.(%a%a+))", matchfunc=Link_TLD},
 }
 
-local function filterFunc(msg)
-	if not msg then return false, nil end
-	for _, v in ipairs(patterns) do
-		msg = gsub(msg, v.pattern, v.matchfunc)
+local filterFunc
+local build = GetBuildInfo()
+if build == "3.0.9" then
+	filterFunc = function(msg)
+		if not msg then return false, nil end
+		for _, v in ipairs(patterns) do
+			msg = gsub(msg, v.pattern, v.matchfunc)
+		end
+		for k,v in pairs(matchTable) do
+			msg = gsub(msg, k, v)
+			matchTable[k] = nil
+		end
+		return false, msg
 	end
-	for k,v in pairs(matchTable) do
-		msg = gsub(msg, k, v)
-		matchTable[k] = nil
+else
+	filterFunc= function(self, event, msg, ...)
+		for _, v in ipairs(patterns) do
+			msg = gsub(msg, v.pattern, v.matchfunc)
+		end
+		for k,v in pairs(matchTable) do
+			msg = gsub(msg, k, v)
+			matchTable[k] = nil
+		end
+		return false, msg, ...
 	end
-	return false, msg
 end
 
 local function AddEvents()
