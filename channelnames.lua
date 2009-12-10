@@ -22,7 +22,6 @@ local channels = {
 	["%[%d+%. LocalDefense%]"] = "[LD]",
 	["%[%d+%. Trade%]"] = "[T]",
 	["%[%d+%. GuildRecruitment %- .*%]"] = "[GR]",
-	["%[(%d+)%. %w+%]"] = "[%1]", --custom chans
 }
 
 local function AddMessage(frame, text, ...)
@@ -30,15 +29,16 @@ local function AddMessage(frame, text, ...)
 		text = gsub(text, k, v)
 	end
 
+	text = gsub(text, "%[(%d+)%. %w+%]", "[%1]") --custom chans
 	text = "|cff"..COLOR..lbrack..date(tformat)..rbrack.."|r "..text
-	return newAddMsg[frame](frame, text, ...)
+	return newAddMsg[frame:GetName()](frame, text, ...)
 end
 
 do
-	for i = 1, NUM_CHAT_WINDOWS do
+	for i = 1, 7 do
 		if i ~= 2 then -- skip combatlog
 			local f = _G[format("%s%d", "ChatFrame", i)]
-			newAddMsg[f] = f.AddMessage
+			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
 			f.AddMessage = AddMessage
 		end
 	end

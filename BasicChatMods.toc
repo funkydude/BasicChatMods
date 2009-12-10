@@ -6,14 +6,14 @@
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
-## OptionalDeps: LibSharedMedia-3.0, SharedMedia
+## OptionalDeps: Blizzard_CombatLog, LibSharedMedia-3.0, SharedMedia
 
 buttons.lua
 channelnames.lua
 chatcopy.lua
 editbox.lua
-font.lua
 justify.lua
 scroll.lua
 sticky.lua
 urlcopy.lua
+
