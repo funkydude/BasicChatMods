@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
@@ -6,7 +6,7 @@
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
-## OptionalDeps: Blizzard_CombatLog, LibSharedMedia-3.0, SharedMedia
+## OptionalDeps: LibSharedMedia-3.0, SharedMedia
 
 buttons.lua
 channelnames.lua
