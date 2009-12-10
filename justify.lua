@@ -11,5 +11,7 @@
 	We justify ChatFrame2 to the right here (combatlog)
 ]]--
 
+do
+	ChatFrame2:SetJustifyH("RIGHT")
+end
 
-ChatFrame2:SetJustifyH("RIGHT")

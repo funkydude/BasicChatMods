@@ -2,7 +2,7 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 3.32
+## Version: 3.5
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
@@ -16,5 +16,4 @@ font.lua
 justify.lua
 scroll.lua
 sticky.lua
-timestamps.lua
 urlcopy.lua
