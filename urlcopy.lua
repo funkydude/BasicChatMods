@@ -8,21 +8,14 @@ local ipairs = _G.ipairs
 local pairs = _G.pairs
 
 local tlds = {
-COM = true,
-UK = true,
-NET = true,
-INFO = true,
-CO = true,
-DE = true,
-FR = true,
-ES = true,
-BE = true,
-CC = true,
-US = true,
-KO = true,
-CH = true,
-TW = true,
+COM = true, UK = true, NET = true, INFO = true,
+CO = true, DE = true, FR = true, ES = true,
+BE = true, CC = true, US = true, KO = true,
+CH = true, TW = true, CN = true, RU = true,
+GR = true, IT = true, EU = true, TV = true,
+NL = true, IM = true, HU = true, ORG = true,
 }
+
 local style = "|cffffffff|Hurl:%s|h[%s]|h|r"
 local tokennum, matchTable = 1, {}
 local function RegisterMatch(text)

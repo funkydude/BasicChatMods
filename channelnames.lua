@@ -30,7 +30,9 @@ local function AddMessage(frame, text, ...)
 	end
 
 	text = gsub(text, "%[(%d+)%. %w+%]", "[%1]") --custom chans
-	text = "|cff"..COLOR..lbrack..date(tformat)..rbrack.."|r "..text
+	if ChatFrameEditBox then --Disable in 3.3.5
+		text = "|cff"..COLOR..lbrack..date(tformat)..rbrack.."|r "..text
+	end
 	return newAddMsg[frame:GetName()](frame, text, ...)
 end
 
@@ -49,13 +51,14 @@ do
 		this counts for different languages also
 	]]
 	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
-	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32";
-	CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32";
-	CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32";
-	CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32";
-	CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32";
-	CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32";
-	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32";
+	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
+	CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32"
+	CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32"
+	CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32"
+	CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PL]|h %s:\32"
+	CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32"
+	CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32"
+	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
 	CHAT_RAID_WARNING_GET = "[RW] %s:\32"
 
 	--TEXT_MODE_A_STRING_TIMESTAMP = "|cff"..COLOR.."[%s]|r %s"

@@ -1,5 +1,8 @@
 --[[		Chat Scroll Module		]]--
 
+--Disable in 3.3.5
+if not ChatFrameEditBox then return end
+
 do
 	local function scroll(frame, d)
 		if d > 0 then

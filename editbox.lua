@@ -12,10 +12,17 @@
 ]]--
 
 do
+	--Don't move in 3.3.5
 	local eb = ChatFrameEditBox
-	eb:ClearAllPoints()
-	eb:SetPoint("BOTTOMLEFT",  "ChatFrame1", "TOPLEFT",  -5, 0)
-	eb:SetPoint("BOTTOMRIGHT", "ChatFrame1", "TOPRIGHT", 5, 0)
-	eb:SetAltArrowKeyMode(false)
+	if eb then
+		eb:ClearAllPoints()
+		eb:SetPoint("BOTTOMLEFT",  "ChatFrame1", "TOPLEFT",  -5, 0)
+		eb:SetPoint("BOTTOMRIGHT", "ChatFrame1", "TOPRIGHT", 5, 0)
+		eb:SetAltArrowKeyMode(false)
+	else
+		for i =1, 10 do
+			_G[format("%s%d%s", "ChatFrame", i, "EditBox")]:SetAltArrowKeyMode(false)
+		end
+	end
 end
 
