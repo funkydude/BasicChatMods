@@ -2,7 +2,7 @@
 --[[		Settings		]]--
 
 --TOP, BOTTOM, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT, TOPLEFT, TOPRIGHT
-local BUTTON_POSITION = "BOTTOMRIGHT"
+local BUTTON_POSITION = "BOTTOMLEFT"
 --Try wowhead.com for spell icons
 local BUTTON_ICON = "Spell_ChargePositive"
 
@@ -80,13 +80,14 @@ for i = 1, NUM_CHAT_WINDOWS do
 	--[[		Create the magic button		]]--
 	local cf = _G[format("ChatFrame%d",  i)]
 	--Due to stacking ChatFrames, we have to make 7 buttons instead of 1 :/
+	--XXX Retest new method after 3.3.5
 	local button = CreateFrame("Button", format("BCMButtonCF%d", i), cf)
 	button:SetPoint(BUTTON_POSITION)
 	button:SetHeight(10) --LoadUp Height
 	button:SetWidth(10) --LoadUp Width
 	button:SetNormalTexture("Interface\\Icons\\"..BUTTON_ICON)
 	button:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-	button:SetScript("OnClick", function() Copy(cf) end)
+	button:SetScript("OnClick", function() Copy(cf) button:Hide() end)
 	button:SetScript("OnEnter", function()
 		button:SetHeight(28) --Big Height
 		button:SetWidth(28) --Big Width
@@ -103,6 +104,9 @@ for i = 1, NUM_CHAT_WINDOWS do
 	button:Hide()
 	--[[		Show/Hide the button as needed		]]--
 	local tab = _G[format("ChatFrame%dTab", i)]
-	tab:SetScript("OnShow", function() button:Show() end)
-	tab:SetScript("OnHide", function() button:Hide() end)
+	tab:SetScript("OnEnter", function() button:Show() end)
+	if ChatFrameEditBox then
+		tab:SetScript("OnLeave", function() button:Hide() end)
+	end
 end
+
