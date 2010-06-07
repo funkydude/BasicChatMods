@@ -104,9 +104,11 @@ for i = 1, NUM_CHAT_WINDOWS do
 	button:Hide()
 	--[[		Show/Hide the button as needed		]]--
 	local tab = _G[format("ChatFrame%dTab", i)]
-	tab:SetScript("OnEnter", function() button:Show() end)
 	if ChatFrameEditBox then
-		tab:SetScript("OnLeave", function() button:Hide() end)
+		tab:SetScript("OnShow", function() button:Show() end)
+		tab:SetScript("OnHide", function() button:Hide() end)
+	else
+		tab:SetScript("OnEnter", function() button:Show() end)
 	end
 end
 
