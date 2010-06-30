@@ -76,7 +76,7 @@ local function Copy(cf)
 	editBox:HighlightText(0)
 end
 
-for i = 1, NUM_CHAT_WINDOWS do
+for i = 1, 10 do
 	--[[		Create the magic button		]]--
 	local cf = _G[format("ChatFrame%d",  i)]
 	--Due to stacking ChatFrames, we have to make 7 buttons instead of 1 :/

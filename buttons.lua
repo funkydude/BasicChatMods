@@ -2,28 +2,16 @@
 --[[		Button Hide Module		]]--
 
 do
-	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide
-	ChatFrameMenuButton:Hide()
+	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide --Hide the chat shortcut button for emotes/languages/etc
+	ChatFrameMenuButton:Hide() --Hide the chat shortcut button for emotes/languages/etc
+	FriendsMicroButton.Show = FriendsMicroButton.Hide --Hide the "Friends Online" count button
+	FriendsMicroButton:Hide() --Hide the "Friends Online" count button
 
-	if ChatFrameEditBox then
-		for i = 1, 7 do
-			local up = _G[format("%s%d%s", "ChatFrame", i, "UpButton")]
-			up.Show = up.Hide
-			up:Hide()
-			local down = _G[format("%s%d%s", "ChatFrame", i, "DownButton")]
-			down.Show = down.Hide
-			down:Hide()
-			local bottom = _G[format("%s%d%s", "ChatFrame", i, "BottomButton")]
-			bottom.Show = bottom.Hide
-			bottom:Hide()
-		end
-	else
-		FriendsMicroButton.Show = FriendsMicroButton.Hide FriendsMicroButton:Hide()
-		for i = 1, 10 do
-			local f = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrame")]
-			f.Show = f.Hide
-			f:Hide()
-		end
+	for i = 1, 10 do
+		local f = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrame")]
+		f.Show = f.Hide --Hide the up/down arrows
+		f:Hide() --Hide the up/down arrows
+		_G[format("%s%d", "ChatFrame", i)]:SetClampRectInsets(0,0,0,0) --Allow the chat frame to move to the end of the screen
 	end
 end
 

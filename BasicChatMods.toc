@@ -13,7 +13,7 @@ channelnames.lua
 chatcopy.lua
 editbox.lua
 justify.lua
-scroll.lua
 sticky.lua
+timestamp_customize.lua
 urlcopy.lua
 
