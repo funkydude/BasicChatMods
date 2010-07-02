@@ -21,6 +21,9 @@ local function AddMessage(frame, text, ...)
 		text = gsub(text, k, v)
 	end
 
+	if CHAT_TIMESTAMP_FORMAT and not text:find("%d:%d") then
+		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
+	end
 	text = gsub(text, "%[(%d+)%. %w+%]", "[%1]") --custom channels
 	return newAddMsg[frame:GetName()](frame, text, ...)
 end

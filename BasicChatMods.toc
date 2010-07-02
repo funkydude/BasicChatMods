@@ -13,6 +13,7 @@ chatcopy.lua
 editbox.lua
 fade.lua
 justify.lua
+resize_chatframe.lua
 sticky.lua
 timestamp_customize.lua
 urlcopy.lua
