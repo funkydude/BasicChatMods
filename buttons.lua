@@ -1,5 +1,10 @@
 
 --[[		Button Hide Module		]]--
+--[[		If you want to show certain buttons, add "--" in
+			front of the line of code to disable hiding it
+			e.g. if you want to show the up/down arrows you'd do
+			--f.Show = f.Hide --Hide the up/down arrows
+			--f:Hide() --Hide the up/down arrows		]]
 
 do
 	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide --Hide the chat shortcut button for emotes/languages/etc
