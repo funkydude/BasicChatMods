@@ -2,16 +2,16 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 3.60
+## Version: 3.65
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
-## OptionalDeps: Blizzard_CombatLog, LibSharedMedia-3.0, SharedMedia
 
 buttons.lua
 channelnames.lua
 chatcopy.lua
 editbox.lua
+fade.lua
 justify.lua
 sticky.lua
 timestamp_customize.lua
