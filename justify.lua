@@ -1,7 +1,6 @@
 
 --[[		Justify Module		]]--
 
-
 --[[
 	Justify your chat frames!
 	valid options are: "LEFT","RIGHT", or "CENTER"
@@ -11,7 +10,5 @@
 	We justify ChatFrame2 to the right here (combatlog)
 ]]--
 
-do
-	ChatFrame2:SetJustifyH("RIGHT")
-end
+ChatFrame2:SetJustifyH("RIGHT")
 

@@ -1,5 +1,9 @@
+
 --[[		Resize Module		]]--
---[[	Allow resizing chatframes to whatever size you wish!	]]
+
+--[[
+	Allow resizing chatframes to whatever size you wish!
+]]--
 
 do
 	for i = 1, 10 do
