@@ -2,7 +2,7 @@
 --[[		Channel Name Replacements Module		]]--
 
 local gsub = _G.string.gsub
-local date = _G.date
+local time = _G.time
 local pairs = _G.pairs
 local newAddMsg = {}
 
