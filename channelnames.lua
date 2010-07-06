@@ -10,9 +10,9 @@ local newAddMsg = {}
 local channels = {
 	["%[%d+%. WorldDefense%]"] = "[WD]",
 	["%[%d+%. LookingForGroup%]"] = "[LFG]",
-	["%[%d+%. General%]"] = "[GEN]",
-	["%[%d+%. LocalDefense%]"] = "[LD]",
-	["%[%d+%. Trade%]"] = "[T]",
+	["%[%d+%. General ?%-? ?%a*%]"] = "[GEN]",
+	["%[%d+%. LocalDefense ?%-? ?%a*%]"] = "[LD]",
+	["%[%d+%. Trade ?%-? ?%a*]"] = "[T]",
 	["%[%d+%. GuildRecruitment %- .*%]"] = "[GR]",
 }
 
@@ -21,7 +21,8 @@ local function AddMessage(frame, text, ...)
 		text = gsub(text, k, v)
 	end
 
-	if CHAT_TIMESTAMP_FORMAT and not text:find("%d:%d") then
+	--You'll need to change this if you removed colors from the timestamp_customize module
+	if CHAT_TIMESTAMP_FORMAT and not text:find("^|c") then
 		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
 	end
 	text = gsub(text, "%[(%d+)%. %w+%]", "[%1]") --custom channels

@@ -6,6 +6,8 @@
 	We use "777777" and add brackets []
 	Must start with |cff and end with |r
 	DO NOT remove anything inside the brackets
+	DO NOT remove the |c as the function that timestamps lines that Blizzard misses in channelnames.lua
+	e.g. loot, achievements, requires each line to start with |c
 	Leave the space at the end if you want a space between timestamps and text
 ]]--
 
