@@ -10,10 +10,10 @@ local newAddMsg = {}
 local channels = {
 	["%[%d+%. WorldDefense%]"] = "[WD]",
 	["%[%d+%. LookingForGroup%]"] = "[LFG]",
-	["%[%d+%. General ?%-? ?%a*%]"] = "[GEN]",
-	["%[%d+%. LocalDefense ?%-? ?%a*%]"] = "[LD]",
-	["%[%d+%. Trade ?%-? ?%a*]"] = "[T]",
-	["%[%d+%. GuildRecruitment %- .*%]"] = "[GR]",
+	["%[%d+%. General.-%]"] = "[GEN]",
+	["%[%d+%. LocalDefense.-%]"] = "[LD]",
+	["%[%d+%. Trade.-%]"] = "[T]",
+	["%[%d+%. GuildRecruitment.-%]"] = "[GR]",
 }
 
 local function AddMessage(frame, text, ...)
