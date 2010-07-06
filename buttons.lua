@@ -20,7 +20,6 @@ do
 		local f = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrame")]
 		f.Show = f.Hide --Hide the up/down arrows
 		f:Hide() --Hide the up/down arrows
-		_G[format("%s%d", "ChatFrame", i)]:SetClampRectInsets(0,0,0,0) --Allow the chat frame to move to the end of the screen
 	end
 end
 
