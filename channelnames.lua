@@ -1,4 +1,4 @@
-
+﻿
 --[[		Channel Name Replacements Module		]]--
 
 local gsub = _G.string.gsub
@@ -7,14 +7,53 @@ local pairs = _G.pairs
 local newAddMsg = {}
 
 --[[		Replacements		]]--
-local channels = {
-	["%[%d+%. WorldDefense%]"] = "[WD]",
-	["%[%d+%. LookingForGroup%]"] = "[LFG]",
-	["%[%d+%. General.-%]"] = "[GEN]",
-	["%[%d+%. LocalDefense.-%]"] = "[LD]",
-	["%[%d+%. Trade.-%]"] = "[T]",
-	["%[%d+%. GuildRecruitment.-%]"] = "[GR]",
-}
+--[[
+	To customize what you want for channel names
+	simply change the text in the brackets []
+]]--
+local channels
+do
+	local L = GetLocale()
+	if L == "ruRU" then --Russian
+		channels = {
+			["%[%d+%. ОборонаГлобальный%]"] = "[WD]",
+			["%[%d+%. ПоискСпутников%]"] = "[LFG]",
+			["%[%d+%. Общий.-%]"] = "[GEN]",
+			["%[%d+%. ОборонаЛокальный.-%]"] = "[LD]",
+			["%[%d+%. Торговля.-%]"] = "[T]",
+			["%[%d+%. Гильдии.-%]"] = "[GR]",
+		}
+		CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
+		CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
+		CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32"
+		CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32"
+		CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32"
+		CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PL]|h %s:\32"
+		CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32"
+		CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32"
+		CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
+		CHAT_RAID_WARNING_GET = "[RW] %s:\32"
+	else --English & any other language not translated above.
+		channels = {
+			["%[%d+%. WorldDefense%]"] = "[WD]",
+			["%[%d+%. LookingForGroup%]"] = "[LFG]",
+			["%[%d+%. General.-%]"] = "[GEN]",
+			["%[%d+%. LocalDefense.-%]"] = "[LD]",
+			["%[%d+%. Trade.-%]"] = "[T]",
+			["%[%d+%. GuildRecruitment.-%]"] = "[GR]",
+		}
+		CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
+		CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
+		CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32"
+		CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32"
+		CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32"
+		CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PL]|h %s:\32"
+		CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32"
+		CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32"
+		CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
+		CHAT_RAID_WARNING_GET = "[RW] %s:\32"
+	end
+end
 
 local function AddMessage(frame, text, ...)
 	for k, v in pairs(channels) do
@@ -37,21 +76,5 @@ do
 			f.AddMessage = AddMessage
 		end
 	end
-
-	--[[
-		To customize what you want for channel names
-		simply change the text in the brackets []
-		this counts for different languages also
-	]]
-	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
-	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
-	CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32"
-	CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32"
-	CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32"
-	CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PL]|h %s:\32"
-	CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32"
-	CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32"
-	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
-	CHAT_RAID_WARNING_GET = "[RW] %s:\32"
 end
 
