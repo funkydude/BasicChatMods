@@ -76,6 +76,7 @@ do
 		"CHAT_MSG_PARTY", "CHAT_MSG_PARTY_LEADER",
 		"CHAT_MSG_RAID", "CHAT_MSG_RAID_LEADER",
 		"CHAT_MSG_SAY", "CHAT_MSG_WHISPER",
+		"CHAT_MSG_BN_WHISPER", "CHAT_MSG_BN_CONVERSATION",
 	}
 	for _,event in ipairs(events) do
 		ChatFrame_AddMessageEventFilter(event, filterFunc)
