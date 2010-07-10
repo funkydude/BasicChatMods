@@ -1,4 +1,4 @@
-﻿
+
 --[[		Channel Name Replacements Module		]]--
 
 local gsub = _G.string.gsub
