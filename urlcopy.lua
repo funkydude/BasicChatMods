@@ -82,6 +82,7 @@ do
 		ChatFrame_AddMessageEventFilter(event, filterFunc)
 	end
 	wipe(events)
+	events = nil
 
 	local ref = _G["SetItemRef"]
 	local function SetItem(link, ...)
