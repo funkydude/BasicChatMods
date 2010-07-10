@@ -13,6 +13,7 @@ ChatTypeInfo.EMOTE.sticky = 1
 ChatTypeInfo.YELL.sticky = 1
 ChatTypeInfo.RAID_WARNING.sticky = 1
 
---If you want to unsticky whispers, remove the "--" on the next line
+--If you want to unsticky whispers or BNet whispers, remove the "--" on the following lines
 --ChatTypeInfo.WHISPER.sticky = 0
+--ChatTypeInfo.BN_WHISPER.sticky = 0
 

@@ -34,6 +34,15 @@ do
 			["%[%d+%. Торговля.-%]"] = "[T]",
 			["%[%d+%. Гильдии.-%]"] = "[GR]",
 		}
+	elseif L == "deDE" then --German
+		channels = {
+			["%[%d+%. Weltverteidigung%]"] = "[WD]",
+			["%[%d+%. SucheNachGruppe%]"] = "[LFG]",
+			["%[%d+%. Allgemein.-%]"] = "[GEN]",
+			["%[%d+%. LokaleVerteidigung.-%]"] = "[LD]",
+			["%[%d+%. Handel.-%]"] = "[T]",
+			["%[%d+%. Gildenrekrutierung.-%]"] = "[GR]",
+		}
 	else --English & any other language not translated above.
 		channels = {
 			["%[%d+%. WorldDefense%]"] = "[WD]",
