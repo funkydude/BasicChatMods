@@ -1,10 +1,13 @@
---[[		URLCopy Module		]]--
---[[		DON'T MODIFY		]]--
 
-local currentLink = nil
-local gsub = _G.string.gsub
-local pairs = _G.pairs
-local style = "|cffffffff|Hurl:%1|h[%1]|h|r"
+--[[		URLCopy Module		]]--
+
+--[[
+	DO NOT MODIFY
+	This module allows you to easily
+	copy websites from chat by turning
+	them into clickable links.
+]]--
+
 
 local tlds = {
 	"[Cc][Oo][Mm]", "[Uu][Kk]", "[Nn][Ee][Tt]", "[Dd][Ee]", "[Ff][Rr]", "[Ee][Ss]",
@@ -13,14 +16,15 @@ local tlds = {
 	"[Nn][Ll]", "[Hh][Uu]", "[Oo][Rr][Gg]"
 }
 
-local function filterFunc(self, event, msg, ...)
+local gsub = gsub
+local filterFunc = function(self, event, msg, ...)
 	for _,v in pairs(tlds) do
-		local newMsg, found = gsub(msg, "(%S-%."..v.."/?%S*)", style)
+		local newMsg, found = gsub(msg, "(%S-%."..v.."/?%S*)", "|cffffffff|Hurl:%1|h[%1]|h|r")
 		if found > 0 then
 			return false, newMsg, ...
 		end
 	end
-	local newMsg, found = gsub(msg, "(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)", style)
+	local newMsg, found = gsub(msg, "(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)", "|cffffffff|Hurl:%1|h[%1]|h|r")
 	if found > 0 then
 		return false, newMsg, ...
 	end
@@ -40,6 +44,7 @@ do
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
 
+	local currentLink = nil
 	ChatFrame_OnHyperlinkShow = function(self, link, text, button)
 		if (link):sub(1, 3) == "url" then
 			currentLink = (link):sub(5)
