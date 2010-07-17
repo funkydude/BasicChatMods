@@ -8,7 +8,6 @@
 	them into clickable links.
 ]]--
 
-
 local tlds = {
 	"[Cc][Oo][Mm]", "[Uu][Kk]", "[Nn][Ee][Tt]", "[Dd][Ee]", "[Ff][Rr]", "[Ee][Ss]",
 	"[Bb][Ee]", "[Cc][Cc]", "[Uu][Ss]", "[Kk][Oo]", "[Cc][Hh]", "[Tt][Ww]",
@@ -18,8 +17,8 @@ local tlds = {
 
 local gsub = gsub
 local filterFunc = function(self, event, msg, ...)
-	for _,v in pairs(tlds) do
-		local newMsg, found = gsub(msg, "(%S-%."..v.."/?%S*)", "|cffffffff|Hurl:%1|h[%1]|h|r")
+	for i=1, #tlds do
+		local newMsg, found = gsub(msg, "(%S-%."..tlds[i].."/?%S*)", "|cffffffff|Hurl:%1|h[%1]|h|r")
 		if found > 0 then
 			return false, newMsg, ...
 		end
