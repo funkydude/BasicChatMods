@@ -10,10 +10,10 @@
 buttons.lua
 channelnames.lua
 chatcopy.lua
+dont_disable.lua
 editbox.lua
 fade.lua
 justify.lua
-resize_chatframe.lua
 scrolldown.lua
 sticky.lua
 timestamp_customize.lua

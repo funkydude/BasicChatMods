@@ -16,7 +16,6 @@ do
 		eb:ClearAllPoints()
 		eb:SetPoint("BOTTOMLEFT",  cf, "TOPLEFT",  -5, 0)
 		eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, 0)
-		eb:SetAltArrowKeyMode(false)
 	end
 end
 
