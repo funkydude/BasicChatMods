@@ -6,11 +6,11 @@ local time = _G.time
 local pairs = _G.pairs
 local newAddMsg = {}
 
---[[		Replacements		]]--
 --[[
 	To customize what you want for channel names
 	simply change the text in the brackets []
 ]]--
+
 local channels
 do
 	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
@@ -60,8 +60,8 @@ local function AddMessage(frame, text, ...)
 		text = gsub(text, k, v)
 	end
 
-	--You'll need to change this if you removed colors from the timestamp_customize module
-	if CHAT_TIMESTAMP_FORMAT and not text:find("^|c") then
+	--If Blizz timestamps is enabled, stamp anything it misses
+	if CHAT_TIMESTAMP_FORMAT and not text:find("^|r") then
 		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
 	end
 	text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
@@ -69,7 +69,7 @@ local function AddMessage(frame, text, ...)
 end
 
 do
-	for i = 1, 10 do
+	for i = 1, 5 do
 		if i ~= 2 then -- skip combatlog
 			local f = _G[format("%s%d", "ChatFrame", i)]
 			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage

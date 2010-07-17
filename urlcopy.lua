@@ -17,7 +17,7 @@ local tlds = {
 
 local gsub = gsub
 local filterFunc = function(self, event, msg, ...)
-	for i=1, #tlds do
+	for i=1, 21 do --Number of TLD's in tlds table
 		local newMsg, found = gsub(msg, "(%S-%."..tlds[i].."/?%S*)", "|cffffffff|Hurl:%1|h[%1]|h|r")
 		if found > 0 then
 			return false, newMsg, ...
