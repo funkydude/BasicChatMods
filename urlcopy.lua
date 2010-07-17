@@ -40,14 +40,13 @@ do
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
 
-	local ref = SetItemRef
-	SetItemRef = function(link, ...)
+	ChatFrame_OnHyperlinkShow = function(self, link, text, button)
 		if (link):sub(1, 3) == "url" then
 			currentLink = (link):sub(5)
 			StaticPopup_Show("BCMUrlCopyDialog")
 			return
 		end
-		return ref(link, ...)
+		SetItemRef(link, text, button, self)
 	end
 
 	--[[		Popup Box		]]--
