@@ -66,9 +66,16 @@ do
 		BCMCopyBox:HighlightText(0)
 		wipe(lines)
 	end
+	local hintFunc = function(frame)
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint("BOTTOM", frame, "TOP")
+		GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat", 1, 0, 0, 1)
+		GameTooltip:Show()
+	end
 	for i = 1, 10 do
 		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
 		tab:SetScript("OnDoubleClick", copyFunc)
+		tab:HookScript("OnEnter", hintFunc)
 	end
 end
 
