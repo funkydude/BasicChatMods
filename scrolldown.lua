@@ -11,7 +11,7 @@
 local scrollFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 local showFunc = function(frame)
 	local n = frame:GetName()
-	if frame:GetCurrentScroll() > 0 then
+	if frame:GetCurrentScroll() ~= 0 then
 		_G[n.."ButtonFrameBottomButton"]:Show()
 	else
 		_G[n.."ButtonFrameBottomButton"]:Hide()
@@ -27,6 +27,7 @@ do
 			btn:ClearAllPoints()
 			local cf = btn:GetParent():GetParent()
 			cf:HookScript("OnMouseWheel", showFunc)
+			cf:HookScript("OnShow", showFunc)
 			btn:SetParent(cf)
 			btn:SetPoint("TOPRIGHT")
 			btn:SetScript("OnClick", scrollFunc)
