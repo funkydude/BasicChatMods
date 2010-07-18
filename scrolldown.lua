@@ -11,16 +11,16 @@
 local scrollFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 local showFunc = function(frame)
 	local n = frame:GetName()
-	if frame:GetCurrentScroll() ~= 0 then
-		_G[n.."ButtonFrameBottomButton"]:Show()
-	else
+	if frame:AtBottom() then
 		_G[n.."ButtonFrameBottomButton"]:Hide()
+	else
+		_G[n.."ButtonFrameBottomButton"]:Show()
 	end
 end
 
 do
 	local f = ChatFrame1ButtonFrameBottomButton
-	f:RegisterEvent("PLAYER_LOGIN")
+	f:RegisterEvent("UPDATE_TICKET") --later than login
 	f:SetScript("OnEvent", function()
 		for i=1, 10 do
 			local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
@@ -34,8 +34,8 @@ do
 			btn:SetSize(20, 20)
 			btn:Hide()
 		end
+		f:UnregisterEvent("UPDATE_TICKET")
 		f:SetScript("OnEvent", nil)
-		f:UnregisterEvent("PLAYER_LOGIN")
 		f = nil
 	end)
 end
