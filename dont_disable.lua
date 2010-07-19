@@ -19,6 +19,9 @@ do
 		--Allow arrow keys editing in the edit box
 		local eb =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 		eb:SetAltArrowKeyMode(false)
+
+		--Clamp the toast frame to screen to prevent it cutting out
+		BNToastFrame:SetClampedToScreen(true)
 	end
 end
 
