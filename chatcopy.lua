@@ -47,7 +47,7 @@ do
 
 	--Copying Functions
 	local copyFunc = function(frame, btn)
-		local cf = _G[strreplace(frame:GetName(), "Tab", "")]
+		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local _, size = cf:GetFont()
 		FCF_SetChatWindowFontSize(cf, cf, 0.01)
 		local ct = 1
