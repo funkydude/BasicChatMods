@@ -67,15 +67,16 @@ do
 		wipe(lines)
 	end
 	local hintFunc = function(frame)
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("BOTTOM", frame, "TOP")
-		GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat", 1, 0, 0, 1)
+		GameTooltip:SetOwner(frame, "ANCHOR_TOP")
+		GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
+		GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
+		GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat.", 1, 0, 0)
 		GameTooltip:Show()
 	end
 	for i = 1, 10 do
 		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
 		tab:SetScript("OnDoubleClick", copyFunc)
-		tab:HookScript("OnEnter", hintFunc)
+		tab:SetScript("OnEnter", hintFunc)
 	end
 end
 
