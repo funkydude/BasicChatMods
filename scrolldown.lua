@@ -8,6 +8,8 @@
 	Moves the Blizzard one and resizes it.
 ]]--
 
+if ChatFrame1ButtonFrame:IsShown() then return end --Don't load this module if button hide module is disabled
+
 local scrollFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 local showFunc = function(frame)
 	local n = frame:GetName()
