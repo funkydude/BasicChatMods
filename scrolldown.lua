@@ -8,8 +8,6 @@
 	Moves the Blizzard one and resizes it.
 ]]--
 
-if ChatFrame1ButtonFrame:IsShown() then return end --Don't load this module if button hide module is disabled
-
 local scrollFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 local showFunc = function(frame)
 	local n = frame:GetName()
@@ -24,17 +22,22 @@ do
 	local f = ChatFrame1ButtonFrameBottomButton
 	f:RegisterEvent("UPDATE_TICKET") --later than login
 	f:SetScript("OnEvent", function()
-		for i=1, 10 do
-			local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
-			btn:ClearAllPoints()
-			local cf = btn:GetParent():GetParent()
-			cf:HookScript("OnMouseWheel", showFunc)
-			cf:HookScript("OnShow", showFunc)
-			btn:SetParent(cf)
-			btn:SetPoint("TOPRIGHT")
-			btn:SetScript("OnClick", scrollFunc)
-			btn:SetSize(20, 20)
-			btn:Hide()
+		if not ChatFrame1ButtonFrame:IsShown() then --Don't load this module if button hide module is disabled
+			for i=1, 10 do
+				local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
+				btn:ClearAllPoints()
+				local cf = btn:GetParent():GetParent()
+				cf:HookScript("OnMouseWheel", showFunc)
+				cf:HookScript("OnShow", showFunc)
+				btn:SetParent(cf)
+				btn:SetPoint("TOPRIGHT")
+				btn:SetScript("OnClick", scrollFunc)
+				btn:SetSize(20, 20)
+				btn:Hide()
+			end
+		else
+			scrollFunc = nil
+			showFunc = nil
 		end
 		f:UnregisterEvent("UPDATE_TICKET")
 		f:SetScript("OnEvent", nil)
