@@ -3,7 +3,6 @@
 
 local gsub = _G.string.gsub
 local time = _G.time
-local pairs = _G.pairs
 local newAddMsg = {}
 
 --[[
@@ -11,7 +10,7 @@ local newAddMsg = {}
 	simply change the text in the brackets []
 ]]--
 
-local channels
+local chn, rplc
 do
 	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
 	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
@@ -24,40 +23,49 @@ do
 	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
 	CHAT_RAID_WARNING_GET = "[RW] %s:\32"
 
+	rplc = {
+		"[GEN]", --General
+		"[T]", --Trade
+		"[WD]", --WorldDefense
+		"[LD]", --LocalDefense
+		"[LFG]", --LookingForGroup
+		"[GR]", --GuildRecruitment
+	}
+
 	local L = GetLocale()
 	if L == "ruRU" then --Russian
-		channels = {
-			["%[%d+%. Оборона: глобальный%]"] = "[WD]",
-			["%[%d+%. Поиск спутников%]"] = "[LFG]",
-			["%[%d+%. Общий.-%]"] = "[GEN]",
-			["%[%d+%. Оборона: локальный.-%]"] = "[LD]",
-			["%[%d+%. Торговля.-%]"] = "[T]",
-			["%[%d+%. Набор в гильдии.-%]"] = "[GR]",
+		chn = {
+			"%[%d+%. Общий.-%]",
+			"%[%d+%. Торговля.-%]",
+			"%[%d+%. Оборона: глобальный%]", --Defense: Global
+			"%[%d+%. Оборона.-%]", --Defense: Zone
+			"%[%d+%. Поиск спутников%]",
+			"%[%d+%. Гильдии.-%]",
 		}
 	elseif L == "deDE" then --German
-		channels = {
-			["%[%d+%. Weltverteidigung%]"] = "[WD]",
-			["%[%d+%. SucheNachGruppe%]"] = "[LFG]",
-			["%[%d+%. Allgemein.-%]"] = "[GEN]",
-			["%[%d+%. LokaleVerteidigung.-%]"] = "[LD]",
-			["%[%d+%. Handel.-%]"] = "[T]",
-			["%[%d+%. Gildenrekrutierung.-%]"] = "[GR]",
+		chn = {
+			"%[%d+%. Allgemein.-%]",
+			"%[%d+%. Handel.-%]",
+			"%[%d+%. Weltverteidigung%]",
+			"%[%d+%. LokaleVerteidigung.-%]",
+			"%[%d+%. SucheNachGruppe%]",
+			"%[%d+%. Gildenrekrutierung.-%]",
 		}
 	else --English & any other language not translated above.
-		channels = {
-			["%[%d+%. WorldDefense%]"] = "[WD]",
-			["%[%d+%. LookingForGroup%]"] = "[LFG]",
-			["%[%d+%. General.-%]"] = "[GEN]",
-			["%[%d+%. LocalDefense.-%]"] = "[LD]",
-			["%[%d+%. Trade.-%]"] = "[T]",
-			["%[%d+%. GuildRecruitment.-%]"] = "[GR]",
+		chn = {
+			"%[%d+%. General.-%]",
+			"%[%d+%. Trade.-%]",
+			"%[%d+%. WorldDefense%]",
+			"%[%d+%. LocalDefense.-%]",
+			"%[%d+%. LookingForGroup%]",
+			"%[%d+%. GuildRecruitment.-%]",
 		}
 	end
 end
 
 local function AddMessage(frame, text, ...)
-	for k, v in pairs(channels) do
-		text = gsub(text, k, v)
+	for i = 1, 6 do
+		text = gsub(text, chn[i], rplc[i])
 	end
 
 	--If Blizz timestamps is enabled, stamp anything it misses
