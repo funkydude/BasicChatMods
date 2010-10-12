@@ -1,8 +1,7 @@
-## Interface: 30300
-## Author: Funkydude
+## Interface: 40000
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 4.04
+## Version: 4.05
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved

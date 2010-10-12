@@ -61,7 +61,7 @@ do
 		hasWideEditBox = 1,
 		showAlert = 1,
 		OnShow = function(frame)
-			local editBox = _G[frame:GetName().."WideEditBox"]
+			local editBox = _G[frame:GetName().."EditBox"]
 			editBox:SetText(currentLink)
 			currentLink = nil
 			editBox:SetFocus()
