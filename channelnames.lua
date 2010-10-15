@@ -12,17 +12,6 @@ local newAddMsg = {}
 
 local chn, rplc
 do
-	CHAT_BATTLEGROUND_GET = "|Hchannel:Battleground|h[BG]|h %s:\32"
-	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h[BGL]|h %s:\32"
-	CHAT_GUILD_GET = "|Hchannel:Guild|h[G]|h %s:\32"
-	CHAT_PARTY_GET = "|Hchannel:Party|h[P]|h %s:\32"
-	CHAT_PARTY_LEADER_GET = "|Hchannel:party|h[PL]|h %s:\32"
-	CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PL]|h %s:\32"
-	CHAT_OFFICER_GET = "|Hchannel:o|h[O]|h %s:\32"
-	CHAT_RAID_GET = "|Hchannel:raid|h[R]|h %s:\32"
-	CHAT_RAID_LEADER_GET = "|Hchannel:raid|h[RL]|h %s:\32"
-	CHAT_RAID_WARNING_GET = "[RW] %s:\32"
-
 	rplc = {
 		"[GEN]", --General
 		"[T]", --Trade
@@ -30,41 +19,56 @@ do
 		"[LD]", --LocalDefense
 		"[LFG]", --LookingForGroup
 		"[GR]", --GuildRecruitment
+		"[BG]", --Battleground
+		"[BGL]", --Battleground Leader
+		"[G]", --Guild
+		"[P]", --Party
+		"[PL]", --Party Leader
+		"[PL]", --Party Leader (Guide)
+		"[O]", --Officer
+		"[R]", --Raid
+		"[RL]", --Raid Leader
+		"[RW]", --Raid Warning
+	}
+	chn = {
+		"%[%d+%. General.-%]",
+		"%[%d+%. Trade.-%]",
+		"%[%d+%. WorldDefense%]",
+		"%[%d+%. LocalDefense.-%]",
+		"%[%d+%. LookingForGroup%]",
+		"%[%d+%. GuildRecruitment.-%]",
+		gsub(CHAT_BATTLEGROUND_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_BATTLEGROUND_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_PARTY_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_PARTY_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_OFFICER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 	}
 
 	local L = GetLocale()
 	if L == "ruRU" then --Russian
-		chn = {
-			"%[%d+%. Общий.-%]",
-			"%[%d+%. Торговля.-%]",
-			"%[%d+%. Оборона: глобальный%]", --Defense: Global
-			"%[%d+%. Оборона.-%]", --Defense: Zone
-			"%[%d+%. Поиск спутников%]",
-			"%[%d+%. Гильдии.-%]",
-		}
+		chn[1] = "%[%d+%. Общий.-%]"
+		chn[2] = "%[%d+%. Торговля.-%]"
+		chn[3] = "%[%d+%. Оборона: глобальный%]" --Defense: Global
+		chn[4] = "%[%d+%. Оборона.-%]" --Defense: Zone
+		chn[5] = "%[%d+%. Поиск спутников%]"
+		chn[6] = "%[%d+%. Гильдии.-%]"
 	elseif L == "deDE" then --German
-		chn = {
-			"%[%d+%. Allgemein.-%]",
-			"%[%d+%. Handel.-%]",
-			"%[%d+%. Weltverteidigung%]",
-			"%[%d+%. LokaleVerteidigung.-%]",
-			"%[%d+%. SucheNachGruppe%]",
-			"%[%d+%. Gildenrekrutierung.-%]",
-		}
-	else --English & any other language not translated above.
-		chn = {
-			"%[%d+%. General.-%]",
-			"%[%d+%. Trade.-%]",
-			"%[%d+%. WorldDefense%]",
-			"%[%d+%. LocalDefense.-%]",
-			"%[%d+%. LookingForGroup%]",
-			"%[%d+%. GuildRecruitment.-%]",
-		}
+		chn[1] = "%[%d+%. Allgemein.-%]"
+		chn[2] = "%[%d+%. Handel.-%]"
+		chn[3] = "%[%d+%. Weltverteidigung%]"
+		chn[4] = "%[%d+%. LokaleVerteidigung.-%]"
+		chn[5] = "%[%d+%. SucheNachGruppe%]"
+		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
 	end
 end
 
 local function AddMessage(frame, text, ...)
-	for i = 1, 6 do
+	for i = 1, 16 do
 		text = gsub(text, chn[i], rplc[i])
 	end
 
