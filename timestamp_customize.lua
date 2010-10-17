@@ -18,11 +18,19 @@
 	TIMESTAMP_FORMAT_HHMM = "|r[%I:%M] "
 ]]--
 
-TIMESTAMP_FORMAT_HHMM = "|r|cff777777[%I:%M]|r "
-TIMESTAMP_FORMAT_HHMM_24HR = "|r|cff777777[%H:%M]|r "
-TIMESTAMP_FORMAT_HHMM_AMPM = "|r|cff777777[%I:%M %p]|r "
+do
+	ChatFrame2ButtonFrameBottomButton:RegisterEvent("PLAYER_LOGIN")
+	ChatFrame2ButtonFrameBottomButton:SetScript("OnEvent", function(f)
+		TIMESTAMP_FORMAT_HHMM = "|r|cff777777[%I:%M]|r "
+		TIMESTAMP_FORMAT_HHMM_24HR = "|r|cff777777[%H:%M]|r "
+		TIMESTAMP_FORMAT_HHMM_AMPM = "|r|cff777777[%I:%M %p]|r "
 
-TIMESTAMP_FORMAT_HHMMSS = "|r|cff777777[%I:%M:%S]|r "
-TIMESTAMP_FORMAT_HHMMSS_24HR = "|r|cff777777[%H:%M:%S]|r "
-TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r|cff777777[%I:%M:%S %p]|r "
+		TIMESTAMP_FORMAT_HHMMSS = "|r|cff777777[%I:%M:%S]|r "
+		TIMESTAMP_FORMAT_HHMMSS_24HR = "|r|cff777777[%H:%M:%S]|r "
+		TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r|cff777777[%I:%M:%S %p]|r "
+
+		f:UnregisterEvent("PLAYER_LOGIN")
+		f:SetScript("OnEvent", nil)
+	end)
+end
 

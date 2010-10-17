@@ -19,9 +19,8 @@ local showFunc = function(frame)
 end
 
 do
-	local f = ChatFrame1ButtonFrameBottomButton
-	f:RegisterEvent("UPDATE_TICKET") --later than login
-	f:SetScript("OnEvent", function()
+	ChatFrame1ButtonFrameBottomButton:RegisterEvent("UPDATE_TICKET") --later than login
+	ChatFrame1ButtonFrameBottomButton:SetScript("OnEvent", function(frame)
 		if not ChatFrame1ButtonFrame:IsShown() then --Don't load this module if button hide module is disabled
 			for i=1, 10 do
 				local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
@@ -39,9 +38,8 @@ do
 			scrollFunc = nil
 			showFunc = nil
 		end
-		f:UnregisterEvent("UPDATE_TICKET")
-		f:SetScript("OnEvent", nil)
-		f = nil
+		frame:UnregisterEvent("UPDATE_TICKET")
+		frame:SetScript("OnEvent", nil)
 	end)
 end
 
