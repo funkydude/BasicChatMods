@@ -9,7 +9,8 @@
 	for editing text in the textbox.
 ]]--
 
-do
+local _, f = ...
+f.functions[#f.functions+1] = function()
 	for i =1, 10 do
 		local eb =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 		local cf = _G[format("%s%d", "ChatFrame", i)]

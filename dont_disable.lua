@@ -6,7 +6,22 @@
 	should not be disabled.
 ]]--
 
-do
+local _, f = ...
+f.functions = {}
+f.fire = CreateFrame("Frame")
+f.fire:RegisterEvent("PLAYER_LOGIN")
+f.fire:SetScript("OnEvent", function()
+	for i = 1, #f.functions do
+		f.functions[i]()
+	end
+	wipe(f.functions)
+	f.functions = nil
+	f.hideFunc = nil
+	f.fire:SetScript("OnEvent", nil)
+	f.fire = nil
+end)
+
+f.functions[#f.functions+1] = function()
 	for i = 1, 10 do
 		--Allow resizing chatframes to whatever size you wish!
 		local cf = _G[format("%s%d", "ChatFrame", i)]

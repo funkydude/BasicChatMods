@@ -29,7 +29,8 @@ local filterFunc = function(self, event, msg, ...)
 	end
 end
 
-do
+local _, f = ...
+f.functions[#f.functions+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", filterFunc)
@@ -44,13 +45,14 @@ do
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
 
 	local currentLink = nil
+	local oldShow = ChatFrame_OnHyperlinkShow
 	ChatFrame_OnHyperlinkShow = function(self, link, text, button)
 		if (link):sub(1, 3) == "url" then
 			currentLink = (link):sub(5)
 			StaticPopup_Show("BCMUrlCopyDialog")
 			return
 		end
-		SetItemRef(link, text, button, self)
+		oldShow(self, link, text, button)
 	end
 
 	--[[		Popup Box		]]--

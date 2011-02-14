@@ -1,15 +1,18 @@
 ## Interface: 40000
+## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 4.10
+## Version: 5.00
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
+dont_disable.lua
+
+
 
 buttons.lua
 channelnames.lua
 chatcopy.lua
-dont_disable.lua
 editbox.lua
 fade.lua
 justify.lua

@@ -10,5 +10,8 @@
 	We justify ChatFrame2 to the right here (combatlog)
 ]]--
 
-ChatFrame2:SetJustifyH("RIGHT")
+local _, f = ...
+f.functions[#f.functions+1] = function()
+	ChatFrame2:SetJustifyH("RIGHT")
+end
 

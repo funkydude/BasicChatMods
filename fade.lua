@@ -6,7 +6,8 @@
 	of partially. Like patch 3.3.3 and before.
 ]]--
 
-do
+local _, f = ...
+f.functions[#f.functions+1] = function()
 	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_BUTTON_FRAME_MIN_ALPHA = 0

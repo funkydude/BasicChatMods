@@ -1,18 +1,17 @@
 
---[[		Channel Name Replacements Module		]]--
-
 local gsub = _G.string.gsub
 local time = _G.time
 local newAddMsg = {}
+local _, f = ...
+
+--[[		Channel Name Replacements Module		]]--
 
 --[[
 	To customize what you want for channel names
 	simply change the text in the brackets []
 ]]--
-
-local chn, rplc
-do
-	rplc = {
+--[[---------------------------------------------]]--
+	local rplc = {
 		"[GEN]", --General
 		"[T]", --Trade
 		"[WD]", --WorldDefense
@@ -30,25 +29,44 @@ do
 		"[RL]", --Raid Leader
 		"[RW]", --Raid Warning
 	}
-	chn = {
-		"%[%d+%. General.-%]",
-		"%[%d+%. Trade.-%]",
-		"%[%d+%. WorldDefense%]",
-		"%[%d+%. LocalDefense.-%]",
-		"%[%d+%. LookingForGroup%]",
-		"%[%d+%. GuildRecruitment.-%]",
-		gsub(CHAT_BATTLEGROUND_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_BATTLEGROUND_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_PARTY_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_PARTY_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_OFFICER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-	}
+--[[---------------------------------------------]]--
 
+--[[
+	DO NOT EDIT ANYTHING BELOW HERE
+]]--
+local chn = {
+	"%[%d+%. General.-%]",
+	"%[%d+%. Trade.-%]",
+	"%[%d+%. WorldDefense%]",
+	"%[%d+%. LocalDefense.-%]",
+	"%[%d+%. LookingForGroup%]",
+	"%[%d+%. GuildRecruitment.-%]",
+	gsub(CHAT_BATTLEGROUND_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_BATTLEGROUND_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_PARTY_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_PARTY_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_OFFICER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+	gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+}
+
+local function AddMessage(frame, text, ...)
+	for i = 1, 16 do
+		text = gsub(text, chn[i], rplc[i])
+	end
+
+	--If Blizz timestamps is enabled, stamp anything it misses
+	if CHAT_TIMESTAMP_FORMAT and not text:find("^|r") then
+		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
+	end
+	text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
+	return newAddMsg[frame:GetName()](frame, text, ...)
+end
+
+f.functions[#f.functions+1] = function()
 	local L = GetLocale()
 	if L == "ruRU" then --Russian
 		chn[1] = "%[%d+%. Общий.-%]"
@@ -65,27 +83,12 @@ do
 		chn[5] = "%[%d+%. SucheNachGruppe%]"
 		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
 	end
-end
 
-local function AddMessage(frame, text, ...)
-	for i = 1, 16 do
-		text = gsub(text, chn[i], rplc[i])
-	end
-
-	--If Blizz timestamps is enabled, stamp anything it misses
-	if CHAT_TIMESTAMP_FORMAT and not text:find("^|r") then
-		text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
-	end
-	text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
-	return newAddMsg[frame:GetName()](frame, text, ...)
-end
-
-do
 	for i = 1, 5 do
 		if i ~= 2 then -- skip combatlog
-			local f = _G[format("%s%d", "ChatFrame", i)]
-			newAddMsg[format("%s%d", "ChatFrame", i)] = f.AddMessage
-			f.AddMessage = AddMessage
+			local cF = _G[format("%s%d", "ChatFrame", i)]
+			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage
+			cF.AddMessage = AddMessage
 		end
 	end
 end
