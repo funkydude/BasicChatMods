@@ -2,14 +2,16 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 5.00
+## Version: 6.00
 ## Title: BasicChatMods
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
 dont_disable.lua
 
+#Yes, you can disable this if you want!
+BasicConfig.lua
 
-
+#You can disable the modules below by putting 1 # in front of them
 buttons.lua
 channelnames.lua
 chatcopy.lua
