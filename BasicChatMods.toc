@@ -4,6 +4,7 @@
 ## Notes: Basic Chat Mods!
 ## Version: 6.00
 ## Title: BasicChatMods
+## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
 dont_disable.lua

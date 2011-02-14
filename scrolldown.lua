@@ -23,7 +23,8 @@ end
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if f.hideFunc then --Don't load this module if button hide module is disabled
+	if bcmDB.scrolldownDisabled then return end
+	if not bcmDB.buttonHideDisabled then --Don't load this module if button hide module is disabled
 		for i=1, 10 do
 			local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 			btn:ClearAllPoints()

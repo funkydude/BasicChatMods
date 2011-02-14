@@ -11,12 +11,14 @@ f.functions = {}
 f.fire = CreateFrame("Frame")
 f.fire:RegisterEvent("PLAYER_LOGIN")
 f.fire:SetScript("OnEvent", function()
+	if type(bcmDB) ~= "table" then
+		bcmDB = {}
+	end
 	for i = 1, #f.functions do
 		f.functions[i]()
 	end
 	wipe(f.functions)
 	f.functions = nil
-	f.hideFunc = nil
 	f.fire:SetScript("OnEvent", nil)
 	f.fire = nil
 end)
