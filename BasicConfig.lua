@@ -41,12 +41,12 @@ f.functions[#f.functions+1] = function()
 	InterfaceOptions_AddCategory(bcm)
 	local title = bcm:CreateFontString("BCM_Title", "ARTWORK", "GameFontNormal")
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText("A /reload is required for changes to take effect.\nAdd some useful text here, maybe about life and it's meaning, maybe about BCM.")
+	title:SetText("A /reload is required for changes to take effect.\n\n\n\nAdd some useful text here, maybe about life and it's meaning,\n ..or maybe about BCM?\n\n\n\n42!!!!")
 
 	--[[ Button Hide Module ]]--
 	local buttons = CreateFrame("Frame", "BCM_ButtonHide", bcm)
 	buttons.name, buttons.parent = "Button Hide", name
-	local buttonsCheckbox = CreateFrame("CheckButton", nil, buttons, "OptionsBaseCheckButtonTemplate")
+	local buttonsCheckbox = CreateFrame("CheckButton", nil, buttons)
 	makeButton(buttonsCheckbox)
 	buttonsCheckbox:SetPoint("TOPLEFT", 16, -25)
 
@@ -55,6 +55,17 @@ f.functions[#f.functions+1] = function()
 	buttonsCheckboxText:SetText(ENABLE)
 	InterfaceOptions_AddCategory(buttons)
 
+	--[[ URLCopy Module ]]--
+	local urls = CreateFrame("Frame", "BCM_URLCopy", bcm)
+	urls.name, urls.parent = "URLCopy", name
+	local urlsCheckbox = CreateFrame("CheckButton", nil, urls)
+	makeButton(urlsCheckbox)
+	urlsCheckbox:SetPoint("TOPLEFT", 16, -25)
+
+	local urlsCheckboxText = urls:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	urlsCheckboxText:SetPoint("LEFT", urlsCheckbox, "RIGHT", 0, 1)
+	urlsCheckboxText:SetText(ENABLE)
+	InterfaceOptions_AddCategory(urls)
 
 	makeButton = nil
 end

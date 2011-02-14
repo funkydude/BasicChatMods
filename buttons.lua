@@ -2,10 +2,10 @@
 --[[		Button Hide Module		]]--
 
 local _, f = ...
-local hideFunc = function(frame) frame:Hide() end
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_ButtonHide then return end
 
+	local hideFunc = function(frame) frame:Hide() end
 	ChatFrameMenuButton:SetScript("OnShow", hideFunc) --Hide the chat shortcut button for emotes/languages/etc
 	ChatFrameMenuButton:Hide() --Hide the chat shortcut button for emotes/languages/etc
 	FriendsMicroButton:SetScript("OnShow", hideFunc) --Hide the "Friends Online" count button
