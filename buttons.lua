@@ -4,7 +4,7 @@
 local _, f = ...
 local hideFunc = function(frame) frame:Hide() end
 f.functions[#f.functions+1] = function()
-	if bcmDB.buttonHideDisabled then return end
+	if bcmDB.BCM_ButtonHide then return end
 
 	ChatFrameMenuButton:SetScript("OnShow", hideFunc) --Hide the chat shortcut button for emotes/languages/etc
 	ChatFrameMenuButton:Hide() --Hide the chat shortcut button for emotes/languages/etc

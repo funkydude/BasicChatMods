@@ -19,6 +19,7 @@ f.fire:SetScript("OnEvent", function()
 	end
 	wipe(f.functions)
 	f.functions = nil
+	f.fire:UnregisterEvent("PLAYER_LOGIN")
 	f.fire:SetScript("OnEvent", nil)
 	f.fire = nil
 end)
