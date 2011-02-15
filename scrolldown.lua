@@ -40,6 +40,9 @@ f.functions[#f.functions+1] = function()
 		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 		btn:ClearAllPoints()
 		local cf = btn:GetParent():GetParent()
+		if GetCVarBool("chatMouseScroll") then
+			cf:SetScript("OnMouseWheel", FloatingChatFrame_OnMouseScroll)
+		end
 		cf:HookScript("OnShow", FloatingChatFrame_OnMouseScroll)
 		btn:SetParent(cf)
 		btn:SetPoint("TOPRIGHT")
