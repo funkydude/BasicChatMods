@@ -1,39 +1,12 @@
 
+--[[		Channel Name Replacements Module		]]--
+
 local gsub = _G.string.gsub
 local time = _G.time
 local newAddMsg = {}
+local rplc
 local _, f = ...
 
---[[		Channel Name Replacements Module		]]--
-
---[[
-	To customize what you want for channel names
-	simply change the text in the brackets []
-]]--
---[[---------------------------------------------]]--
-	local rplc = {
-		"[GEN]", --General
-		"[T]", --Trade
-		"[WD]", --WorldDefense
-		"[LD]", --LocalDefense
-		"[LFG]", --LookingForGroup
-		"[GR]", --GuildRecruitment
-		"[BG]", --Battleground
-		"[BGL]", --Battleground Leader
-		"[G]", --Guild
-		"[P]", --Party
-		"[PL]", --Party Leader
-		"[PL]", --Party Leader (Guide)
-		"[O]", --Officer
-		"[R]", --Raid
-		"[RL]", --Raid Leader
-		"[RW]", --Raid Warning
-	}
---[[---------------------------------------------]]--
-
---[[
-	DO NOT EDIT ANYTHING BELOW HERE
-]]--
 local chn = {
 	"%[%d+%. General.-%]",
 	"%[%d+%. Trade.-%]",
@@ -53,7 +26,7 @@ local chn = {
 	gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 }
 
-local function AddMessage(frame, text, ...)
+local AddMessage = function(frame, text, ...)
 	for i = 1, 16 do
 		text = gsub(text, chn[i], rplc[i])
 	end
@@ -67,6 +40,34 @@ local function AddMessage(frame, text, ...)
 end
 
 f.functions[#f.functions+1] = function()
+	if bcmDB.BCM_ChannelNames then
+		wipe(chn)
+		bcmDB.replacements, AddMessage, newAddMsg, chn = nil, nil, nil, nil
+		return
+	end
+
+	if not bcmDB.replacements then
+		bcmDB.replacements = {
+			"[GEN]", --General
+			"[T]", --Trade
+			"[WD]", --WorldDefense
+			"[LD]", --LocalDefense
+			"[LFG]", --LookingForGroup
+			"[GR]", --GuildRecruitment
+			"[BG]", --Battleground
+			"[BGL]", --Battleground Leader
+			"[G]", --Guild
+			"[P]", --Party
+			"[PL]", --Party Leader
+			"[PL]", --Party Leader (Guide)
+			"[O]", --Officer
+			"[R]", --Raid
+			"[RL]", --Raid Leader
+			"[RW]", --Raid Warning
+		}
+	end
+	rplc = bcmDB.replacements
+
 	local L = GetLocale()
 	if L == "ruRU" then --Russian
 		chn[1] = "%[%d+%. Общий.-%]"

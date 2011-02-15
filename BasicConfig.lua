@@ -41,7 +41,7 @@ f.functions[#f.functions+1] = function()
 	InterfaceOptions_AddCategory(bcm)
 	local title = bcm:CreateFontString("BCM_Title", "ARTWORK", "GameFontNormal")
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText("A /reload is required for changes to take effect.\n\n\n\nAdd some useful text here, maybe about life and it's meaning,\n ..or maybe about BCM?\n\n\n\n42!!!!")
+	title:SetText(">>ALL changes in this config require a /reload to take effect.<<\n\n\n\nAdd some useful text here, maybe about life and it's meaning,\n ..or maybe about BCM?\n\n\n\n42!!!!")
 
 	--[[ Button Hide Module ]]--
 	local buttons = CreateFrame("Frame", "BCM_ButtonHide", bcm)
@@ -54,6 +54,34 @@ f.functions[#f.functions+1] = function()
 	buttonsCheckboxText:SetPoint("LEFT", buttonsCheckbox, "RIGHT", 0, 1)
 	buttonsCheckboxText:SetText(ENABLE)
 	InterfaceOptions_AddCategory(buttons)
+
+	--[[ Channel Names Module ]]--
+	local chanNames = CreateFrame("Frame", "BCM_ChannelNames", bcm)
+	chanNames.name, chanNames.parent = "Channel Names", name
+	local chanNamesCheckbox = CreateFrame("CheckButton", nil, chanNames)
+	makeButton(chanNamesCheckbox)
+	chanNamesCheckbox:SetPoint("TOPLEFT", 16, -25)
+
+	local chanNamesCheckboxText = chanNames:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	chanNamesCheckboxText:SetPoint("LEFT", chanNamesCheckbox, "RIGHT", 0, 1)
+	chanNamesCheckboxText:SetText(ENABLE)
+	InterfaceOptions_AddCategory(chanNames)
+
+	if not bcmDB.BCM_ChannelNames then
+		--Delicious customizable channel names config loaded on demand
+	end
+
+	--[[ Chat Copy Module ]]--
+	local copy = CreateFrame("Frame", "BCM_ChatCopy", bcm)
+	copy.name, copy.parent = "Chat Copy", name
+	local copyCheckbox = CreateFrame("CheckButton", nil, copy)
+	makeButton(copyCheckbox)
+	copyCheckbox:SetPoint("TOPLEFT", 16, -25)
+
+	local copyCheckboxText = copy:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	copyCheckboxText:SetPoint("LEFT", copyCheckbox, "RIGHT", 0, 1)
+	copyCheckboxText:SetText(ENABLE)
+	InterfaceOptions_AddCategory(copy)
 
 	--[[ URLCopy Module ]]--
 	local urls = CreateFrame("Frame", "BCM_URLCopy", bcm)

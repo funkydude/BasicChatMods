@@ -45,6 +45,11 @@ local hintFunc = function(frame)
 end
 
 f.functions[#f.functions+1] = function()
+	if bcmDB.BCM_ChatCopy then
+		copyFunc, hintFunc, lines = nil, nil, nil
+		return
+	end
+
 	--Create Frames/Objects
 	local frame = CreateFrame("Frame", "BCMCopyFrame", UIParent)
 	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
