@@ -1,11 +1,6 @@
 
 --[[		Fade Module		]]--
 
---[[
-	Fade out the chat frames completely instead
-	of partially. Like patch 3.3.3 and before.
-]]--
-
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_Fade then

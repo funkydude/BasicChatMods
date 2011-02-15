@@ -51,11 +51,16 @@ f.functions[#f.functions+1] = function()
 	--[[ Button Hide Module ]]--
 	local buttons = CreateFrame("Frame", "BCM_ButtonHide", bcm)
 	buttons.name, buttons.parent = "Button Hide", name
+	local buttonsDesc = buttons:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	buttonsDesc:SetPoint("TOPLEFT", 16, -16)
+	buttonsDesc:SetText("This module will completely hide the chat frame side buttons. It gives the chat frame a much cleaner look.")
+	buttonsDesc:SetWidth(100)
+	buttonsDesc:SetWordWrap(true)
+
 	local buttonsCheckbox = CreateFrame("CheckButton", nil, buttons)
 	makeButton(buttonsCheckbox)
-	buttonsCheckbox:SetPoint("TOPLEFT", 16, -25)
-
-	local buttonsCheckboxText = buttons:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	buttonsCheckbox:SetPoint("TOPLEFT", 16, -30)
+	local buttonsCheckboxText = buttons:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	buttonsCheckboxText:SetPoint("LEFT", buttonsCheckbox, "RIGHT", 0, 1)
 	buttonsCheckboxText:SetText(ENABLE)
 	InterfaceOptions_AddCategory(buttons)
@@ -103,11 +108,16 @@ f.functions[#f.functions+1] = function()
 	--[[ Fade Module ]]--
 	local fade = CreateFrame("Frame", "BCM_Fade", bcm)
 	fade.name, fade.parent = "Fade", name
+	local fadeDesc = fade:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	fadeDesc:SetPoint("TOPLEFT", 16, -16)
+	fadeDesc:SetText("This module will fade out the chat frames completely instead of partially when moving your mouse away. Like WoW v3.3.3 and before.")
+	fadeDesc:SetWidth(100)
+	fadeDesc:SetWordWrap(true)
+
 	local fadeCheckbox = CreateFrame("CheckButton", nil, fade)
 	makeButton(fadeCheckbox)
-	fadeCheckbox:SetPoint("TOPLEFT", 16, -25)
-
-	local fadeCheckboxText = fade:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	fadeCheckbox:SetPoint("TOPLEFT", 16, -30)
+	local fadeCheckboxText = fade:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	fadeCheckboxText:SetPoint("LEFT", fadeCheckbox, "RIGHT", 0, 1)
 	fadeCheckboxText:SetText(ENABLE)
 	InterfaceOptions_AddCategory(fade)
