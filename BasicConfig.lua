@@ -31,6 +31,11 @@ local makeButton = function(frame)
 	frame:SetScript("OnShow", onShow)
 end
 f.functions[#f.functions+1] = function()
+	if bcmDB.noconfig then
+		makeButton, onShow, onClick = nil, nil, nil
+		return
+	end
+
 	--[[ Slash handler ]]--
 	SlashCmdList[name] = function() InterfaceOptionsFrame_OpenToCategory(name) end
 	SLASH_BasicChatMods1 = "/bcm"
