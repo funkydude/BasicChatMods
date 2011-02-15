@@ -1,15 +1,6 @@
 
 --[[		ChatCopy Module		]]--
 
---[[
-	DO NOT MODIFY
-	This module allows you to easily
-	copy text from chat by allowing
-	you to double-click a chat frame tab
-	then displaying a pop-up containing
-	the entire chat frame history.
-]]--
-
 local lines = {}
 local _, f = ...
 

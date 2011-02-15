@@ -1,14 +1,6 @@
 
 --[[		EditBox Module		]]--
 
---[[
-	Move the editbox to the top of the
-	chat frame instead of the bottom.
-
-	Also enable arrow keyboard buttons
-	for editing text in the textbox.
-]]--
-
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_EditBox then
