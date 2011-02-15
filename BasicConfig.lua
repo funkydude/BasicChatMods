@@ -88,9 +88,33 @@ f.functions[#f.functions+1] = function()
 	copyCheckboxText:SetText(ENABLE)
 	InterfaceOptions_AddCategory(copy)
 
+	--[[ Edit Box Module ]]--
+	local edit = CreateFrame("Frame", "BCM_EditBox", bcm)
+	edit.name, edit.parent = "Edit Box", name
+	local editCheckbox = CreateFrame("CheckButton", nil, edit)
+	makeButton(editCheckbox)
+	editCheckbox:SetPoint("TOPLEFT", 16, -25)
+
+	local editCheckboxText = edit:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	editCheckboxText:SetPoint("LEFT", editCheckbox, "RIGHT", 0, 1)
+	editCheckboxText:SetText(ENABLE)
+	InterfaceOptions_AddCategory(edit)
+
+	--[[ Fade Module ]]--
+	local fade = CreateFrame("Frame", "BCM_Fade", bcm)
+	fade.name, fade.parent = "Fade", name
+	local fadeCheckbox = CreateFrame("CheckButton", nil, fade)
+	makeButton(fadeCheckbox)
+	fadeCheckbox:SetPoint("TOPLEFT", 16, -25)
+
+	local fadeCheckboxText = fade:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	fadeCheckboxText:SetPoint("LEFT", fadeCheckbox, "RIGHT", 0, 1)
+	fadeCheckboxText:SetText(ENABLE)
+	InterfaceOptions_AddCategory(fade)
+
 	--[[ URLCopy Module ]]--
 	local urls = CreateFrame("Frame", "BCM_URLCopy", bcm)
-	urls.name, urls.parent = "URLCopy", name
+	urls.name, urls.parent = "URL Copy", name
 	local urlsCheckbox = CreateFrame("CheckButton", nil, urls)
 	makeButton(urlsCheckbox)
 	urlsCheckbox:SetPoint("TOPLEFT", 16, -25)
