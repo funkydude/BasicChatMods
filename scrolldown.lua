@@ -1,11 +1,9 @@
 
 --[[		Scrolldown Module		]]--
 
-local clickFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide then
-		clickFunc = nil
 		return
 	end
 
@@ -36,6 +34,8 @@ f.functions[#f.functions+1] = function()
 			_G[n.."ButtonFrameBottomButton"]:Show()
 		end
 	end
+
+	local clickFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
 	for i=1, 10 do
 		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 		btn:ClearAllPoints()
