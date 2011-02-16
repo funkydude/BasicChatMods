@@ -5,6 +5,11 @@ f.functions[#f.functions+1] = function()
 		return
 	end
 
+	local L = {}
+	L.LEFT = "Left"
+	L.RIGHT = "Right"
+	L.CENTER = "Center"
+
 	local onClick = function(frame)
 		local tick = frame:GetChecked()
 		if tick then
@@ -32,17 +37,12 @@ f.functions[#f.functions+1] = function()
 		panelDesc:SetWordWrap(true)
 		InterfaceOptions_AddCategory(panel)
 
-		--GlueXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate
-		local button = CreateFrame("CheckButton", nil, panel)
-		button:SetWidth(26)
-		button:SetHeight(26)
-		button:SetHitRectInsets(0, -100, 0, 0)
-		button:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
-		button:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
-		button:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
-		button:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+		--FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate
+		local button = CreateFrame("CheckButton", nil, panel, "OptionsBaseCheckButtonTemplate")
 		button:SetScript("OnClick", onClick)
 		button:SetScript("OnShow", onShow)
+		button:SetScript("OnEnter", nil)
+		button:SetScript("OnLeave", nil)
 		button:SetPoint("TOPLEFT", 16, -80)
 		local buttonText = panel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		buttonText:SetPoint("LEFT", button, "RIGHT", 0, 1)
@@ -84,7 +84,75 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_Justify", bcm, "Justify Text", "This module allows you to justify the text of the various chat frames to the right, left, or center.")
 
 	if not bcmDB.BCM_Justify then
-		--create dropdown widgets here
+		--FrameXML/UIDropDownMenuTemplates.xml --> UIDropDownMenuTemplate
+		local getName = "BCM_Justify_Get"
+		local get = CreateFrame("Frame", getName, BCM_Justify, "UIDropDownMenuTemplate")
+		get:SetPoint("TOPLEFT", 16, -120)
+		get:SetWidth(149) get:SetHeight(32)
+		get:SetScript("OnHide", nil)
+		_G[getName.."Text"]:SetText("ChatFrame1")
+		_G[getName.."Button"]:SetScript("OnEnter", nil)
+		_G[getName.."Button"]:SetScript("OnLeave", nil)
+		UIDropDownMenu_Initialize(get, function()
+			local selected, info = BCM_Justify_GetText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_Justify_GetText:SetText(v.value)
+				if bcmDB.justify and bcmDB.justify[v.value] then
+					BCM_Justify_SetText:SetText(L[bcmDB.justify[v.value]])
+				else
+					BCM_Justify_SetText:SetText(L.LEFT)
+				end
+			end
+
+			for i=1, 10 do
+				info.text = ("ChatFrame%d"):format(i)
+				info.value = info.text
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+		end)
+
+		local setName = "BCM_Justify_Set"
+		local set = CreateFrame("Frame", setName, BCM_Justify, "UIDropDownMenuTemplate")
+		set:SetPoint("LEFT", get, "RIGHT", 60, 0)
+		set:SetWidth(125) set:SetHeight(32)
+		set:SetScript("OnHide", nil)
+		if bcmDB.justify and bcmDB.justify[BCM_Justify_GetText:GetText()] then
+			_G[setName.."Text"]:SetText(bcmDB.justify[BCM_Justify_GetText:GetText()])
+		else
+			_G[setName.."Text"]:SetText("Left")
+		end
+		_G[setName.."Button"]:SetScript("OnEnter", nil)
+		_G[setName.."Button"]:SetScript("OnLeave", nil)
+		UIDropDownMenu_Initialize(set, function()
+			local selected, info = BCM_Justify_SetText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_Justify_SetText:SetText(v:GetText())
+				if not bcmDB.justify then bcmDB.justify = {} end
+				if v.value == "RIGHT" or v.value == "CENTER" then
+					bcmDB.justify[BCM_Justify_GetText:GetText()] = v.value
+				else
+					bcmDB.justify[BCM_Justify_GetText:GetText()] = nil
+					--remove the table if we have no entries
+					local w = nil
+					for k in pairs(bcmDB.justify) do w = true end
+					if not w then bcmDB.justify = nil end
+				end
+			end
+
+			info.text = L.LEFT
+			info.value = "LEFT"
+			info.checked = info.text == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L.RIGHT
+			info.value = "RIGHT"
+			info.checked = info.text == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L.CENTER
+			info.value = "CENTER"
+			info.checked = info.text == selected
+			UIDropDownMenu_AddButton(info)
+		end)
 	end
 
 	--[[ URLCopy Module ]]--
