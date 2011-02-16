@@ -143,6 +143,12 @@ f.functions[#f.functions+1] = function()
 		end)
 	end
 
+	--[[ Outline ]]--
+	--makePanel("BCM_Outline", bcm, "Outline", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
+
+	--[[ Scroll Down ]]--
+	makePanel("BCM_ScrollDown", bcm, "Scroll Down", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
+
 	--[[ URLCopy Module ]]--
 	makePanel("BCM_URLCopy", bcm, "URL Copy", "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r")
 
