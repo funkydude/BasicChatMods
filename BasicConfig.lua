@@ -149,6 +149,61 @@ f.functions[#f.functions+1] = function()
 	--[[ Scroll Down ]]--
 	makePanel("BCM_ScrollDown", bcm, "Scroll Down", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
 
+	--[[ Sticky ]]--
+	makePanel("BCM_Sticky", bcm, "Sticky", "This module 'sticks' the last chat type you used so that you don't need to re-enter it again next time you chat.")
+
+	if not bcmDB.BCM_Sticky then
+		local stickyName = "BCM_Sticky_Drop"
+		local sticky = CreateFrame("Frame", stickyName, BCM_Sticky, "UIDropDownMenuTemplate")
+		sticky:SetPoint("TOPLEFT", 16, -120)
+		sticky:SetWidth(149) sticky:SetHeight(32)
+		_G[stickyName.."Text"]:SetText(SAY)
+		UIDropDownMenu_Initialize(sticky, function()
+			local selected, info = BCM_Sticky_DropText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
+				if ChatTypeInfo[v.value].sticky > 0 then
+					BCM_Sticky_Button:SetChecked(true)
+				else
+					BCM_Sticky_Button:SetChecked(false)
+				end
+				BCM_Sticky_Button.value = v.value
+			end
+			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
+			for i=1, #tbl do
+				info.text = _G[tbl[i]]
+				info.value = tbl[i]
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+			wipe(tbl) tbl = nil
+		end)
+
+		local stickyBtn = CreateFrame("CheckButton", "BCM_Sticky_Button", BCM_Sticky, "OptionsBaseCheckButtonTemplate")
+		stickyBtn.value = "SAY"
+		stickyBtn:SetScript("OnClick", function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				ChatTypeInfo[frame.value].sticky = 1
+				bcmDB.sticky[frame.value] = 1
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				ChatTypeInfo[frame.value].sticky = 0
+				bcmDB.sticky[frame.value] = 0
+			end
+		end)
+		stickyBtn:SetScript("OnShow", function(frame)
+			if ChatTypeInfo[frame.value].sticky > 0 then
+				frame:SetChecked(true)
+			else
+				frame:SetChecked(false)
+			end
+		end)
+		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 60, 0)
+		local stickyBtnText = BCM_Sticky:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT", 0, 1)
+		stickyBtnText:SetText("Sticky")
+	end
+
 	--[[ URLCopy Module ]]--
 	makePanel("BCM_URLCopy", bcm, "URL Copy", "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r")
 
