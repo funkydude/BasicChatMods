@@ -10,6 +10,13 @@ f.functions[#f.functions+1] = function()
 	L.RIGHT = "Right"
 	L.CENTER = "Center"
 
+	L.GENERAL = "General"
+	L.TRADE = "Trade"
+	L.WORLDDEFENSE = "WorldDefense"
+	L.LOCALDEFENSE = "LocalDefense"
+	L.LFG = "LookingForGroup"
+	L.GUILDRECRUIT = "GuildRecruitment"
+
 	local onClick = function(frame)
 		local tick = frame:GetChecked()
 		if tick then
@@ -66,7 +73,24 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_ChannelNames", bcm, "Channel Names", "This module allows you to selectively replace the channel names with custom names of your liking.")
 
 	if not bcmDB.BCM_ChannelNames then
-		--Delicious customizable channel names config loaded on demand
+		local chanName = "BCM_ChanName_Drop"
+		local chan = CreateFrame("Frame", chanName, BCM_ChannelNames, "UIDropDownMenuTemplate")
+		chan:SetPoint("TOPLEFT", 16, -120)
+		chan:SetWidth(149) chan:SetHeight(32)
+		_G[chanName.."Text"]:SetText(L.GENERAL)
+		UIDropDownMenu_Initialize(chan, function()
+			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
+			end
+			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING}
+			for i=1, #tbl do
+				info.text = tbl[i]
+				info.value = i
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+			wipe(tbl) tbl = nil
+		end)
 	end
 
 	--[[ Chat Copy Module ]]--
