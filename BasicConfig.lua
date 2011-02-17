@@ -5,7 +5,20 @@ f.functions[#f.functions+1] = function()
 		return
 	end
 
+--------------------------------------------------------------------------------
+-- Localization
+--
+
 	local L = {}
+	L.BCM_ButtonHide = "This module will completely hide the chat frame side buttons. It gives the chat frame a much cleaner look."
+	L.BCM_ChannelNames = "This module allows you to selectively replace the channel names with custom names of your liking."
+	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by simply double-clicking the chat frame tab."
+	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
+	L.BCM_Fade = "This module will fade out the chat frames completely instead of partially when moving your mouse away."
+	L.BCM_Justify = "This module allows you to justify the text of the various chat frames to the right, left, or center."
+	L.BCM_ScrollDown = "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom."
+	L.BCM_Sticky = "This module 'sticks' the last chat type you used so that you don't need to re-enter it again next time you chat."
+	L.BCM_URLCopy = "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
 	L.CENTER = "Center"
@@ -34,41 +47,33 @@ f.functions[#f.functions+1] = function()
 		L.GUILDRECRUIT = "Гильдии"
 	end
 
-	local onClick = function(frame)
-		local tick = frame:GetChecked()
-		if tick then
-			PlaySound("igMainMenuOptionCheckBoxOn")
-			bcmDB[frame:GetParent():GetName()] = nil
-		else
-			PlaySound("igMainMenuOptionCheckBoxOff")
-			bcmDB[frame:GetParent():GetName()] = true
-		end
-	end
+--------------------------------------------------------------------------------
+-- Core widgets/functions/etc
+--
+
 	local onShow = function(frame)
-		if bcmDB[frame:GetParent():GetName()] then
-			frame:SetChecked(false)
+		local btn = BCMEnableButton
+		btn:ClearAllPoints()
+		btn:SetParent(frame)
+		btn:SetPoint("TOPLEFT", 16, -80)
+
+		local desc = BCMPanelDesc
+		desc:ClearAllPoints()
+		desc:SetParent(frame)
+		desc:SetPoint("TOPLEFT", 16, -20)
+		desc:SetText(L[frame:GetName()] or "test")
+
+		if bcmDB[frame:GetName()] then
+			btn:SetChecked(false)
 		else
-			frame:SetChecked(true)
+			btn:SetChecked(true)
 		end
 	end
 	local makePanel = function(frameName, bcm, panelName, desc)
 		local panel = CreateFrame("Frame", frameName, bcm)
 		panel.name, panel.parent = panelName, name
-		local panelDesc = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-		panelDesc:SetPoint("TOPLEFT", 16, -20)
-		panelDesc:SetText(desc)
-		panelDesc:SetWidth(350)
-		panelDesc:SetWordWrap(true)
+		panel:SetScript("OnShow", onShow)
 		InterfaceOptions_AddCategory(panel)
-
-		--FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate
-		local button = CreateFrame("CheckButton", nil, panel, "OptionsBaseCheckButtonTemplate")
-		button:SetScript("OnClick", onClick)
-		button:SetScript("OnShow", onShow)
-		button:SetPoint("TOPLEFT", 16, -80)
-		local buttonText = panel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		buttonText:SetPoint("LEFT", button, "RIGHT", 0, 1)
-		buttonText:SetText(ENABLE)
 	end
 
 	--[[ Slash handler ]]--
@@ -83,11 +88,36 @@ f.functions[#f.functions+1] = function()
 	title:SetPoint("TOPLEFT", 16, -16)
 	title:SetText(">>ALL changes in this config require a /reload to take effect.<<\n\n\n\nAdd some useful text here, maybe about life and it's meaning,\n ..or maybe about BCM?\n\n\n\n42!!!!")
 
+	--[[ FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate ]]--
+	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
+	local panelDesc = bcm:CreateFontString("BCMPanelDesc", "ARTWORK", "GameFontNormalLarge")
+	panelDesc:SetWidth(350)
+	panelDesc:SetWordWrap(true)
+	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", BCM, "OptionsBaseCheckButtonTemplate")
+	enableBtn:SetScript("OnClick", function(frame)
+		local tick = frame:GetChecked()
+		if tick then
+			PlaySound("igMainMenuOptionCheckBoxOn")
+			bcmDB[frame:GetParent():GetName()] = nil
+		else
+			PlaySound("igMainMenuOptionCheckBoxOff")
+			bcmDB[frame:GetParent():GetName()] = true
+		end
+	end)
+	local enableBtnText = enableBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	enableBtnText:SetPoint("LEFT", enableBtn, "RIGHT", 0, 1)
+	enableBtnText:SetText(ENABLE)
+
+
+--------------------------------------------------------------------------------
+-- Module Panel Creation
+--
+
 	--[[ Button Hide Module ]]--
-	makePanel("BCM_ButtonHide", bcm, "Button Hide", "This module will completely hide the chat frame side buttons. It gives the chat frame a much cleaner look.")
+	makePanel("BCM_ButtonHide", bcm, "Button Hide")
 
 	--[[ Channel Names Module ]]--
-	makePanel("BCM_ChannelNames", bcm, "Channel Names", "This module allows you to selectively replace the channel names with custom names of your liking.")
+	makePanel("BCM_ChannelNames", bcm, "Channel Names")
 
 	if not bcmDB.BCM_ChannelNames then
 		local chanName = "BCM_ChanName_Drop"
@@ -127,16 +157,16 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--[[ Chat Copy Module ]]--
-	makePanel("BCM_ChatCopy", bcm, "Chat Copy", "This module allows you to copy chat directly from your chat frame by simply double-clicking the chat frame tab.")
+	makePanel("BCM_ChatCopy", bcm, "Chat Copy")
 
 	--[[ Edit Box Module ]]--
-	makePanel("BCM_EditBox", bcm, "Edit Box", "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom.")
+	makePanel("BCM_EditBox", bcm, "Edit Box")
 
 	--[[ Fade Module ]]--
-	makePanel("BCM_Fade", bcm, "Fade", "This module will fade out the chat frames completely instead of partially when moving your mouse away.")
+	makePanel("BCM_Fade", bcm, "Fade")
 
 	--[[ Justify Module ]]--
-	makePanel("BCM_Justify", bcm, "Justify Text", "This module allows you to justify the text of the various chat frames to the right, left, or center.")
+	makePanel("BCM_Justify", bcm, "Justify Text")
 
 	if not bcmDB.BCM_Justify then
 		--FrameXML/UIDropDownMenuTemplates.xml --> UIDropDownMenuTemplate
@@ -204,10 +234,10 @@ f.functions[#f.functions+1] = function()
 	--makePanel("BCM_Outline", bcm, "Outline", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
 
 	--[[ Scroll Down ]]--
-	makePanel("BCM_ScrollDown", bcm, "Scroll Down", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
+	makePanel("BCM_ScrollDown", bcm, "Scroll Down")
 
 	--[[ Sticky ]]--
-	makePanel("BCM_Sticky", bcm, "Sticky", "This module 'sticks' the last chat type you used so that you don't need to re-enter it again next time you chat.")
+	makePanel("BCM_Sticky", bcm, "Sticky")
 
 	if not bcmDB.BCM_Sticky then
 		local stickyName = "BCM_Sticky_Drop"
@@ -262,7 +292,7 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--[[ URLCopy Module ]]--
-	makePanel("BCM_URLCopy", bcm, "URL Copy", "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r")
+	makePanel("BCM_URLCopy", bcm, "URL Copy")
 
 	makePanel = nil
 end
