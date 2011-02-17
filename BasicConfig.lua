@@ -17,6 +17,23 @@ f.functions[#f.functions+1] = function()
 	L.LFG = "LookingForGroup"
 	L.GUILDRECRUIT = "GuildRecruitment"
 
+	local GetL = GetLocale()
+	if L == "deDE" then
+		L.GENERAL = "Allgemein"
+		L.TRADE = "Handel"
+		L.WORLDDEFENSE = "Weltverteidigung"
+		L.LOCALDEFENSE = "LokaleVerteidigung"
+		L.LFG = "SucheNachGruppe"
+		L.GUILDRECRUIT = "Gildenrekrutierung"
+	elseif L == "ruRU" then
+		L.GENERAL = "Общий"
+		L.TRADE = "Торговля"
+		L.WORLDDEFENSE = "Оборона: глобальный"
+		L.LOCALDEFENSE = "Оборона"
+		L.LFG = "Поиск спутников"
+		L.GUILDRECRUIT = "Гильдии"
+	end
+
 	local onClick = function(frame)
 		local tick = frame:GetChecked()
 		if tick then
@@ -77,10 +94,14 @@ f.functions[#f.functions+1] = function()
 		local chan = CreateFrame("Frame", chanName, BCM_ChannelNames, "UIDropDownMenuTemplate")
 		chan:SetPoint("TOPLEFT", 16, -120)
 		chan:SetWidth(149) chan:SetHeight(32)
-		_G[chanName.."Text"]:SetText(L.GENERAL)
+		_G[chanName.."Text"]:SetText(CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
 			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
+				BCM_ChanName_Input:EnableMouse(true)
+				BCM_ChanName_Input:SetText("1234567890") --for some reason the text wont display without calling something long
+				BCM_ChanName_Input:SetText(bcmDB.replacements[v.value])
+				BCM_ChanName_Drop.value = v.value
 			end
 			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING}
 			for i=1, #tbl do
@@ -90,6 +111,18 @@ f.functions[#f.functions+1] = function()
 				UIDropDownMenu_AddButton(info)
 			end
 			wipe(tbl) tbl = nil
+		end)
+
+		local chanNameInput = CreateFrame("EditBox", "BCM_ChanName_Input", BCM_ChannelNames, "InputBoxTemplate")
+		chanNameInput:SetPoint("LEFT", chan, "RIGHT", 60, 0)
+		chanNameInput:SetAutoFocus(false)
+		chanNameInput:SetWidth(100)
+		chanNameInput:SetHeight(20)
+		chanNameInput:SetJustifyH("CENTER")
+		chanNameInput:SetMaxLetters(10)
+		chanNameInput:EnableMouse(false)
+		chanNameInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.replacements[BCM_ChanName_Drop.value] = frame:GetText() end
 		end)
 	end
 
