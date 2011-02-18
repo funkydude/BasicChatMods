@@ -16,6 +16,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
+	L.BCM_FontCustomize = "Coming soon..."
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -57,7 +58,7 @@ f.functions[#f.functions+1] = function()
 --
 
 	local onShow = function(frame)
-		--Don't move things when opening the main BCM panel
+		--Don't move recycled widgets when opening the main BCM panel
 		if BCM:IsShown() then return end
 
 		local btn = BCMEnableButton
@@ -81,7 +82,7 @@ f.functions[#f.functions+1] = function()
 			btn:SetChecked(true)
 		end
 	end
-	local makePanel = function(frameName, bcm, panelName, desc)
+	local makePanel = function(frameName, bcm, panelName)
 		local panel = CreateFrame("Frame", frameName, bcm)
 		panel.name, panel.parent = panelName, name
 		panel:SetScript("OnShow", onShow)
@@ -105,7 +106,6 @@ f.functions[#f.functions+1] = function()
 	bcmDesc:SetWidth(375)
 	bcmDesc:SetJustifyH("CENTER")
 
-	--[[ FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate ]]--
 	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
 	local panelDesc = bcm:CreateFontString("BCMPanelDesc", "ARTWORK", "GameFontNormalLarge")
 	panelDesc:SetWidth(350)
@@ -188,16 +188,18 @@ f.functions[#f.functions+1] = function()
 	--[[ Fade Module ]]--
 	makePanel("BCM_Fade", bcm, "Fade")
 
+	--[[ Font Customize Module ]]--
+	--TODO convert Outline module into Font Customize module: font/size/outline
+	makePanel("BCM_FontCustomize", bcm, "Font Customize")
+
 	--[[ Justify Module ]]--
 	makePanel("BCM_Justify", bcm, "Justify Text")
 
 	if not bcmDB.BCM_Justify then
-		--FrameXML/UIDropDownMenuTemplates.xml --> UIDropDownMenuTemplate
-		local getName = "BCM_Justify_Get"
-		local get = CreateFrame("Frame", getName, BCM_Justify, "UIDropDownMenuTemplate")
+		local get = CreateFrame("Frame", "BCM_Justify_Get", BCM_Justify, "UIDropDownMenuTemplate")
 		get:SetPoint("TOPLEFT", 16, -140)
 		get:SetWidth(149) get:SetHeight(32)
-		_G[getName.."Text"]:SetText("ChatFrame1")
+		BCM_Justify_GetText:SetText("ChatFrame1")
 		UIDropDownMenu_Initialize(get, function()
 			local selected, info = BCM_Justify_GetText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_Justify_GetText:SetText(v.value)
@@ -215,14 +217,13 @@ f.functions[#f.functions+1] = function()
 			end
 		end)
 
-		local setName = "BCM_Justify_Set"
-		local set = CreateFrame("Frame", setName, BCM_Justify, "UIDropDownMenuTemplate")
+		local set = CreateFrame("Frame", "BCM_Justify_Set", BCM_Justify, "UIDropDownMenuTemplate")
 		set:SetPoint("LEFT", get, "RIGHT", 60, 0)
 		set:SetWidth(125) set:SetHeight(32)
 		if bcmDB.justify and bcmDB.justify[BCM_Justify_GetText:GetText()] then
-			_G[setName.."Text"]:SetText(bcmDB.justify[BCM_Justify_GetText:GetText()])
+			BCM_Justify_SetText:SetText(bcmDB.justify[BCM_Justify_GetText:GetText()])
 		else
-			_G[setName.."Text"]:SetText(L.LEFT)
+			BCM_Justify_SetText:SetText(L.LEFT)
 		end
 		UIDropDownMenu_Initialize(set, function()
 			local selected, info = BCM_Justify_SetText:GetText(), UIDropDownMenu_CreateInfo()
@@ -254,10 +255,6 @@ f.functions[#f.functions+1] = function()
 		end)
 	end
 
-	--[[ Outline ]]--
-	--TODO convert this module into more than just outline: font/size/outline "Text Customize" module?
-	--makePanel("BCM_Outline", bcm, "Outline")
-
 	--[[ Scroll Down ]]--
 	makePanel("BCM_ScrollDown", bcm, "Scroll Down")
 
@@ -265,11 +262,10 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_Sticky", bcm, "Sticky")
 
 	if not bcmDB.BCM_Sticky then
-		local stickyName = "BCM_Sticky_Drop"
-		local sticky = CreateFrame("Frame", stickyName, BCM_Sticky, "UIDropDownMenuTemplate")
+		local sticky = CreateFrame("Frame", "BCM_Sticky_Drop", BCM_Sticky, "UIDropDownMenuTemplate")
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		sticky:SetWidth(149) sticky:SetHeight(32)
-		_G[stickyName.."Text"]:SetText(GUILD_NEWS_MAKE_STICKY)
+		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
 		UIDropDownMenu_Initialize(sticky, function()
 			local selected, info = BCM_Sticky_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
