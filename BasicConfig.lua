@@ -55,7 +55,7 @@ f.functions[#f.functions+1] = function()
 		local btn = BCMEnableButton
 		btn:ClearAllPoints()
 		btn:SetParent(frame)
-		btn:SetPoint("TOPLEFT", 16, -80)
+		btn:SetPoint("TOPLEFT", 16, -100)
 
 		local desc = BCMPanelDesc
 		desc:ClearAllPoints()
@@ -122,7 +122,7 @@ f.functions[#f.functions+1] = function()
 	if not bcmDB.BCM_ChannelNames then
 		local chanName = "BCM_ChanName_Drop"
 		local chan = CreateFrame("Frame", chanName, BCM_ChannelNames, "UIDropDownMenuTemplate")
-		chan:SetPoint("TOPLEFT", 16, -120)
+		chan:SetPoint("TOPLEFT", 16, -140)
 		chan:SetWidth(149) chan:SetHeight(32)
 		_G[chanName.."Text"]:SetText(CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
@@ -172,7 +172,7 @@ f.functions[#f.functions+1] = function()
 		--FrameXML/UIDropDownMenuTemplates.xml --> UIDropDownMenuTemplate
 		local getName = "BCM_Justify_Get"
 		local get = CreateFrame("Frame", getName, BCM_Justify, "UIDropDownMenuTemplate")
-		get:SetPoint("TOPLEFT", 16, -120)
+		get:SetPoint("TOPLEFT", 16, -140)
 		get:SetWidth(149) get:SetHeight(32)
 		_G[getName.."Text"]:SetText("ChatFrame1")
 		UIDropDownMenu_Initialize(get, function()
@@ -242,7 +242,7 @@ f.functions[#f.functions+1] = function()
 	if not bcmDB.BCM_Sticky then
 		local stickyName = "BCM_Sticky_Drop"
 		local sticky = CreateFrame("Frame", stickyName, BCM_Sticky, "UIDropDownMenuTemplate")
-		sticky:SetPoint("TOPLEFT", 16, -120)
+		sticky:SetPoint("TOPLEFT", 16, -140)
 		sticky:SetWidth(149) sticky:SetHeight(32)
 		_G[stickyName.."Text"]:SetText(SAY)
 		UIDropDownMenu_Initialize(sticky, function()
