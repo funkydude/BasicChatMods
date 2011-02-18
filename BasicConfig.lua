@@ -10,18 +10,19 @@ f.functions[#f.functions+1] = function()
 --
 
 	local L = {}
-	L.BCM_ButtonHide = "This module will completely hide the chat frame side buttons. It gives the chat frame a much cleaner look."
-	L.BCM_ChannelNames = "This module allows you to selectively replace the channel names with custom names of your liking."
-	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by simply double-clicking the chat frame tab."
+	L.CORE = "Welcome to BasicChatMods, a simplistic approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will."
+	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
+	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
+	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
-	L.BCM_Fade = "This module will fade out the chat frames completely instead of partially when moving your mouse away."
-	L.BCM_Justify = "This module allows you to justify the text of the various chat frames to the right, left, or center."
-	L.BCM_ScrollDown = "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom."
-	L.BCM_Sticky = "This module 'sticks' the last chat type you used so that you don't need to re-enter it again next time you chat."
-	L.BCM_URLCopy = "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r"
+	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
+	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
+	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
+	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
+	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 	L.BCM_TimestampCustomize = "Customize the Blizzard timestamps. You need to re-select the Blizzard timestamp each time you customize or disable this module."
 
-	L.WARNING = "<<The change you've made requires a /reload to take effect>>"
+	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
@@ -56,6 +57,9 @@ f.functions[#f.functions+1] = function()
 --
 
 	local onShow = function(frame)
+		--Don't move things when opening the main BCM panel
+		if BCM:IsShown() then return end
+
 		local btn = BCMEnableButton
 		btn:ClearAllPoints()
 		btn:SetParent(frame)
@@ -92,6 +96,14 @@ f.functions[#f.functions+1] = function()
 	local bcm = CreateFrame("Frame", "BCM", InterfaceOptionsFramePanelContainer)
 	bcm.name = name
 	InterfaceOptions_AddCategory(bcm)
+	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	bcmTitle:SetPoint("TOPLEFT", 16, -16)
+	bcmTitle:SetText(name)
+	local bcmDesc = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	bcmDesc:SetPoint("TOPLEFT", 16, -62)
+	bcmDesc:SetText(L.CORE)
+	bcmDesc:SetWidth(375)
+	bcmDesc:SetJustifyH("CENTER")
 
 	--[[ FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate ]]--
 	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
@@ -243,7 +255,8 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--[[ Outline ]]--
-	--makePanel("BCM_Outline", bcm, "Outline", "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom.")
+	--TODO convert this module into more than just outline: font/size/outline "Text Customize" module?
+	--makePanel("BCM_Outline", bcm, "Outline")
 
 	--[[ Scroll Down ]]--
 	makePanel("BCM_ScrollDown", bcm, "Scroll Down")
