@@ -16,7 +16,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
-	L.BCM_FontCustomize = "Coming soon..."
+	L.BCM_Font = "Coming soon..."
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -188,9 +188,9 @@ f.functions[#f.functions+1] = function()
 	--[[ Fade Module ]]--
 	makePanel("BCM_Fade", bcm, "Fade")
 
-	--[[ Font Customize Module ]]--
-	--TODO convert Outline module into Font Customize module: font/size/outline
-	makePanel("BCM_FontCustomize", bcm, "Font Customize")
+	--[[ Font Module ]]--
+	--TODO convert Outline module into Font module: font/size/outline
+	makePanel("BCM_Font", bcm, "Font")
 
 	--[[ Justify Module ]]--
 	makePanel("BCM_Justify", bcm, "Justify Text")
