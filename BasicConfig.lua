@@ -21,7 +21,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_URLCopy = "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 	L.BCM_TimestampCustomize = "Customize the Blizzard timestamps. You need to re-select the Blizzard timestamp each time you customize or disable this module."
 
-	L.WARNING = "<<The change you've made requires a /reload to take effect.>>"
+	L.WARNING = "<<The change you've made requires a /reload to take effect>>"
 
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
@@ -111,7 +111,7 @@ f.functions[#f.functions+1] = function()
 		end
 	end)
 	local enableBtnText = enableBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	enableBtnText:SetPoint("LEFT", enableBtn, "RIGHT", 0, 1)
+	enableBtnText:SetPoint("LEFT", enableBtn, "RIGHT")
 	enableBtnText:SetText(ENABLE)
 	local warn = bcm:CreateFontString("BCM_Warning", "ARTWORK", "GameFontNormal")
 	warn:SetJustifyH("CENTER")
@@ -293,8 +293,8 @@ f.functions[#f.functions+1] = function()
 		end)
 		stickyBtn:Disable()
 		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 140, 0)
-		local stickyBtnText = BCM_Sticky:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT", 0, 1)
+		local stickyBtnText = stickyBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT")
 		stickyBtnText:SetText(GUILD_NEWS_MAKE_STICKY)
 	end
 
@@ -302,7 +302,93 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_TimestampCustomize", bcm, "Timestamp Customize")
 
 	if not bcmDB.BCM_TimestampCustomize then
-		
+		local stampBtn = CreateFrame("CheckButton", "BCM_Timestamp_Button", BCM_TimestampCustomize, "OptionsBaseCheckButtonTemplate")
+		stampBtn:SetScript("OnClick", function(frame)
+			local input = BCM_ChanName_InputCol
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				bcmDB.stampcolor = "|cff777777"
+				input:SetText("777777")
+				input:EnableMouse(true)
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				bcmDB.stampcolor = ""
+				input:SetText("")
+				input:EnableMouse(false)
+				input:ClearFocus()
+			end
+			TIMESTAMP_FORMAT_HHMM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M").."|r "
+			TIMESTAMP_FORMAT_HHMM_24HR = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%H:%M").."|r "
+			TIMESTAMP_FORMAT_HHMM_AMPM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M %p").."|r "
+			TIMESTAMP_FORMAT_HHMMSS = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M:%S").."|r "
+			TIMESTAMP_FORMAT_HHMMSS_24HR = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%H:%M:%S").."|r "
+			TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M:%S %p").."|r "
+		end)
+		stampBtn:SetScript("OnShow", function(frame)
+			local input = BCM_ChanName_InputCol
+			input:SetText("123456")
+			BCM_ChanName_InputBrack:SetText("1234567890")
+			BCM_ChanName_InputBrack:SetText(bcmDB.stampbracket)
+			if bcmDB.stampcolor == "" then
+				frame:SetChecked(false)
+				input:EnableMouse(false)
+				input:SetText("")
+				input:ClearFocus()
+			else
+				frame:SetChecked(true)
+				input:SetText((bcmDB.stampcolor):sub(5))
+			end
+		end)
+		stampBtn:SetPoint("TOPLEFT", 16, -140)
+		stampBtn:SetHitRectInsets(0, -50, 0, 0)
+		local stampBtnText = stampBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stampBtnText:SetPoint("LEFT", stampBtn, "RIGHT")
+		stampBtnText:SetText(COLOR)
+
+		local stampColInput = CreateFrame("EditBox", "BCM_ChanName_InputCol", BCM_TimestampCustomize, "InputBoxTemplate")
+		stampColInput:SetPoint("LEFT", stampBtn, "RIGHT", 60, 0)
+		stampColInput:SetAutoFocus(false)
+		stampColInput:SetWidth(50)
+		stampColInput:SetHeight(20)
+		stampColInput:SetMaxLetters(6)
+		stampColInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then
+				local txt = frame:GetText()
+				if txt:find("%X") then frame:SetText((bcmDB.stampcolor):sub(5)) return end
+				bcmDB.stampcolor = "|cff"..frame:GetText()
+				TIMESTAMP_FORMAT_HHMM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M").."|r "
+				TIMESTAMP_FORMAT_HHMM_24HR = "|r|cff"..txt..(bcmDB.stampbracket):format("%H:%M").."|r "
+				TIMESTAMP_FORMAT_HHMM_AMPM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M %p").."|r "
+				TIMESTAMP_FORMAT_HHMMSS = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M:%S").."|r "
+				TIMESTAMP_FORMAT_HHMMSS_24HR = "|r|cff"..txt..(bcmDB.stampbracket):format("%H:%M:%S").."|r "
+				TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M:%S %p").."|r "
+			end
+		end)
+		local stampColInputText = stampColInput:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stampColInputText:SetPoint("LEFT", stampColInput, "RIGHT", 10, 0)
+		stampColInputText:SetText(">>>   http://bit.ly/bevPp")
+
+		local stampBrackInput = CreateFrame("EditBox", "BCM_ChanName_InputBrack", BCM_TimestampCustomize, "InputBoxTemplate")
+		stampBrackInput:SetPoint("TOP", stampColInput, "BOTTOM", 0, -20)
+		stampBrackInput:SetAutoFocus(false)
+		stampBrackInput:SetWidth(50)
+		stampBrackInput:SetHeight(20)
+		stampBrackInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then
+				local txt = frame:GetText()
+				if not txt:find("%%s") then frame:SetText("[%s]") return end
+				bcmDB.stampbracket = txt
+				TIMESTAMP_FORMAT_HHMM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M").."|r "
+				TIMESTAMP_FORMAT_HHMM_24HR = "|r"..bcmDB.stampcolor..(txt):format("%H:%M").."|r "
+				TIMESTAMP_FORMAT_HHMM_AMPM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M %p").."|r "
+				TIMESTAMP_FORMAT_HHMMSS = "|r"..bcmDB.stampcolor..(txt):format("%I:%M:%S").."|r "
+				TIMESTAMP_FORMAT_HHMMSS_24HR = "|r"..bcmDB.stampcolor..(txt):format("%H:%M:%S").."|r "
+				TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M:%S %p").."|r "
+			end
+		end)
+		local stampBrackInputText = stampBrackInput:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stampBrackInputText:SetPoint("LEFT", stampBrackInput, "RIGHT", 10, 0)
+		stampBrackInputText:SetText(">>>   ".. DISPLAY_BORDERS .." (%s) / -%s- / %s ...")
 	end
 
 	--[[ URLCopy Module ]]--

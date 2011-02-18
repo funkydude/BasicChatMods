@@ -1,5 +1,5 @@
 
---[[		ChatCopy Module		]]--
+--[[     ChatCopy Module     ]]--
 
 local lines = {}
 local _, f = ...

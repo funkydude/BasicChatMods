@@ -1,5 +1,5 @@
 
---[[		URLCopy Module		]]--
+--[[     URLCopy Module     ]]--
 
 local tlds = {
 	"[Cc][Oo][Mm]", "[Uu][Kk]", "[Nn][Ee][Tt]", "[Dd][Ee]", "[Ff][Rr]", "[Ee][Ss]",
@@ -54,7 +54,7 @@ f.functions[#f.functions+1] = function()
 		oldShow(self, link, text, button)
 	end
 
-	--[[		Popup Box		]]--
+	--[[ Popup Box ]]--
 	StaticPopupDialogs["BCMUrlCopyDialog"] = {
 		text = "URL",
 		button2 = TEXT(CLOSE),

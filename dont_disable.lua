@@ -1,8 +1,8 @@
 
---[[		Don't Disable Module		]]--
+--[[     Don't Disable Module     ]]--
 
 --[[
-	Provides misc functions and
+	AddOn core & misc functions and
 	should not be disabled.
 ]]--
 

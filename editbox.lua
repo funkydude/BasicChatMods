@@ -1,5 +1,5 @@
 
---[[		EditBox Module		]]--
+--[[     EditBox Module     ]]--
 
 local _, f = ...
 f.functions[#f.functions+1] = function()

@@ -1,5 +1,5 @@
 
---[[		Channel Name Replacements Module		]]--
+--[[     Channel Name Replacements Module     ]]--
 
 local gsub = _G.string.gsub
 local time = _G.time

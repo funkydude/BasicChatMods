@@ -1,5 +1,5 @@
 
---[[		Button Hide Module		]]--
+--[[     Button Hide Module     ]]--
 
 local _, f = ...
 f.functions[#f.functions+1] = function()

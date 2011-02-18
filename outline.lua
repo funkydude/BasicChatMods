@@ -1,5 +1,5 @@
 
---[[		Outline Module		]]--
+--[[     Outline Module     ]]--
 
 --[[
 	Add a shadowy outline to your
