@@ -19,7 +19,7 @@ f.functions[#f.functions+1] = function()
 	Here is an example of timestamps without colors
 	TIMESTAMP_FORMAT_HHMM = "|r[%I:%M] "
 ]]--
-
+	if bcmDB.BCM_TimestampCustomize then return end
 --[[---------------------------------------------------------------]]--
 	TIMESTAMP_FORMAT_HHMM = "|r|cff777777[%I:%M]|r "
 	TIMESTAMP_FORMAT_HHMM_24HR = "|r|cff777777[%H:%M]|r "

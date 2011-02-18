@@ -19,6 +19,10 @@ f.functions[#f.functions+1] = function()
 	L.BCM_ScrollDown = "This module creates a small arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "This module 'sticks' the last chat type you used so that you don't need to re-enter it again next time you chat."
 	L.BCM_URLCopy = "This module turns websites in your chat frame into clickable links for you to copy. E.g. |cFFFFFFFF[www.battle.net]|r"
+	L.BCM_TimestampCustomize = "Customize the Blizzard timestamps. You need to re-select the Blizzard timestamp each time you customize or disable this module."
+
+	L.WARNING = "<<The change you've made requires a /reload to take effect.>>"
+
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
 	L.CENTER = "Center"
@@ -63,6 +67,10 @@ f.functions[#f.functions+1] = function()
 		desc:SetPoint("TOPLEFT", 16, -20)
 		desc:SetText(L[frame:GetName()] or "test")
 
+		local warn = BCM_Warning
+		warn:ClearAllPoints()
+		warn:SetParent(frame)
+		warn:SetPoint("BOTTOMLEFT", 18, 20)
 		if bcmDB[frame:GetName()] then
 			btn:SetChecked(false)
 		else
@@ -84,9 +92,6 @@ f.functions[#f.functions+1] = function()
 	local bcm = CreateFrame("Frame", "BCM", InterfaceOptionsFramePanelContainer)
 	bcm.name = name
 	InterfaceOptions_AddCategory(bcm)
-	local title = bcm:CreateFontString("BCM_Title", "ARTWORK", "GameFontNormal")
-	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText(">>ALL changes in this config require a /reload to take effect.<<\n\n\n\nAdd some useful text here, maybe about life and it's meaning,\n ..or maybe about BCM?\n\n\n\n42!!!!")
 
 	--[[ FrameXML/OptionsPanelTemplates.xml --> OptionsBaseCheckButtonTemplate ]]--
 	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
@@ -95,6 +100,7 @@ f.functions[#f.functions+1] = function()
 	panelDesc:SetWordWrap(true)
 	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", BCM, "OptionsBaseCheckButtonTemplate")
 	enableBtn:SetScript("OnClick", function(frame)
+		BCM_Warning:Show()
 		local tick = frame:GetChecked()
 		if tick then
 			PlaySound("igMainMenuOptionCheckBoxOn")
@@ -107,6 +113,10 @@ f.functions[#f.functions+1] = function()
 	local enableBtnText = enableBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	enableBtnText:SetPoint("LEFT", enableBtn, "RIGHT", 0, 1)
 	enableBtnText:SetText(ENABLE)
+	local warn = bcm:CreateFontString("BCM_Warning", "ARTWORK", "GameFontNormal")
+	warn:SetJustifyH("CENTER")
+	warn:SetText(L.WARNING)
+	warn:Hide()
 
 
 --------------------------------------------------------------------------------
@@ -131,7 +141,7 @@ f.functions[#f.functions+1] = function()
 				BCM_ChanName_Input:EnableMouse(true)
 				BCM_ChanName_Input:SetText("1234567890") --for some reason the text wont display without calling something long
 				BCM_ChanName_Input:SetText(bcmDB.replacements[v.value])
-				BCM_ChanName_Drop.value = v.value
+				BCM_ChanName_Input.value = v.value
 			end
 			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING}
 			for i=1, #tbl do
@@ -152,7 +162,7 @@ f.functions[#f.functions+1] = function()
 		chanNameInput:SetMaxLetters(10)
 		chanNameInput:EnableMouse(false)
 		chanNameInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then bcmDB.replacements[BCM_ChanName_Drop.value] = frame:GetText() end
+			if changed then bcmDB.replacements[frame.value] = frame:GetText() end
 		end)
 	end
 
@@ -205,6 +215,7 @@ f.functions[#f.functions+1] = function()
 			local selected, info = BCM_Justify_SetText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_Justify_SetText:SetText(v:GetText())
 				if not bcmDB.justify then bcmDB.justify = {} end
+				_G[BCM_Justify_GetText:GetText()]:SetJustifyH(v.value)
 				if v.value == "RIGHT" or v.value == "CENTER" then
 					bcmDB.justify[BCM_Justify_GetText:GetText()] = v.value
 				else
@@ -244,16 +255,18 @@ f.functions[#f.functions+1] = function()
 		local sticky = CreateFrame("Frame", stickyName, BCM_Sticky, "UIDropDownMenuTemplate")
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		sticky:SetWidth(149) sticky:SetHeight(32)
-		_G[stickyName.."Text"]:SetText(SAY)
+		_G[stickyName.."Text"]:SetText(GUILD_NEWS_MAKE_STICKY)
 		UIDropDownMenu_Initialize(sticky, function()
 			local selected, info = BCM_Sticky_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
+				local btn = BCM_Sticky_Button
+				btn:Enable()
 				if ChatTypeInfo[v.value].sticky > 0 then
-					BCM_Sticky_Button:SetChecked(true)
+					btn:SetChecked(true)
 				else
-					BCM_Sticky_Button:SetChecked(false)
+					btn:SetChecked(false)
 				end
-				BCM_Sticky_Button.value = v.value
+				btn.value = v.value
 			end
 			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
 			for i=1, #tbl do
@@ -266,7 +279,6 @@ f.functions[#f.functions+1] = function()
 		end)
 
 		local stickyBtn = CreateFrame("CheckButton", "BCM_Sticky_Button", BCM_Sticky, "OptionsBaseCheckButtonTemplate")
-		stickyBtn.value = "SAY"
 		stickyBtn:SetScript("OnClick", function(frame)
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
@@ -278,17 +290,18 @@ f.functions[#f.functions+1] = function()
 				bcmDB.sticky[frame.value] = 0
 			end
 		end)
-		stickyBtn:SetScript("OnShow", function(frame)
-			if ChatTypeInfo[frame.value].sticky > 0 then
-				frame:SetChecked(true)
-			else
-				frame:SetChecked(false)
-			end
-		end)
-		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 60, 0)
+		stickyBtn:Disable()
+		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 140, 0)
 		local stickyBtnText = BCM_Sticky:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT", 0, 1)
-		stickyBtnText:SetText("Sticky")
+		stickyBtnText:SetText(GUILD_NEWS_MAKE_STICKY)
+	end
+
+	--[[ Timestamp Customize ]]--
+	makePanel("BCM_TimestampCustomize", bcm, "Timestamp Customize")
+
+	if not bcmDB.BCM_TimestampCustomize then
+		
 	end
 
 	--[[ URLCopy Module ]]--
