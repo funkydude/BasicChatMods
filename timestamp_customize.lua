@@ -3,7 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
---[[ Color codes ---> http://www.december.com/html/spec/colorcodes.html ]]--
+	--[[ Color codes ---> http://www.december.com/html/spec/colorcodes.html ]]--
 
 	local bcmDB = bcmDB
 	if bcmDB.BCM_TimestampCustomize then bcmDB.stampcolor = nil bcmDB.stampbracket = nil return end

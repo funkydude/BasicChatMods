@@ -3,9 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_EditBox then
-		return
-	end
+	if bcmDB.BCM_EditBox then return end
 
 	for i =1, 10 do
 		local eb =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]

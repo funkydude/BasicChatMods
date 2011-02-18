@@ -3,9 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide then
-		return
-	end
+	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide then return end
 
 	FloatingChatFrame_OnMouseScroll = function(frame, d)
 		if d then

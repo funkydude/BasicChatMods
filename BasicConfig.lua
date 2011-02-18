@@ -1,4 +1,6 @@
 
+--[[     Basic Config Module     ]]--
+
 local name, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.noconfig then

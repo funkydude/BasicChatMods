@@ -1,44 +1,40 @@
 
 --[[     ChatCopy Module     ]]--
 
-local lines = {}
 local _, f = ...
-
---Copying Functions
-local copyFunc = function(frame, btn)
-	local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
-	local _, size = cf:GetFont()
-	FCF_SetChatWindowFontSize(cf, cf, 0.01)
-	local ct = 1
-	for i = select("#", cf:GetRegions()), 1, -1 do
-		local region = select(i, cf:GetRegions())
-		if region:GetObjectType() == "FontString" then
-			lines[ct] = tostring(region:GetText())
-			ct = ct + 1
-		end
-	end
-	local lineCt = ct - 1
-	local text = table.concat(lines, "\n", 1, lineCt)
-	FCF_SetChatWindowFontSize(cf, cf, size)
-	BCMCopyFrame:Show()
-	BCMCopyBox:SetText(text)
-	BCMCopyBox:HighlightText(0)
-	wipe(lines)
-end
-local hintFunc = function(frame)
-	GameTooltip:SetOwner(frame, "ANCHOR_TOP")
-	if SHOW_NEWBIE_TIPS == "1" then
-		GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
-		GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
-	end
-	GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat.", 1, 0, 0)
-	GameTooltip:Show()
-end
-
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_ChatCopy then
-		copyFunc, hintFunc, lines = nil, nil, nil
-		return
+	if bcmDB.BCM_ChatCopy then return end
+
+	--Copying Functions
+	local lines = {}
+	local copyFunc = function(frame, btn)
+		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
+		local _, size = cf:GetFont()
+		FCF_SetChatWindowFontSize(cf, cf, 0.01)
+		local ct = 1
+		for i = select("#", cf:GetRegions()), 1, -1 do
+			local region = select(i, cf:GetRegions())
+			if region:GetObjectType() == "FontString" then
+				lines[ct] = tostring(region:GetText())
+				ct = ct + 1
+			end
+		end
+		local lineCt = ct - 1
+		local text = table.concat(lines, "\n", 1, lineCt)
+		FCF_SetChatWindowFontSize(cf, cf, size)
+		BCMCopyFrame:Show()
+		BCMCopyBox:SetText(text)
+		BCMCopyBox:HighlightText(0)
+		wipe(lines)
+	end
+	local hintFunc = function(frame)
+		GameTooltip:SetOwner(frame, "ANCHOR_TOP")
+		if SHOW_NEWBIE_TIPS == "1" then
+			GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
+			GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
+		end
+		GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat.", 1, 0, 0)
+		GameTooltip:Show()
 	end
 
 	--Create Frames/Objects
