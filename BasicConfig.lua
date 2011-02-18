@@ -138,10 +138,11 @@ f.functions[#f.functions+1] = function()
 		UIDropDownMenu_Initialize(chan, function()
 			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
-				BCM_ChanName_Input:EnableMouse(true)
-				BCM_ChanName_Input:SetText("1234567890") --for some reason the text wont display without calling something long
-				BCM_ChanName_Input:SetText(bcmDB.replacements[v.value])
-				BCM_ChanName_Input.value = v.value
+				local input = BCM_ChanName_Input
+				input:EnableMouse(true)
+				input:SetText("1234567890") --for some reason the text wont display without calling something long
+				input:SetText(bcmDB.replacements[v.value])
+				input.value = v.value
 			end
 			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING}
 			for i=1, #tbl do
