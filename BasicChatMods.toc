@@ -16,8 +16,8 @@ channelnames.lua
 chatcopy.lua
 editbox.lua
 fade.lua
+font.lua
 justify.lua
-#outline.lua
 scrolldown.lua
 sticky.lua
 timestamp_customize.lua

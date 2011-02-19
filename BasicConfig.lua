@@ -3,9 +3,7 @@
 
 local name, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.noconfig then
-		return
-	end
+	if bcmDB.noconfig then return end
 
 --------------------------------------------------------------------------------
 -- Localization
