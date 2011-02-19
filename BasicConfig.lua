@@ -70,7 +70,7 @@ f.functions[#f.functions+1] = function()
 		desc:ClearAllPoints()
 		desc:SetParent(frame)
 		desc:SetPoint("TOPLEFT", 16, -20)
-		desc:SetText(L[frame:GetName()] or "test")
+		desc:SetText(L[frame:GetName()] or "No Description")
 
 		local warn = BCM_Warning
 		warn:ClearAllPoints()
@@ -266,7 +266,7 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--[[ Justify Module ]]--
-	makePanel("BCM_Justify", bcm, "Justify Text")
+	makePanel("BCM_Justify", bcm, "Justify")
 
 	if not bcmDB.BCM_Justify then
 		local get = CreateFrame("Frame", "BCM_Justify_Get", BCM_Justify, "UIDropDownMenuTemplate")
