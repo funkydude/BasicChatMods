@@ -16,7 +16,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
-	L.BCM_Font = "Coming soon..."
+	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -145,7 +145,6 @@ f.functions[#f.functions+1] = function()
 		local chanName = "BCM_ChanName_Drop"
 		local chan = CreateFrame("Frame", chanName, BCM_ChannelNames, "UIDropDownMenuTemplate")
 		chan:SetPoint("TOPLEFT", 16, -140)
-		chan:SetWidth(149) chan:SetHeight(32)
 		_G[chanName.."Text"]:SetText(CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
 			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
@@ -167,7 +166,7 @@ f.functions[#f.functions+1] = function()
 		end)
 
 		local chanNameInput = CreateFrame("EditBox", "BCM_ChanName_Input", BCM_ChannelNames, "InputBoxTemplate")
-		chanNameInput:SetPoint("LEFT", chan, "RIGHT", 60, 0)
+		chanNameInput:SetPoint("LEFT", chan, "RIGHT", 170, 0)
 		chanNameInput:SetAutoFocus(false)
 		chanNameInput:SetWidth(100)
 		chanNameInput:SetHeight(20)
@@ -189,8 +188,82 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_Fade", bcm, "Fade")
 
 	--[[ Font Module ]]--
-	--TODO convert Outline module into Font module: font/size/outline
 	makePanel("BCM_Font", bcm, "Font")
+
+	if not bcmDB.BCM_Font then
+		local fontName = CreateFrame("Frame", "BCM_FontName", BCM_Font, "UIDropDownMenuTemplate")
+		fontName:SetPoint("TOPLEFT", 4, -140)
+		BCM_FontNameMiddle:SetWidth(100)
+		BCM_FontNameText:SetText("Font")
+		UIDropDownMenu_Initialize(fontName, function()
+			local selected, info = BCM_FontNameText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_FontNameText:SetText(v:GetText())
+				bcmDB.fontname = v.value
+				for i = 1, 10 do
+					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local _, size = cF:GetFont()
+					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
+				end
+			end
+			local tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\skurri.TTF"}
+			for k,v in pairs(tbl) do
+				info.text = k
+				info.value = v
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+			wipe(tbl) tbl = nil
+		end)
+
+		local fontSize = CreateFrame("Frame", "BCM_FontSize", BCM_Font, "UIDropDownMenuTemplate")
+		fontSize:SetPoint("LEFT", fontName, "RIGHT", 100, 0)
+		BCM_FontSizeMiddle:SetWidth(70)
+		BCM_FontSizeText:SetText(FONT_SIZE)
+		UIDropDownMenu_Initialize(fontSize, function()
+			local selected, info = BCM_FontSizeText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_FontSizeText:SetText(v:GetText())
+				bcmDB.fontsize = v.value
+				for i = 1, 10 do
+					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local fName, size = cF:GetFont()
+					cF:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
+				end
+			end
+			for i=8, 18 do
+				info.text = FONT_SIZE_TEMPLATE:format(i)
+				info.value = i
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+		end)
+
+		local fontFlag = CreateFrame("Frame", "BCM_FontFlag", BCM_Font, "UIDropDownMenuTemplate")
+		fontFlag:SetPoint("LEFT", fontSize, "RIGHT", 70, 0)
+		BCM_FontFlagMiddle:SetWidth(100)
+		BCM_FontFlagText:SetText(NONE)
+		UIDropDownMenu_Initialize(fontFlag, function()
+			local selected, info = BCM_FontFlagText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) print(v.value) BCM_FontFlagText:SetText(v:GetText())
+				if v.value == NONE then 
+					bcmDB.fontflag = nil
+				else
+					bcmDB.fontflag = v.value
+				end
+				for i = 1, 10 do
+					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local fName, size = cF:GetFont()
+					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
+				end
+			end
+			local tbl = {NONE, "OUTLINE", "THICKOUTLINE", "MONOCHROME"}
+			for i=1, #tbl do
+				info.text = tbl[i]
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+			wipe(tbl) tbl = nil
+		end)
+	end
 
 	--[[ Justify Module ]]--
 	makePanel("BCM_Justify", bcm, "Justify Text")
@@ -198,7 +271,6 @@ f.functions[#f.functions+1] = function()
 	if not bcmDB.BCM_Justify then
 		local get = CreateFrame("Frame", "BCM_Justify_Get", BCM_Justify, "UIDropDownMenuTemplate")
 		get:SetPoint("TOPLEFT", 16, -140)
-		get:SetWidth(149) get:SetHeight(32)
 		BCM_Justify_GetText:SetText("ChatFrame1")
 		UIDropDownMenu_Initialize(get, function()
 			local selected, info = BCM_Justify_GetText:GetText(), UIDropDownMenu_CreateInfo()
@@ -211,15 +283,13 @@ f.functions[#f.functions+1] = function()
 			end
 			for i=1, 10 do
 				info.text = ("ChatFrame%d"):format(i)
-				info.value = info.text
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
 			end
 		end)
 
 		local set = CreateFrame("Frame", "BCM_Justify_Set", BCM_Justify, "UIDropDownMenuTemplate")
-		set:SetPoint("LEFT", get, "RIGHT", 60, 0)
-		set:SetWidth(125) set:SetHeight(32)
+		set:SetPoint("LEFT", get, "RIGHT", 140, 0)
 		if bcmDB.justify and bcmDB.justify[BCM_Justify_GetText:GetText()] then
 			BCM_Justify_SetText:SetText(bcmDB.justify[BCM_Justify_GetText:GetText()])
 		else
@@ -240,18 +310,14 @@ f.functions[#f.functions+1] = function()
 					if not w then bcmDB.justify = nil end
 				end
 			end
-			info.text = L.LEFT
-			info.value = "LEFT"
-			info.checked = info.text == selected
-			UIDropDownMenu_AddButton(info)
-			info.text = L.RIGHT
-			info.value = "RIGHT"
-			info.checked = info.text == selected
-			UIDropDownMenu_AddButton(info)
-			info.text = L.CENTER
-			info.value = "CENTER"
-			info.checked = info.text == selected
-			UIDropDownMenu_AddButton(info)
+			local tbl = {"LEFT", "RIGHT", "CENTER"}
+			for i=1, #tbl do
+				info.text = L[tbl[i]]
+				info.value = tbl[i]
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+			wipe(tbl) tbl = nil
 		end)
 	end
 
@@ -264,7 +330,6 @@ f.functions[#f.functions+1] = function()
 	if not bcmDB.BCM_Sticky then
 		local sticky = CreateFrame("Frame", "BCM_Sticky_Drop", BCM_Sticky, "UIDropDownMenuTemplate")
 		sticky:SetPoint("TOPLEFT", 16, -140)
-		sticky:SetWidth(149) sticky:SetHeight(32)
 		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
 		UIDropDownMenu_Initialize(sticky, function()
 			local selected, info = BCM_Sticky_DropText:GetText(), UIDropDownMenu_CreateInfo()
@@ -301,7 +366,7 @@ f.functions[#f.functions+1] = function()
 			end
 		end)
 		stickyBtn:Disable()
-		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 140, 0)
+		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 225, 0)
 		local stickyBtnText = stickyBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT")
 		stickyBtnText:SetText(GUILD_NEWS_MAKE_STICKY)
