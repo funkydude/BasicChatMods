@@ -59,7 +59,7 @@ f.functions[#f.functions+1] = function()
 
 	local onShow = function(frame)
 		--Don't move recycled widgets when opening the main BCM panel
-		if BCM:IsShown() then return end
+		if InterfaceOptionsFramePanelContainer.displayedPanel and InterfaceOptionsFramePanelContainer.displayedPanel.name == name then return end
 
 		local btn = BCMEnableButton
 		btn:ClearAllPoints()
