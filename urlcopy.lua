@@ -40,13 +40,13 @@ f.functions[#f.functions+1] = function()
 
 	local currentLink = nil
 	local oldShow = ChatFrame_OnHyperlinkShow
-	ChatFrame_OnHyperlinkShow = function(self, link, text, button)
+	ChatFrame_OnHyperlinkShow = function(self, link, ...)
 		if (link):sub(1, 3) == "url" then
 			currentLink = (link):sub(5)
 			StaticPopup_Show("BCMUrlCopyDialog")
 			return
 		end
-		oldShow(self, link, text, button)
+		oldShow(self, link, ...)
 	end
 
 	--[[ Popup Box ]]--
