@@ -43,30 +43,23 @@ f.functions[#f.functions+1] = function()
 	ChatFrame_OnHyperlinkShow = function(self, link, ...)
 		if (link):sub(1, 3) == "url" then
 			currentLink = (link):sub(5)
-			StaticPopup_Show("BCMUrlCopyDialog")
+			StaticPopup_Show("BCM_URLCopyBox")
 			return
 		end
 		oldShow(self, link, ...)
 	end
 
 	--[[ Popup Box ]]--
-	StaticPopupDialogs["BCMUrlCopyDialog"] = {
+	StaticPopupDialogs["BCM_URLCopyBox"] = {
 		text = "URL",
-		button2 = TEXT(CLOSE),
+		button1 = CLOSE,
 		hasEditBox = 1,
-		hasWideEditBox = 1,
-		showAlert = 1,
+		editBoxWidth = 350,
 		OnShow = function(frame)
-			local editBox = _G[frame:GetName().."EditBox"]
-			editBox:SetText(currentLink)
+			frame.editBox:SetText(currentLink)
+			frame.editBox:SetFocus()
+			frame.editBox:HighlightText(0)
 			currentLink = nil
-			editBox:SetFocus()
-			editBox:HighlightText(0)
-			local button = _G[frame:GetName().."Button2"]
-			button:ClearAllPoints()
-			button:SetWidth(200)
-			button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
-			_G[frame:GetName().."AlertIcon"]:Hide()
 		end,
 		EditBoxOnEscapePressed = function(frame) frame:GetParent():Hide() end,
 		timeout = 0,

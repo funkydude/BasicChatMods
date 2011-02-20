@@ -142,10 +142,9 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_ChannelNames", bcm, "Channel Names")
 
 	if not bcmDB.BCM_ChannelNames then
-		local chanName = "BCM_ChanName_Drop"
-		local chan = CreateFrame("Frame", chanName, BCM_ChannelNames, "UIDropDownMenuTemplate")
+		local chan = CreateFrame("Frame", "BCM_ChanName_Drop", BCM_ChannelNames, "UIDropDownMenuTemplate")
 		chan:SetPoint("TOPLEFT", 16, -140)
-		_G[chanName.."Text"]:SetText(CHANNEL)
+		BCM_ChanName_DropText:SetText(CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
 			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
