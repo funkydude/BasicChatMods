@@ -11,13 +11,18 @@ f.functions = {}
 f.fire = CreateFrame("Frame")
 f.fire:RegisterEvent("PLAYER_LOGIN")
 f.fire:SetScript("OnEvent", function()
+	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then
 		bcmDB = {}
 	end
+
+	--[[ Run Modules ]]--
 	for i = 1, #f.functions do
 		f.functions[i]()
+		f.functions[i] = nil
 	end
-	wipe(f.functions)
+
+	--[[ Self-Cleanup ]]--
 	f.functions = nil
 	f.fire:UnregisterEvent("PLAYER_LOGIN")
 	f.fire:SetScript("OnEvent", nil)

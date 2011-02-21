@@ -3,7 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_ChannelNames then return end
+	if bcmDB.BCM_ChannelNames then bcmDB.replacements = nil return end
 
 	local gsub = gsub
 	local newAddMsg = {}
@@ -74,9 +74,10 @@ f.functions[#f.functions+1] = function()
 		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
 	end
 
-	for i = 1, 10 do
-		if i ~= 2 then -- skip combatlog
-			local cF = _G[format("%s%d", "ChatFrame", i)]
+	for i = 1, NUM_CHAT_WINDOWS do
+		local cF = _G[format("%s%d", "ChatFrame", i)]
+		--skip combatlog and frames with no messages registered
+		if i ~= 2 and #cF.messageTypeList > 0 then
 			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage
 			cF.AddMessage = AddMessage
 		end

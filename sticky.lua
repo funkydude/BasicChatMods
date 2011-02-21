@@ -3,7 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_Sticky then return end
+	if bcmDB.BCM_Sticky then bcmDB.sticky = nil return end
 
 	if not bcmDB.sticky then 
 		bcmDB.sticky = {}

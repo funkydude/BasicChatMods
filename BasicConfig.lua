@@ -162,8 +162,9 @@ f.functions[#f.functions+1] = function()
 				info.value = i
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
+				tbl[i] = nil
 			end
-			wipe(tbl) tbl = nil
+			tbl = nil
 		end)
 
 		local chanNameInput = CreateFrame("EditBox", "BCM_ChanName_Input", BCM_ChannelNames, "InputBoxTemplate")
@@ -212,8 +213,9 @@ f.functions[#f.functions+1] = function()
 				info.value = v
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
+				tbl[k] = nil
 			end
-			wipe(tbl) tbl = nil
+			tbl = nil
 		end)
 
 		local fontSize = CreateFrame("Frame", "BCM_FontSize", BCM_Font, "UIDropDownMenuTemplate")
@@ -261,8 +263,9 @@ f.functions[#f.functions+1] = function()
 				info.text = tbl[i]
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
+				tbl[i] = nil
 			end
-			wipe(tbl) tbl = nil
+			tbl = nil
 		end)
 	end
 
@@ -320,8 +323,9 @@ f.functions[#f.functions+1] = function()
 				info.value = tbl[i]
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
+				tbl[i] = nil
 			end
-			wipe(tbl) tbl = nil
+			tbl = nil
 		end)
 	end
 
@@ -353,8 +357,9 @@ f.functions[#f.functions+1] = function()
 				info.value = tbl[i]
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
+				tbl[i] = nil
 			end
-			wipe(tbl) tbl = nil
+			tbl = nil
 		end)
 
 		local stickyBtn = CreateFrame("CheckButton", "BCM_Sticky_Button", BCM_Sticky, "OptionsBaseCheckButtonTemplate")
