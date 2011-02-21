@@ -20,8 +20,9 @@ f.functions[#f.functions+1] = function()
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
-	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
+	L.BCM_TellTarget = "wazup"
 	L.BCM_TimestampCustomize = "Customize the Blizzard timestamps. You need to re-select the Blizzard timestamp each time you customize or disable this module."
+	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 
@@ -135,10 +136,10 @@ f.functions[#f.functions+1] = function()
 -- Module Panel Creation
 --
 
-	--[[ Button Hide Module ]]--
+	--[[ Button Hide ]]--
 	makePanel("BCM_ButtonHide", bcm, "Button Hide")
 
-	--[[ Channel Names Module ]]--
+	--[[ Channel Names ]]--
 	makePanel("BCM_ChannelNames", bcm, "Channel Names")
 
 	if not bcmDB.BCM_ChannelNames then
@@ -177,16 +178,16 @@ f.functions[#f.functions+1] = function()
 		end)
 	end
 
-	--[[ Chat Copy Module ]]--
+	--[[ Chat Copy ]]--
 	makePanel("BCM_ChatCopy", bcm, "Chat Copy")
 
-	--[[ Edit Box Module ]]--
+	--[[ Edit Box ]]--
 	makePanel("BCM_EditBox", bcm, "Edit Box")
 
-	--[[ Fade Module ]]--
+	--[[ Fade ]]--
 	makePanel("BCM_Fade", bcm, "Fade")
 
-	--[[ Font Module ]]--
+	--[[ Font ]]--
 	makePanel("BCM_Font", bcm, "Font")
 
 	if not bcmDB.BCM_Font then
@@ -264,7 +265,7 @@ f.functions[#f.functions+1] = function()
 		end)
 	end
 
-	--[[ Justify Module ]]--
+	--[[ Justify ]]--
 	makePanel("BCM_Justify", bcm, "Justify")
 
 	if not bcmDB.BCM_Justify then
@@ -370,6 +371,9 @@ f.functions[#f.functions+1] = function()
 		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT")
 		stickyBtnText:SetText(GUILD_NEWS_MAKE_STICKY)
 	end
+
+	--[[ Tell Target ]]--
+	makePanel("BCM_TellTarget", bcm, "Tell Target")
 
 	--[[ Timestamp Customize ]]--
 	makePanel("BCM_TimestampCustomize", bcm, "Timestamp Customize")

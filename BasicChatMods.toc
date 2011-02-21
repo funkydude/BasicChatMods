@@ -2,7 +2,7 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 6.00
+## Version: 6.10
 ## Title: BasicChatMods
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
@@ -20,6 +20,7 @@ font.lua
 justify.lua
 scrolldown.lua
 sticky.lua
+telltarget.lua
 timestamp_customize.lua
 urlcopy.lua
 
