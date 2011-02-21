@@ -1,5 +1,5 @@
 
---[[    Tell Target     ]]--
+--[[    Tell Target Module     ]]--
 
 local _, f = ...
 f.functions[#f.functions+1] = function()

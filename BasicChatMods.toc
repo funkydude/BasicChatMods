@@ -17,6 +17,7 @@ chatcopy.lua
 editbox.lua
 fade.lua
 font.lua
+invitelinks.lua
 justify.lua
 scrolldown.lua
 sticky.lua
