@@ -21,6 +21,6 @@ justify.lua
 scrolldown.lua
 sticky.lua
 telltarget.lua
-timestamp_customize.lua
+timestamp.lua
 urlcopy.lua
 

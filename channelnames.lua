@@ -6,7 +6,6 @@ f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_ChannelNames then return end
 
 	local gsub = gsub
-	local time = time
 	local newAddMsg = {}
 
 	if not bcmDB.replacements then
@@ -54,11 +53,6 @@ f.functions[#f.functions+1] = function()
 		for i = 1, 16 do
 			text = gsub(text, chn[i], rplc[i])
 		end
-
-		--If Blizz timestamps is enabled, stamp anything it misses
-		if CHAT_TIMESTAMP_FORMAT and not text:find("^|r") then
-			text = BetterDate(CHAT_TIMESTAMP_FORMAT, time())..text
-		end
 		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
@@ -80,7 +74,7 @@ f.functions[#f.functions+1] = function()
 		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
 	end
 
-	for i = 1, 5 do
+	for i = 1, 10 do
 		if i ~= 2 then -- skip combatlog
 			local cF = _G[format("%s%d", "ChatFrame", i)]
 			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage

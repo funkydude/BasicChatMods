@@ -21,7 +21,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
 	L.BCM_TellTarget = "Allows you to whisper/tell your current target with the command /tt message or /wt message."
-	L.BCM_TimestampCustomize = "Customize the Blizzard timestamps. You need to re-select the Blizzard timestamp each time you customize or disable this module."
+	L.BCM_Timestamp = "Add and customize timestamps for your chat frames."
 	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
@@ -376,12 +376,12 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_TellTarget", bcm, "Tell Target")
 
 	--[[ Timestamp Customize ]]--
-	makePanel("BCM_TimestampCustomize", bcm, "Timestamp Customize")
+	makePanel("BCM_Timestamp", bcm, "Timestamp")
 
-	if not bcmDB.BCM_TimestampCustomize then
-		local stampBtn = CreateFrame("CheckButton", "BCM_Timestamp_Button", BCM_TimestampCustomize, "OptionsBaseCheckButtonTemplate")
+	if not bcmDB.BCM_Timestamp then
+		local stampBtn = CreateFrame("CheckButton", nil, BCM_Timestamp, "OptionsBaseCheckButtonTemplate")
 		stampBtn:SetScript("OnClick", function(frame)
-			local input = BCM_ChanName_InputCol
+			local input = BCM_Timestamp_InputCol
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
 				bcmDB.stampcolor = "|cff777777"
@@ -394,18 +394,12 @@ f.functions[#f.functions+1] = function()
 				input:EnableMouse(false)
 				input:ClearFocus()
 			end
-			TIMESTAMP_FORMAT_HHMM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M").."|r "
-			TIMESTAMP_FORMAT_HHMM_24HR = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%H:%M").."|r "
-			TIMESTAMP_FORMAT_HHMM_AMPM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M %p").."|r "
-			TIMESTAMP_FORMAT_HHMMSS = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M:%S").."|r "
-			TIMESTAMP_FORMAT_HHMMSS_24HR = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%H:%M:%S").."|r "
-			TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r"..bcmDB.stampcolor..(bcmDB.stampbracket):format("%I:%M:%S %p").."|r "
 		end)
 		stampBtn:SetScript("OnShow", function(frame)
-			local input = BCM_ChanName_InputCol
+			local input = BCM_Timestamp_InputCol
 			input:SetText("123456")
-			BCM_ChanName_InputBrack:SetText("1234567890")
-			BCM_ChanName_InputBrack:SetText(bcmDB.stampbracket)
+			BCM_Timestamp_Format:SetText("1234567890")
+			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
 			if bcmDB.stampcolor == "" then
 				frame:SetChecked(false)
 				input:EnableMouse(false)
@@ -422,7 +416,7 @@ f.functions[#f.functions+1] = function()
 		stampBtnText:SetPoint("LEFT", stampBtn, "RIGHT")
 		stampBtnText:SetText(COLOR)
 
-		local stampColInput = CreateFrame("EditBox", "BCM_ChanName_InputCol", BCM_TimestampCustomize, "InputBoxTemplate")
+		local stampColInput = CreateFrame("EditBox", "BCM_Timestamp_InputCol", BCM_Timestamp, "InputBoxTemplate")
 		stampColInput:SetPoint("LEFT", stampBtn, "RIGHT", 60, 0)
 		stampColInput:SetAutoFocus(false)
 		stampColInput:SetWidth(50)
@@ -432,40 +426,29 @@ f.functions[#f.functions+1] = function()
 			if changed then
 				local txt = frame:GetText()
 				if txt:find("%X") then frame:SetText((bcmDB.stampcolor):sub(5)) return end
-				bcmDB.stampcolor = "|cff"..frame:GetText()
-				TIMESTAMP_FORMAT_HHMM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M").."|r "
-				TIMESTAMP_FORMAT_HHMM_24HR = "|r|cff"..txt..(bcmDB.stampbracket):format("%H:%M").."|r "
-				TIMESTAMP_FORMAT_HHMM_AMPM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M %p").."|r "
-				TIMESTAMP_FORMAT_HHMMSS = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M:%S").."|r "
-				TIMESTAMP_FORMAT_HHMMSS_24HR = "|r|cff"..txt..(bcmDB.stampbracket):format("%H:%M:%S").."|r "
-				TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r|cff"..txt..(bcmDB.stampbracket):format("%I:%M:%S %p").."|r "
+				bcmDB.stampcolor = "|cff"..txt
 			end
 		end)
 		local stampColInputText = stampColInput:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		stampColInputText:SetPoint("LEFT", stampColInput, "RIGHT", 10, 0)
 		stampColInputText:SetText(">>>   http://bit.ly/bevPp")
 
-		local stampBrackInput = CreateFrame("EditBox", "BCM_ChanName_InputBrack", BCM_TimestampCustomize, "InputBoxTemplate")
-		stampBrackInput:SetPoint("TOP", stampColInput, "BOTTOM", 0, -20)
+		local stampFormatTitle = BCM_Timestamp:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		stampFormatTitle:SetPoint("TOPLEFT", 20, -190)
+		stampFormatTitle:SetText(FORMATTING..":")
+		local stampFormatText = BCM_Timestamp:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+		stampFormatText:SetPoint("TOPLEFT", 20, -210)
+		stampFormatText:SetText("%p == "..TIMEMANAGER_AM.."/"..TIMEMANAGER_PM.."\n%S == "..gsub(D_SECONDS, ".*:(.*);$", "%1").."\n%M == "..gsub(D_MINUTES, ".*:(.*);$", "%1").."\n%I == "..AUCTION_DURATION_ONE.."\n%H == "..AUCTION_DURATION_TWO)
+		local stampBrackInput = CreateFrame("EditBox", "BCM_Timestamp_Format", BCM_Timestamp, "InputBoxTemplate")
+		stampBrackInput:SetPoint("TOPLEFT", 25, -280)
 		stampBrackInput:SetAutoFocus(false)
-		stampBrackInput:SetWidth(50)
+		stampBrackInput:SetWidth(100)
 		stampBrackInput:SetHeight(20)
 		stampBrackInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then
-				local txt = frame:GetText()
-				if not txt:find("%%s") then frame:SetText("[%s]") return end
-				bcmDB.stampbracket = txt
-				TIMESTAMP_FORMAT_HHMM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M").."|r "
-				TIMESTAMP_FORMAT_HHMM_24HR = "|r"..bcmDB.stampcolor..(txt):format("%H:%M").."|r "
-				TIMESTAMP_FORMAT_HHMM_AMPM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M %p").."|r "
-				TIMESTAMP_FORMAT_HHMMSS = "|r"..bcmDB.stampcolor..(txt):format("%I:%M:%S").."|r "
-				TIMESTAMP_FORMAT_HHMMSS_24HR = "|r"..bcmDB.stampcolor..(txt):format("%H:%M:%S").."|r "
-				TIMESTAMP_FORMAT_HHMMSS_AMPM = "|r"..bcmDB.stampcolor..(txt):format("%I:%M:%S %p").."|r "
+				bcmDB.stampformat = frame:GetText()
 			end
 		end)
-		local stampBrackInputText = stampBrackInput:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		stampBrackInputText:SetPoint("LEFT", stampBrackInput, "RIGHT", 10, 0)
-		stampBrackInputText:SetText(">>>   ".. DISPLAY_BORDERS .." (%s) / -%s- / %s ...")
 	end
 
 	--[[ URLCopy Module ]]--
