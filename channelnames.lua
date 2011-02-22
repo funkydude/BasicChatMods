@@ -5,9 +5,6 @@ local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_ChannelNames then bcmDB.replacements = nil return end
 
-	local gsub = gsub
-	local newAddMsg = {}
-
 	if not bcmDB.replacements then
 		bcmDB.replacements = {
 			"[GEN]", --General
@@ -28,8 +25,9 @@ f.functions[#f.functions+1] = function()
 			"[RW]", --Raid Warning
 		}
 	end
-	local rplc = bcmDB.replacements
 
+	local rplc = bcmDB.replacements
+	local gsub = gsub
 	local chn = {
 		"%[%d+%. General.-%]",
 		"%[%d+%. Trade.-%]",
@@ -49,14 +47,6 @@ f.functions[#f.functions+1] = function()
 		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 	}
 
-	local AddMessage = function(frame, text, ...)
-		for i = 1, 16 do
-			text = gsub(text, chn[i], rplc[i])
-		end
-		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
-		return newAddMsg[frame:GetName()](frame, text, ...)
-	end
-
 	local L = GetLocale()
 	if L == "ruRU" then --Russian
 		chn[1] = "%[%d+%. Общий.-%]"
@@ -72,6 +62,15 @@ f.functions[#f.functions+1] = function()
 		chn[4] = "%[%d+%. LokaleVerteidigung.-%]"
 		chn[5] = "%[%d+%. SucheNachGruppe%]"
 		chn[6] = "%[%d+%. Gildenrekrutierung.-%]"
+	end
+
+	local newAddMsg = {}
+	local AddMessage = function(frame, text, ...)
+		for i = 1, 16 do
+			text = gsub(text, chn[i], rplc[i])
+		end
+		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
+		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
