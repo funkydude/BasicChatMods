@@ -1,10 +1,5 @@
 
---[[     Don't Disable Module     ]]--
-
---[[
-	AddOn core & misc functions and
-	should not be disabled.
-]]--
+--[[     BCM Core     ]]--
 
 local _, f = ...
 f.functions = {}
