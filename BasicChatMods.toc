@@ -7,7 +7,7 @@
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
-Core.lua
+BasicCore.lua
 
 BasicConfig.lua
 
