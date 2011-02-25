@@ -351,7 +351,7 @@ f.functions[#f.functions+1] = function()
 				end
 				btn.value = v.value
 			end
-			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
+			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "BN_WHISPER", "BN_CONVERSATION", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
 			for i=1, #tbl do
 				info.text = _G[tbl[i]]
 				info.value = tbl[i]

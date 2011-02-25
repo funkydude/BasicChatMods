@@ -11,7 +11,7 @@ f.functions[#f.functions+1] = function()
 
 	SetCVar("showTimestamps", "none") CHAT_TIMESTAMP_FORMAT = nil --disable Blizz stamping as it doesn't stamp everything
 	if not bcmDB.stampcolor or strlen(bcmDB.stampcolor) ~= 10 then bcmDB.stampcolor = "|cff777777" end --add a color if we lack one or the the current is invalid
-	if not bcmDB.stampformat then bcmDB.stampformat = "[%I:%M:%S]" end --add a format we if lack one
+	if not bcmDB.stampformat then bcmDB.stampformat = "[%I:%M:%S]" end --add a format if we lack one
 
 	local time = time
 	local newAddMsg = {}
