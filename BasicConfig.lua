@@ -207,15 +207,26 @@ f.functions[#f.functions+1] = function()
 					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
 				end
 			end
-			local tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\skurri.TTF"}
-			for k,v in pairs(tbl) do
-				info.text = k
-				info.value = v
-				info.checked = info.text == selected
-				UIDropDownMenu_AddButton(info)
-				tbl[k] = nil
+			local lsm = LibStub and LibStub("LibSharedMedia-3.0", true)
+			if lsm then
+				local tbl = lsm:List("font")
+				for i=1, #tbl do
+					info.text = tbl[i]
+					info.value = lsm:Fetch("font", tbl[i])
+					info.checked = info.text == selected
+					UIDropDownMenu_AddButton(info)
+				end
+			else
+				local tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\SKURRI.TTF"}
+				for k,v in pairs(tbl) do
+					info.text = k
+					info.value = v
+					info.checked = info.text == selected
+					UIDropDownMenu_AddButton(info)
+					tbl[k] = nil
+				end
+				tbl = nil
 			end
-			tbl = nil
 		end)
 
 		local fontSize = CreateFrame("Frame", "BCM_FontSize", BCM_Font, "UIDropDownMenuTemplate")
