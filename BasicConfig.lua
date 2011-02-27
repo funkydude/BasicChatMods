@@ -101,7 +101,7 @@ f.functions[#f.functions+1] = function()
 	InterfaceOptions_AddCategory(bcm)
 	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	bcmTitle:SetPoint("TOPLEFT", 16, -16)
-	bcmTitle:SetText(name)
+	bcmTitle:SetText(name.." @project-version@") --wowace magic, replaced with tag version
 	local bcmDesc = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 	bcmDesc:SetPoint("TOPLEFT", 16, -62)
 	bcmDesc:SetText(L.CORE)
