@@ -13,8 +13,11 @@ f.functions[#f.functions+1] = function()
 	end
 
 	for k, v in pairs(bcmDB.sticky) do
-		if ChatTypeInfo[k].sticky == v then bcmDB.sticky[k] = nil end --remove entries that are blizz defaults
-		ChatTypeInfo[k].sticky = v
+		if ChatTypeInfo[k].sticky == v then
+			bcmDB.sticky[k] = nil --remove entries that are blizz defaults
+		else
+			ChatTypeInfo[k].sticky = v
+		end
 	end
 end
 
