@@ -8,7 +8,7 @@ f.functions[#f.functions+1] = function()
 	local triggers = {"[Ii][Nn][Vv][Ii][Tt][Ee]", "[Ii][Nn][Vv] ", "[Ii][Nn][Vv]$"}
 	local filterFunc = function(self, event, msg, player, ...)
 		for i=1, 3 do
-			local newMsg, found = gsub(msg, trigger[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r")
+			local newMsg, found = gsub(msg, triggers[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r")
 			if found > 0 then
 				return false, newMsg, player, ...
 			end
