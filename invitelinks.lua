@@ -5,11 +5,13 @@ local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_InviteLinks then return end
 
-	local trigger = "[Ii][Nn][Vv][Ii][Tt][Ee]"
+	local triggers = {"[Ii][Nn][Vv][Ii][Tt][Ee]", "[Ii][Nn][Vv] ", "[Ii][Nn][Vv]$"}
 	local filterFunc = function(self, event, msg, player, ...)
-		local newMsg, found = gsub(msg, trigger, "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r")
-		if found > 0 then
-			return false, newMsg, player, ...
+		for i=1, 3 do
+			local newMsg, found = gsub(msg, trigger[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r")
+			if found > 0 then
+				return false, newMsg, player, ...
+			end
 		end
 	end
 
