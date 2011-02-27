@@ -5,12 +5,14 @@ local name, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.noconfig then return end
 
---------------------------------------------------------------------------------
--- Localization
---
+	--[[-------------------------------
+	-- Localization
+	-------------------------------]]--
 
 	local L = {}
-	L.CORE = "Welcome to BasicChatMods, a simplistic approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
+	L.CORE = "Welcome to BasicChatMods, a simplistic approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
+	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
+
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
@@ -24,8 +26,6 @@ f.functions[#f.functions+1] = function()
 	L.BCM_TellTarget = "Allows you to whisper/tell your current target with the command /tt message or /wt message."
 	L.BCM_Timestamp = "Customize the timestamps you want your chat to use. Choose a color or no color at all, then choose the exact format of the timestamp."
 	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
-
-	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
@@ -55,9 +55,9 @@ f.functions[#f.functions+1] = function()
 		L.GUILDRECRUIT = "Гильдии"
 	end
 
---------------------------------------------------------------------------------
--- Core widgets/functions/etc
---
+	--[[-------------------------------
+	-- Core widgets/functions/etc
+	-------------------------------]]--
 
 	local onShow = function(frame)
 		--Don't move recycled widgets when opening the main BCM panel
@@ -132,10 +132,9 @@ f.functions[#f.functions+1] = function()
 	warn:SetText(L.WARNING)
 	warn:Hide()
 
-
---------------------------------------------------------------------------------
--- Module Panel Creation
---
+	--[[-------------------------------
+	-- Module Panel Creation
+	-------------------------------]]--
 
 	--[[ Button Hide ]]--
 	makePanel("BCM_ButtonHide", bcm, "Button Hide")
