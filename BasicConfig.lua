@@ -22,6 +22,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
 	L.BCM_InviteLinks = "Scan whisper/say/guild/officer for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
+	L.BCM_PlayerNames = "Still thinking about the features of this module... Player Level, Group. What else? Color names in chat?"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -42,6 +43,9 @@ f.functions[#f.functions+1] = function()
 	L.LOCALDEFENSE = "LocalDefense"
 	L.LFG = "LookingForGroup"
 	L.GUILDRECRUIT = "GuildRecruitment"
+
+	L.SHOWLEVELS = "Player level next to name."
+	L.SHOWGROUP = "Player group next to name."
 
 	local GetL = GetLocale()
 	if L == "deDE" then
@@ -99,8 +103,10 @@ f.functions[#f.functions+1] = function()
 		if frame:GetName() == "BCM_AutoLog" and BCM_ChatLog_Button then
 			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
 			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
-		end
-		if frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
+		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
+			if bcmDB.nolevel then BCM_PlayerLevel_Button:SetChecked(false) else BCM_PlayerLevel_Button:SetChecked(true) end
+			if bcmDB.nogroup then BCM_PlayerGroup_Button:SetChecked(false) else BCM_PlayerGroup_Button:SetChecked(true) end
+		elseif frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
 			BCM_Timestamp_InputCol:SetText("123456")
 			BCM_Timestamp_Format:SetText("1234567890")
 			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
@@ -415,6 +421,43 @@ f.functions[#f.functions+1] = function()
 			end
 			tbl = nil
 		end)
+	end
+
+	--[[ Player Names ]]--
+	makePanel("BCM_PlayerNames", bcm, "Player Names")
+
+	if not bcmDB.BCM_PlayerNames then
+		local onClick = function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				if frame:GetName() == "BCM_PlayerLevel_Button" then
+					bcmDB.nolevel = nil
+				else
+					bcmDB.nogroup = nil
+				end
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				if frame:GetName() == "BCM_PlayerLevel_Button" then
+					bcmDB.nolevel = true
+				else
+					bcmDB.nogroup = true
+				end
+			end
+		end
+
+		local levelsBtn = CreateFrame("CheckButton", "BCM_PlayerLevel_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
+		levelsBtn:SetScript("OnClick", onClick)
+		levelsBtn:SetPoint("TOPLEFT", 16, -150)
+		local levelsBtnText = levelsBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		levelsBtnText:SetPoint("LEFT", levelsBtn, "RIGHT")
+		levelsBtnText:SetText(L.SHOWLEVELS)
+
+		local groupBtn = CreateFrame("CheckButton", "BCM_PlayerGroup_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
+		groupBtn:SetScript("OnClick", onClick)
+		groupBtn:SetPoint("TOPLEFT", 16, -180)
+		local groupBtnText = groupBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		groupBtnText:SetPoint("LEFT", groupBtn, "RIGHT")
+		groupBtnText:SetText(L.SHOWGROUP)
 	end
 
 	--[[ Scroll Down ]]--
