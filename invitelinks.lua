@@ -5,13 +5,19 @@ local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_InviteLinks then return end
 
-	local triggers = {"[Ii][Nn][Vv][Ii][Tt][Ee]", "[Ii][Nn][Vv] ", "[Ii][Nn][Vv]$"}
+	-- add locale to these tables
+	local triggers = {"[Ii][Nn][Vv][Ii][Tt][Ee]$", "[Ii][Nn][Vv]$", -- These are any triggers e.g. "please inv"
+	-- These are mid-sentance triggers e.g. "hey inv me" that could be mistaken for other words e.g. "invention", "invited"
+	"([Ii][Nn][Vv][Ii][Tt][Ee]) ", "([Ii][Nn][Vv]) "}
+
 	local filterFunc = function(self, event, msg, player, ...)
-		for i=1, 3 do
-			local newMsg, found = gsub(msg, triggers[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r")
-			if found > 0 then
-				return false, newMsg, player, ...
-			end
+		local found, hasFound
+		for i=1, 4 do
+			msg, found = gsub(msg, triggers[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r"..(i > 2 and " " or ""))
+			if found > 0 then hasFound = true end
+		end
+		if hasFound then
+			return false, msg, player, ...
 		end
 	end
 
