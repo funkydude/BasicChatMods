@@ -7,8 +7,11 @@ f.fire = CreateFrame("Frame")
 f.fire:RegisterEvent("PLAYER_LOGIN")
 f.fire:SetScript("OnEvent", function()
 	--[[ Check Database ]]--
-	if type(bcmDB) ~= "table" then
-		bcmDB = {}
+	if type(bcmDB) ~= "table" then bcmDB = {} end
+	if not bcmDB.v then
+		bcmDB.v = 1
+		bcmDB.BCM_AutoLog = true
+		bcmDB.BCM_PlayerNames = true
 	end
 
 	--[[ Run Modules ]]--

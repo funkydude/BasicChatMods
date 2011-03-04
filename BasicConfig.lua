@@ -12,7 +12,9 @@ f.functions[#f.functions+1] = function()
 	local L = {}
 	L.CORE = "Welcome to BasicChatMods, a simplistic approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
+	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
+	L.BCM_AutoLog = "Automatically log chat after logging on and automatically log the combat log when in a raid instance."
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
@@ -26,6 +28,9 @@ f.functions[#f.functions+1] = function()
 	L.BCM_TellTarget = "Allows you to whisper/tell your current target with the command /tt message or /wt message."
 	L.BCM_Timestamp = "Customize the timestamps you want your chat to use. Choose a color or no color at all, then choose the exact format of the timestamp."
 	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
+
+	L.CHATLOG = "Always log chat."
+	L.COMBATLOG = "Log combat in a raid instance."
 
 	L.LEFT = "Left"
 	L.RIGHT = "Right"
@@ -77,11 +82,37 @@ f.functions[#f.functions+1] = function()
 		local warn = BCM_Warning
 		warn:ClearAllPoints()
 		warn:SetParent(frame)
-		warn:SetPoint("BOTTOMLEFT", 18, 20)
+		warn:SetPoint("CENTER", 0, -200)
 		if bcmDB[frame:GetName()] then
 			btn:SetChecked(false)
+			local optionWarn = BCM_OptionsWarn
+			optionWarn:ClearAllPoints()
+			optionWarn:SetParent(frame)
+			optionWarn:SetPoint("CENTER")
+			optionWarn:Show()
 		else
 			btn:SetChecked(true)
+			BCM_OptionsWarn:Hide()
+		end
+
+		--[[ Modules ]]--
+		if frame:GetName() == "BCM_AutoLog" and BCM_ChatLog_Button then
+			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
+			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
+		end
+		if frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
+			BCM_Timestamp_InputCol:SetText("123456")
+			BCM_Timestamp_Format:SetText("1234567890")
+			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
+			if bcmDB.stampcolor == "" then
+				BCM_TimestampColor_Button:SetChecked(false)
+				BCM_Timestamp_InputCol:EnableMouse(false)
+				BCM_Timestamp_InputCol:SetText("")
+				BCM_Timestamp_InputCol:ClearFocus()
+			else
+				BCM_TimestampColor_Button:SetChecked(true)
+				BCM_Timestamp_InputCol:SetText((bcmDB.stampcolor):sub(5))
+			end
 		end
 	end
 	local makePanel = function(frameName, bcm, panelName)
@@ -124,17 +155,64 @@ f.functions[#f.functions+1] = function()
 			bcmDB[frame:GetParent():GetName()] = true
 		end
 	end)
-	local enableBtnText = enableBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	local enableBtnText = enableBtn:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	enableBtnText:SetPoint("LEFT", enableBtn, "RIGHT")
 	enableBtnText:SetText(ENABLE)
 	local warn = bcm:CreateFontString("BCM_Warning", "ARTWORK", "GameFontNormal")
 	warn:SetJustifyH("CENTER")
 	warn:SetText(L.WARNING)
 	warn:Hide()
+	local optionsWarn = bcm:CreateFontString("BCM_OptionsWarn", "ARTWORK", "GameFontNormal")
+	optionsWarn:SetJustifyH("CENTER")
+	optionsWarn:SetText(L.OPTIONS)
+	optionsWarn:Hide()
 
 	--[[-------------------------------
 	-- Module Panel Creation
 	-------------------------------]]--
+
+	--[[ Auto Log ]]--
+	makePanel("BCM_AutoLog", bcm, "Auto Log")
+
+	if not bcmDB.BCM_AutoLog then
+		local onClick = function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				if frame:GetName() == "BCM_ChatLog_Button" then
+					bcmDB.logchat = true
+					LoggingChat(true)
+					print("|cFF33FF99BasicChatMods|r: ", CHATLOGENABLED)
+				else
+					BCM_Warning:Show()
+					bcmDB.logcombat = true
+				end
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				if frame:GetName() == "BCM_ChatLog_Button" then
+					bcmDB.logchat = nil
+					LoggingChat(false)
+					print("|cFF33FF99BasicChatMods|r: ", CHATLOGDISABLED)
+				else
+					BCM_Warning:Show()
+					bcmDB.logcombat = nil
+				end
+			end
+		end
+
+		local chatLogBtn = CreateFrame("CheckButton", "BCM_ChatLog_Button", BCM_AutoLog, "OptionsBaseCheckButtonTemplate")
+		chatLogBtn:SetScript("OnClick", onClick)
+		chatLogBtn:SetPoint("TOPLEFT", 16, -150)
+		local chatLogBtnText = chatLogBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		chatLogBtnText:SetPoint("LEFT", chatLogBtn, "RIGHT")
+		chatLogBtnText:SetText(L.CHATLOG)
+
+		local combatLogBtn = CreateFrame("CheckButton", "BCM_CombatLog_Button", BCM_AutoLog, "OptionsBaseCheckButtonTemplate")
+		combatLogBtn:SetScript("OnClick", onClick)
+		combatLogBtn:SetPoint("TOPLEFT", 16, -180)
+		local combatLogBtnText = combatLogBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		combatLogBtnText:SetPoint("LEFT", combatLogBtn, "RIGHT")
+		combatLogBtnText:SetText(L.COMBATLOG)
+	end
 
 	--[[ Button Hide ]]--
 	makePanel("BCM_ButtonHide", bcm, "Button Hide")
@@ -398,7 +476,7 @@ f.functions[#f.functions+1] = function()
 	makePanel("BCM_Timestamp", bcm, "Timestamp")
 
 	if not bcmDB.BCM_Timestamp then
-		local stampBtn = CreateFrame("CheckButton", nil, BCM_Timestamp, "OptionsBaseCheckButtonTemplate")
+		local stampBtn = CreateFrame("CheckButton", "BCM_TimestampColor_Button", BCM_Timestamp, "OptionsBaseCheckButtonTemplate")
 		stampBtn:SetScript("OnClick", function(frame)
 			local input = BCM_Timestamp_InputCol
 			if frame:GetChecked() then
@@ -412,21 +490,6 @@ f.functions[#f.functions+1] = function()
 				input:SetText("")
 				input:EnableMouse(false)
 				input:ClearFocus()
-			end
-		end)
-		stampBtn:SetScript("OnShow", function(frame)
-			local input = BCM_Timestamp_InputCol
-			input:SetText("123456")
-			BCM_Timestamp_Format:SetText("1234567890")
-			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
-			if bcmDB.stampcolor == "" then
-				frame:SetChecked(false)
-				input:EnableMouse(false)
-				input:SetText("")
-				input:ClearFocus()
-			else
-				frame:SetChecked(true)
-				input:SetText((bcmDB.stampcolor):sub(5))
 			end
 		end)
 		stampBtn:SetPoint("TOPLEFT", 16, -140)
