@@ -61,7 +61,7 @@ f.functions[#f.functions+1] = function()
 		if not bcmDB.nolevel and nameLevels[name] then
 			nameToChange = (nameLevels[name])..":"..nameToChange
 		end
-		if not bcmDB.nogroup and UnitInRaid(name) then
+		if not bcmDB.nogroup and nameGroup[name] then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
 		return ("|Hplayer:%s:%s[%s]|h"):format(name, misc, nameToChange)
