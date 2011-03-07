@@ -80,14 +80,14 @@ f.functions[#f.functions+1] = function()
 		end
 		local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
 		local color = ("|cFF%02x%02x%02x%s|r"):format(tbl.r*255, tbl.g*255, tbl.b*255, fakeName)
-		return ("|HBNplayer:%s|k:%s:%s|h[%s]|h"):format(misc, id, moreMisc, color)
+		return ("|HBNplayer:%s|k:%s:%s|h[%s]"):format(misc, id, moreMisc, color)
 	end
 	local AddMessage = function(frame, text, ...)
 		if not bcmDB.nolevel or not bcmDB.nogroup then
 			text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h", changeName)
 		end
 		if not bcmDB.nobnet then
-			text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]|h", changeBnetName)
+			text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]", changeBnetName)
 		end
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
