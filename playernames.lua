@@ -10,7 +10,7 @@ f.functions[#f.functions+1] = function()
 
 	--[[ Harvest Levels ]]--
 	nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
-	frame:SetScript("OnEvent", function(frame, event)
+	frame:SetScript("OnEvent", function(_, event)
 		if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
 			if UnitIsPlayer("target") and UnitFactionGroup("player") == UnitFactionGroup("target") then
 				nameLevels[UnitName("target")] = tostring(UnitLevel("target"))

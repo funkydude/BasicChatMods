@@ -21,8 +21,9 @@ f.functions[#f.functions+1] = function()
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
+	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter another word such as the short version of your name."
 	L.BCM_InviteLinks = "Scan whisper/say/guild/officer for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
-	L.BCM_PlayerNames = "Still thinking about the features of this module... Player Level, Group. What else? Color names in chat?"
+	L.BCM_PlayerNames = "Add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -362,6 +363,9 @@ f.functions[#f.functions+1] = function()
 			tbl = nil
 		end)
 	end
+
+	--[[ Highlight ]]--
+	--makePanel("BCM_Hightlight", bcm, "Highlight")
 
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")
