@@ -12,6 +12,7 @@ BasicCore.lua
 BasicConfig.lua
 
 autolog.lua
+bnet.lua
 buttons.lua
 channelnames.lua
 chatcopy.lua

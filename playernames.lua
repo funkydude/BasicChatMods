@@ -4,7 +4,8 @@
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	local bcmDB = bcmDB
-	if bcmDB.BCM_PlayerNames then bcmDB.nolevel = nil bcmDB.nogroup = nil bcmDB.nobnet = nil return end
+	bcmDB.nobnet = nil
+	if bcmDB.BCM_PlayerNames then bcmDB.nolevel = nil bcmDB.nogroup = nil return end
 
 	local newAddMsg, nameLevels, nameGroup, frame = {}, {}, {}, CreateFrame("Frame")
 
@@ -66,29 +67,8 @@ f.functions[#f.functions+1] = function()
 		end
 		return ("|Hplayer:%s:%s[%s]|h"):format(name, misc, nameToChange)
 	end
-	local changeBnetName = function(misc, id, moreMisc, fakeName)
-		local englishClass = select(7, BNGetToonInfo(id))
-		if strlen(englishClass) < 2 then return end -- Friend logging off
-		local class
-		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
-			if v == englishClass then class = k break end
-		end
-		if not class then
-			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
-				if v == englishClass then class = k break end
-			end
-		end
-		local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-		local color = ("|cFF%02x%02x%02x%s|r"):format(tbl.r*255, tbl.g*255, tbl.b*255, fakeName)
-		return ("|HBNplayer:%s|k:%s:%s|h[%s]"):format(misc, id, moreMisc, color)
-	end
 	local AddMessage = function(frame, text, ...)
-		if not bcmDB.nolevel or not bcmDB.nogroup then
-			text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h", changeName)
-		end
-		if not bcmDB.nobnet then
-			text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]", changeBnetName)
-		end
+		text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h", changeName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 

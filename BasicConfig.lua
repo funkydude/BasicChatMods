@@ -15,6 +15,7 @@ f.functions[#f.functions+1] = function()
 	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
 	L.BCM_AutoLog = "Automatically log chat after logging on and automatically log the combat log when in a raid instance."
+	L.BCM_BNetColor = "Class color the various RealId events such as whispers, conversations, and logging on."
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
@@ -23,7 +24,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
 	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter another word such as the short version of your name."
 	L.BCM_InviteLinks = "Scan whisper/say/guild/officer for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
-	L.BCM_PlayerNames = "Class color RealID whispers or add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
+	L.BCM_PlayerNames = "Add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
@@ -47,7 +48,6 @@ f.functions[#f.functions+1] = function()
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
-	L.BNET = "Class color RealID whispers."
 
 	local GetL = GetLocale()
 	if L == "deDE" then
@@ -108,7 +108,6 @@ f.functions[#f.functions+1] = function()
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
-			BCM_BNet_Button:SetChecked(not bcmDB.nobnet and true)
 		elseif frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
 			BCM_Timestamp_InputCol:SetText("123456")
 			BCM_Timestamp_Format:SetText("1234567890")
@@ -222,6 +221,9 @@ f.functions[#f.functions+1] = function()
 		combatLogBtnText:SetPoint("LEFT", combatLogBtn, "RIGHT")
 		combatLogBtnText:SetText(L.COMBATLOG)
 	end
+
+	--[[ BNet Color ]]--
+	makePanel("BCM_BNetColor", bcm, "BNet Color")
 
 	--[[ Button Hide ]]--
 	makePanel("BCM_ButtonHide", bcm, "Button Hide")
@@ -438,8 +440,6 @@ f.functions[#f.functions+1] = function()
 				PlaySound("igMainMenuOptionCheckBoxOn")
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = nil
-				elseif frame:GetName() == "BCM_BNet_Button" then
-					bcmDB.nobnet = nil
 				else
 					bcmDB.nogroup = nil
 				end
@@ -447,8 +447,6 @@ f.functions[#f.functions+1] = function()
 				PlaySound("igMainMenuOptionCheckBoxOff")
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = true
-				elseif frame:GetName() == "BCM_BNet_Button" then
-					bcmDB.nobnet = true
 				else
 					bcmDB.nogroup = true
 				end
@@ -468,13 +466,6 @@ f.functions[#f.functions+1] = function()
 		local groupBtnText = groupBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		groupBtnText:SetPoint("LEFT", groupBtn, "RIGHT")
 		groupBtnText:SetText(L.SHOWGROUP)
-
-		local bnetBtn = CreateFrame("CheckButton", "BCM_BNet_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
-		bnetBtn:SetScript("OnClick", onClick)
-		bnetBtn:SetPoint("TOPLEFT", 16, -220)
-		local bnetBtnText = bnetBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		bnetBtnText:SetPoint("LEFT", bnetBtn, "RIGHT")
-		bnetBtnText:SetText(L.BNET)
 	end
 
 	--[[ Scroll Down ]]--
