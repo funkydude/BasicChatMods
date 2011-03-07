@@ -88,9 +88,6 @@ f.functions[#f.functions+1] = function()
 		if not bcmDB.nobnet then
 			text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]|h", changeBnetName)
 		end
-		--|Hplayer:Name:185:WHISPER:NAME|h[|cffc69b6dName|r]|h whispers: test 5
-		--|HBNplayer:|Kf17|k0000000000000000|k:17:93:BN_WHISPER:|Kf17|k0000000000000000|k|h[|Kf17|k0000000000000000|k]|h whispers: hi
-
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
