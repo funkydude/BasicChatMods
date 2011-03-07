@@ -68,6 +68,7 @@ f.functions[#f.functions+1] = function()
 	end
 	local changeBnetName = function(misc, id, moreMisc, fakeName)
 		local englishClass = select(7, BNGetToonInfo(id))
+		if strlen(englishClass) < 2 then return end -- Friend logging off
 		local class
 		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 			if v == englishClass then class = k break end
