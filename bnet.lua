@@ -20,8 +20,8 @@ f.functions[#f.functions+1] = function()
 			end
 		end
 		local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-		local color = ("|cFF%02x%02x%02x%s|r"):format(tbl.r*255, tbl.g*255, tbl.b*255, fakeName)
-		return ("|HBNplayer:%s|k:%s:%s|h[%s]"):format(misc, id, moreMisc, color)
+		local color = ("%02x%02x%02x"):format(tbl.r*255, tbl.g*255, tbl.b*255)
+		return ("|HBNplayer:%s|k:%s:%s|h[|cFF%s%s|r]"):format(misc, id, moreMisc, color, fakeName)
 	end
 	local AddMessage = function(frame, text, ...)
 		text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]", changeBNetName)
