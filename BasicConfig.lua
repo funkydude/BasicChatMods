@@ -22,7 +22,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
-	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter another word such as the short version of your name."
+	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
 	L.BCM_InviteLinks = "Scan whisper/say/guild/officer for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
 	L.BCM_PlayerNames = "Add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
@@ -50,7 +50,7 @@ f.functions[#f.functions+1] = function()
 	L.SHOWGROUP = "Player group next to name."
 
 	local GetL = GetLocale()
-	if L == "deDE" then
+	if GetL == "deDE" then
 		L.GENERAL = "Allgemein"
 		L.TRADE = "Handel"
 		L.WORLDDEFENSE = "Weltverteidigung"
@@ -108,6 +108,9 @@ f.functions[#f.functions+1] = function()
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
+		elseif frame:GetName() == "BCM_Highlight" and BCM_Highlight_Input and bcmDB.highlightWord then
+			BCM_Highlight_Input:SetText("1234567890")
+			BCM_Highlight_Input:SetText(bcmDB.highlightWord)
 		elseif frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
 			BCM_Timestamp_InputCol:SetText("123456")
 			BCM_Timestamp_Format:SetText("1234567890")
@@ -369,7 +372,32 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--[[ Highlight ]]--
-	--makePanel("BCM_Highlight", bcm, "Highlight")
+	makePanel("BCM_Highlight", bcm, "Highlight")
+
+	if not bcmDB.BCM_Highlight then
+		local secondaryNameDesc = BCM_Highlight:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+		secondaryNameDesc:SetPoint("TOPLEFT", 20, -150)
+		secondaryNameDesc:SetText("Secondary Name:")
+		local secondaryNameInput = CreateFrame("EditBox", "BCM_Highlight_Input", BCM_Highlight, "InputBoxTemplate")
+		secondaryNameInput:SetPoint("TOPLEFT", 25, -165)
+		secondaryNameInput:SetAutoFocus(false)
+		secondaryNameInput:SetWidth(100)
+		secondaryNameInput:SetHeight(20)
+		secondaryNameInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then
+				local t = frame:GetText()
+				if t:find("[%(%)%.%%%+%-%*%?%[%^%$%]!\"£&_={}@'~#:;/\\<>,|`¬%d]") then frame:SetText(bcmDB.highlightWord or "") return end
+				t = (t):lower()
+				frame:SetText(t)
+				if strlen(t) > 2 then
+					bcmDB.highlightWord = t
+				else
+					bcmDB.highlightWord = nil
+				end
+				BCM_Warning:Show()
+			end
+		end)
+	end
 
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")

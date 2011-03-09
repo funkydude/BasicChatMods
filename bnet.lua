@@ -3,7 +3,6 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	local bcmDB = bcmDB
 	if bcmDB.BCM_BNetColor then return end
 
 	local newAddMsg = {}

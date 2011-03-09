@@ -26,7 +26,14 @@ f.fire:SetScript("OnEvent", function()
 		f.fire:SetScript("OnUpdate", function(frame)
 			if (GetTime() - frame.t) > 10 then
 				local info = ChatTypeInfo.GUILD
-				ChatFrame1:AddMessage("|cFF33FF99BasicChatMods|r: "..(GUILD_MOTD_TEMPLATE):format(GetGuildRosterMOTD()), info.r, info.g, info.b)
+				for i=1, 10 do
+					local cF = _G[("%s%d"):format("ChatFrame", i)]
+					for j=1, #cF.messageTypeList do
+						if cF.messageTypeList[j] == "GUILD" then
+							cF:AddMessage("|cFF33FF99BasicChatMods|r: "..(GUILD_MOTD_TEMPLATE):format(GetGuildRosterMOTD()), info.r, info.g, info.b)
+						end
+					end
+				end
 				frame.t = nil
 				frame:SetScript("OnUpdate", nil)
 			end

@@ -4,7 +4,6 @@
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	local bcmDB = bcmDB
-	bcmDB.nobnet = nil
 	if bcmDB.BCM_PlayerNames then bcmDB.nolevel = nil bcmDB.nogroup = nil return end
 
 	local newAddMsg, nameLevels, nameGroup, frame = {}, {}, {}, CreateFrame("Frame")
