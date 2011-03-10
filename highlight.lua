@@ -5,7 +5,7 @@ local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_Highlight then bcmDB.highlightWord = nil return end
 
-	--[[ Start player login table creation ]]--
+	--[[ Start one-time table creation ]]--
 	local _, class = UnitClass("player")
 	local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
 	local color = ("|cFF%02x%02x%02x%%1|r"):format(tbl.r*255, tbl.g*255, tbl.b*255)
@@ -28,18 +28,18 @@ f.functions[#f.functions+1] = function()
 		return str:sub(start, currentIndex - 1)
 	end
 
-	--[[ Good thing we only need to run this nonsense once ]]--
 	local pName, myNames = UnitName("player"), {}
 	local up, down, count, tally = strupper(pName), strlower(pName), strlenutf8(pName), 1
 	myNames[1] = ""
 	for i=1, count do
+		--Good thing we only need to run this nonsense once
 		local len = strlen(utf8sub(up, tally, 1))
 		myNames[1] = myNames[1].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"..(len > 1 and "+" or "")
 		tally = tally + len
 	end
-	myNames[2] = " ".. myNames[1] .. "$"
-	myNames[3] = "^".. myNames[1] .. "$"
-	myNames[4] = "^".. myNames[1] .. " "
+	myNames[2] = " ".. myNames[1] .."$"
+	myNames[3] = "^".. myNames[1] .."$"
+	myNames[4] = "^".. myNames[1] .." "
 	myNames[1] = " ".. myNames[1] .." "
 
 	if bcmDB.highlightWord then
@@ -50,13 +50,13 @@ f.functions[#f.functions+1] = function()
 			myNames[5] = myNames[5].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"..(len > 1 and "+" or "")
 			tally = tally + len
 		end
-		myNames[6] = " ".. myNames[5] .. "$"
-		myNames[7] = "^".. myNames[5] .. "$"
-		myNames[8] = "^".. myNames[5] .. " "
+		myNames[6] = " ".. myNames[5] .."$"
+		myNames[7] = "^".. myNames[5] .."$"
+		myNames[8] = "^".. myNames[5] .." "
 		myNames[5] = " ".. myNames[5] .." "
 	end
 	utf8sub = nil
-	--[[ End player login table creation ]]--
+	--[[ End one-time table creation ]]--
 
 	local gsub = gsub
 	local filterFunc = function(self, event, msg, ...)
