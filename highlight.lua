@@ -46,8 +46,9 @@ f.functions[#f.functions+1] = function()
 		up, down, count, tally = strupper(bcmDB.highlightWord), strlower(bcmDB.highlightWord), strlenutf8(bcmDB.highlightWord), 1
 		myNames[5] = ""
 		for i=1, count do
-			myNames[5] = myNames[5].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"
-			tally = tally + strlen(utf8sub(up, tally, 1))
+			local len = strlen(utf8sub(up, tally, 1))
+			myNames[5] = myNames[5].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"..(len > 1 and "+" or "")
+			tally = tally + len
 		end
 		myNames[6] = " ".. myNames[5] .. "$"
 		myNames[7] = "^".. myNames[5] .. "$"
