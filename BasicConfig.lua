@@ -64,6 +64,13 @@ f.functions[#f.functions+1] = function()
 		L.LOCALDEFENSE = "Оборона"
 		L.LFG = "Поиск спутников"
 		L.GUILDRECRUIT = "Гильдии"
+	elseif L == "zhTW" then
+		L.GENERAL = "綜合"
+		L.TRADE = "交易"
+		L.WORLDDEFENSE = "世界防務"
+		L.LOCALDEFENSE = "本地防務"
+		L.LFG = "組隊"
+		L.GUILDRECRUIT = "公會招募"
 	end
 
 	--[[-------------------------------
