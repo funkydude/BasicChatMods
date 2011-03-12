@@ -49,24 +49,26 @@ f.functions[#f.functions+1] = function()
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
 
-	local GetL = GetLocale()
-	if GetL == "deDE" then
-		--@localization(locale="deDE", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif GetL == "frFR" then
-		--@localization(locale="frFR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif GetL == "esES" then
-		--@localization(locale="esES", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif L == "ruRU" then
-		--@localization(locale="ruRU", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif L == "zhTW" then
-		--@localization(locale="zhTW", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif L == "zhCN" then
-		--@localization(locale="zhCN", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif L == "koKR" then
-		--@localization(locale="koKR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	elseif L == "esMX" then
-		--@localization(locale="esMX", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
-	end
+--[[ Start WowAce Localization Mess ]]--
+local GetL = GetLocale()
+if GetL == "deDE" then
+--@localization(locale="deDE", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "frFR" then
+--@localization(locale="frFR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "esES" then
+--@localization(locale="esES", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "ruRU" then
+--@localization(locale="ruRU", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "zhTW" then
+--@localization(locale="zhTW", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "zhCN" then
+--@localization(locale="zhCN", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "koKR" then
+--@localization(locale="koKR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+elseif GetL == "esMX" then
+--@localization(locale="esMX", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+end
+--[[ End WowAce Localization Mess ]]--
 
 	--[[-------------------------------
 	-- Core widgets/functions/etc
