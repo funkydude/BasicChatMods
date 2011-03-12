@@ -6,7 +6,6 @@ f.functions[#f.functions+1] = function()
 	--[[ Color codes ---> http://www.december.com/html/spec/colorcodes.html ]]--
 
 	local bcmDB = bcmDB
-	bcmDB.stampbracket, bcmDB.BCM_TimestampCustomize = nil, nil --reset defunct variables, REMOVE ME eventually
 	if bcmDB.BCM_Timestamp then bcmDB.stampcolor = nil bcmDB.stampformat = nil return end
 
 	SetCVar("showTimestamps", "none") CHAT_TIMESTAMP_FORMAT = nil --disable Blizz stamping as it doesn't stamp everything

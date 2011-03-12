@@ -10,7 +10,7 @@ f.functions[#f.functions+1] = function()
 	-------------------------------]]--
 
 	local L = {}
-	L.CORE = "Welcome to BasicChatMods, a simplistic approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
+	L.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
@@ -51,26 +51,21 @@ f.functions[#f.functions+1] = function()
 
 	local GetL = GetLocale()
 	if GetL == "deDE" then
-		L.GENERAL = "Allgemein"
-		L.TRADE = "Handel"
-		L.WORLDDEFENSE = "Weltverteidigung"
-		L.LOCALDEFENSE = "LokaleVerteidigung"
-		L.LFG = "SucheNachGruppe"
-		L.GUILDRECRUIT = "Gildenrekrutierung"
+		--@localization(locale="deDE", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+	elseif GetL == "frFR" then
+		--@localization(locale="frFR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+	elseif GetL == "esES" then
+		--@localization(locale="esES", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
 	elseif L == "ruRU" then
-		L.GENERAL = "Общий"
-		L.TRADE = "Торговля"
-		L.WORLDDEFENSE = "Оборона: глобальный"
-		L.LOCALDEFENSE = "Оборона"
-		L.LFG = "Поиск спутников"
-		L.GUILDRECRUIT = "Гильдии"
+		--@localization(locale="ruRU", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
 	elseif L == "zhTW" then
-		L.GENERAL = "綜合"
-		L.TRADE = "交易"
-		L.WORLDDEFENSE = "世界防務"
-		L.LOCALDEFENSE = "本地防務"
-		L.LFG = "組隊"
-		L.GUILDRECRUIT = "公會招募"
+		--@localization(locale="zhTW", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+	elseif L == "zhCN" then
+		--@localization(locale="zhCN", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+	elseif L == "koKR" then
+		--@localization(locale="koKR", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
+	elseif L == "esMX" then
+		--@localization(locale="esMX", namespace="Config_Module", format="lua_additive_table", handle-unlocalized="ignore")@
 	end
 
 	--[[-------------------------------
@@ -315,7 +310,19 @@ f.functions[#f.functions+1] = function()
 					UIDropDownMenu_AddButton(info)
 				end
 			else
-				local tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\SKURRI.TTF"}
+				local tbl
+				local myLocale = GetLocale()
+				if myLocale == "ruRU" then
+					tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Nimrod MT"] = "Fonts\\NIM_____.ttf", ["Skurri"] = "Fonts\\SKURRI.TTF"}
+				elseif myLocale == "koKR" then
+					tbl = {["굵은 글꼴"] = "Fonts\\2002B.TTF", ["기본 글꼴"] = "Fonts\\2002.TTF", ["데미지 글꼴"] = "Fonts\\K_Damage.TTF", ["퀘스트 글꼴"] = "Fonts\\K_Pagetext.TTF"}
+				elseif myLocale == "zhTW" then
+					tbl = {["提示訊息"] = "Fonts\\bHEI00M.ttf", ["聊天"] = "Fonts\\bHEI01B.ttf", ["傷害數字"] = "Fonts\\bKAI00M.ttf", ["預設"] = "Fonts\\bLEI00D.ttf"}
+				elseif myLocale == "zhCN" then
+					tbl = {["伤害数字"] = "Fonts\\ZYKai_C.ttf", ["默认"] = "Fonts\\ZYKai_T.ttf", ["聊天"] = "Fonts\\ZYHei.ttf"}
+				else
+					tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\SKURRI.TTF"}
+				end
 				for k,v in pairs(tbl) do
 					info.text = k
 					info.value = v

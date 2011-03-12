@@ -5,6 +5,12 @@ local _, f = ...
 f.functions[#f.functions+1] = function()
 	if bcmDB.BCM_ChatCopy then return end
 
+	local doubleclick = "Double-click to copy chat."
+	local L = GetLocale()
+	if L == "deDE" then
+		doubleclick = "Double-click to copy chat."
+	end
+
 	--Copying Functions
 	local lines = {}
 	local copyFunc = function(frame, btn)
@@ -33,7 +39,7 @@ f.functions[#f.functions+1] = function()
 			GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
 			GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
 		end
-		GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|tDouble-click to copy chat.", 1, 0, 0)
+		GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
 		GameTooltip:Show()
 	end
 
