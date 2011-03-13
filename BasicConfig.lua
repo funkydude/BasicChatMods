@@ -15,7 +15,7 @@ f.functions[#f.functions+1] = function()
 	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
 	L.BCM_AutoLog = "Automatically log chat after logging on and automatically log the combat log when in a raid instance."
-	L.BCM_BNetColor = "Class color the various RealId events such as whispers, conversations, and logging on."
+	L.BCM_BNetColor = "Class color the various Real Id events such as whispers, conversations, and friends logging on."
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."

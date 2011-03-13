@@ -62,6 +62,13 @@ f.functions[#f.functions+1] = function()
 		chn[4] = "%[%d0?%. LokaleVerteidigung.-%]"
 		chn[5] = "%[%d0?%. SucheNachGruppe%]"
 		chn[6] = "%[%d0?%. Gildenrekrutierung.-%]"
+	elseif L == "frFR" then --French
+		chn[1] = "%[%d0?%. Général.-%]"
+		chn[2] = "%[%d0?%. Commerce.-%]"
+		chn[3] = "%[%d0?%. DéfenseUniverselle%]"
+		chn[4] = "%[%d0?%. DéfenseLocale.-%]"
+		chn[5] = "%[%d0?%. RechercheDeGroupe%]"
+		chn[6] = "%[%d0?%. RecrutementDeGuilde.-%]"
 	end
 
 	local newAddMsg = {}
