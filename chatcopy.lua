@@ -34,12 +34,16 @@ f.functions[#f.functions+1] = function()
 		wipe(lines)
 	end
 	local hintFunc = function(frame)
+		if SHOW_NEWBIE_TIPS ~= "1" and bcmDB.noChatCopyTip then return end
+
 		GameTooltip:SetOwner(frame, "ANCHOR_TOP")
 		if SHOW_NEWBIE_TIPS == "1" then
 			GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
 			GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
 		end
-		GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+		if not bcmDB.noChatCopyTip then
+			GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+		end
 		GameTooltip:Show()
 	end
 

@@ -109,6 +109,8 @@ end
 		if frame:GetName() == "BCM_AutoLog" and BCM_ChatLog_Button then
 			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
 			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
+		elseif frame:GetName() == "BCM_ChatCopy" and BCM_ChatCopy_Button then
+			BCM_ChatCopy_Button:SetChecked(not bcmDB.noChatCopyTip and true)
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
@@ -277,6 +279,23 @@ end
 
 	--[[ Chat Copy ]]--
 	makePanel("BCM_ChatCopy", bcm, "Chat Copy")
+
+	if not bcmDB.BCM_ChatCopy then
+		local chatCopyBtn = CreateFrame("CheckButton", "BCM_ChatCopy_Button", BCM_ChatCopy, "OptionsBaseCheckButtonTemplate")
+		chatCopyBtn:SetScript("OnClick", function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				bcmDB.noChatCopyTip = nil
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				bcmDB.noChatCopyTip = true
+			end
+		end)
+		chatCopyBtn:SetPoint("TOPLEFT", 16, -150)
+		local chatCopyBtnText = chatCopyBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		chatCopyBtnText:SetPoint("LEFT", chatCopyBtn, "RIGHT")
+		chatCopyBtnText:SetText(SHOW_NEWBIE_TIPS_TEXT)
+	end
 
 	--[[ Edit Box ]]--
 	makePanel("BCM_EditBox", bcm, "Edit Box")
