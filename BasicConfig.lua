@@ -10,7 +10,7 @@ f.functions[#f.functions+1] = function()
 	-------------------------------]]--
 
 	local L = {}
-	L.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, it will also allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
+	L.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will increase the amount of lines your chat frames remember, allow you to drag your chat frames to the very edge of the screen, allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
