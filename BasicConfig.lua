@@ -45,6 +45,9 @@ f.functions[#f.functions+1] = function()
 	L.LOCALDEFENSE = "LocalDefense"
 	L.LFG = "LookingForGroup"
 	L.GUILDRECRUIT = "GuildRecruitment"
+	L.CHANNELNUMBER = "Channel Number"
+	L.CHANNELNAME = "Channel Name"
+	L.CUSTOMCHANNEL = "Custom Channel"
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
@@ -246,19 +249,25 @@ end
 	makePanel("BCM_ChannelNames", bcm, "Channel Names")
 
 	if not bcmDB.BCM_ChannelNames then
+		local channelTip = BCM_ChannelNames:CreateFontString("BCM_ChanName_Tip", "ARTWORK", "GameFontHighlight")
+		channelTip:SetPoint("TOPLEFT", 210, -170)
+		channelTip:SetText("%1 == ".. L.CHANNELNUMBER.. "\n%2 == ".. L.CHANNELNAME)
+		channelTip:Hide()
 		local chan = CreateFrame("Frame", "BCM_ChanName_Drop", BCM_ChannelNames, "UIDropDownMenuTemplate")
 		chan:SetPoint("TOPLEFT", 16, -140)
-		BCM_ChanName_DropText:SetText(CHANNEL)
+		BCM_ChanName_DropMiddle:SetWidth(130)
+		BCM_ChanName_DropText:SetText(ADD_CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
 			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
+				if v:GetText() == L.CUSTOMCHANNEL then BCM_ChanName_Tip:Show() else BCM_ChanName_Tip:Hide() end
 				local input = BCM_ChanName_Input
 				input:EnableMouse(true)
 				input:SetText("1234567890") --for some reason the text wont display without calling something long
 				input:SetText(bcmDB.replacements[v.value])
 				input.value = v.value
 			end
-			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING}
+			local tbl = {L.GENERAL, L.TRADE, L.WORLDDEFENSE, L.LOCALDEFENSE, L.LFG, L.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, L.CUSTOMCHANNEL}
 			for i=1, #tbl do
 				info.text = tbl[i]
 				info.value = i

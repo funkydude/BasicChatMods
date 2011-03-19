@@ -23,8 +23,10 @@ f.functions[#f.functions+1] = function()
 			"[R]", --Raid
 			"[RL]", --Raid Leader
 			"[RW]", --Raid Warning
+			"[%1]", --Custom Channels
 		}
 	end
+	if not bcmDB.replacements[17] then bcmDB.replacements[17] = "[%1]" end --Temp
 
 	local rplc = bcmDB.replacements
 	local gsub = gsub
@@ -45,6 +47,7 @@ f.functions[#f.functions+1] = function()
 		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		"%[(%d0?)%. (.-)%]", --Custom Channels
 	}
 
 	local L = GetLocale()
@@ -73,10 +76,9 @@ f.functions[#f.functions+1] = function()
 
 	local newAddMsg = {}
 	local AddMessage = function(frame, text, ...)
-		for i = 1, 16 do
+		for i = 1, 17 do
 			text = gsub(text, chn[i], rplc[i])
 		end
-		text = gsub(text, "%[(%d0?)%. .-%]", "[%1]") --custom channels
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
