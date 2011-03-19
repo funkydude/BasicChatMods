@@ -4,58 +4,65 @@
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	local bcmDB = bcmDB
-	if bcmDB.BCM_PlayerNames then bcmDB.nolevel = nil bcmDB.nogroup = nil return end
+	if bcmDB.BCM_PlayerNames then bcmDB.nolevel = nil bcmDB.nogroup = nil bcmDB.playerNameLBrack = nil bcmDB.playerNameRBrack = nil return end
 
-	local newAddMsg, nameLevels, nameGroup, frame = {}, {}, {}, CreateFrame("Frame")
+	local newAddMsg = {}
+	if not bcmDB.playerNameLBrack then bcmDB.playerNameLBrack = "[" end
+	if not bcmDB.playerNameRBrack then bcmDB.playerNameRBrack = "]:" end
 
 	--[[ Harvest Levels ]]--
-	nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
-	frame:SetScript("OnEvent", function(_, event)
-		if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
-			if UnitIsPlayer("target") and UnitFactionGroup("player") == UnitFactionGroup("target") then
-				nameLevels[UnitName("target")] = tostring(UnitLevel("target"))
-			end
-		elseif event == "GUILD_ROSTER_UPDATE" and not bcmDB.nolevel then
-			if not IsInGuild() then return end
-			for i=1, GetNumGuildMembers() do 
-				local n, _, _, l, _, _, _, _, online = GetGuildRosterInfo(i) 
-				if online then 
-					nameLevels[n] = tostring(l)
-				end 
-			end
-		elseif event == "RAID_ROSTER_UPDATE" and not bcmDB.nogroup then
-			wipe(nameGroup)
-			if UnitInRaid("player") then
-				for i=1, GetNumRaidMembers() do
-					local n, _, g = GetRaidRosterInfo(i)
-					nameGroup[n] = tostring(g)
+	local nameLevels, nameGroup
+	if not bcmDB.nolevel or not bcmDB.nogroup then
+		nameLevels, nameGroup = {}, {}
+		local frame = CreateFrame("Frame", "BCM_PlayerName_Harvest")
+		nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
+		frame:SetScript("OnEvent", function(_, event)
+			if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
+				if UnitIsPlayer("target") and UnitFactionGroup("player") == UnitFactionGroup("target") then
+					nameLevels[UnitName("target")] = tostring(UnitLevel("target"))
+				end
+			elseif event == "GUILD_ROSTER_UPDATE" and not bcmDB.nolevel then
+				if not IsInGuild() then return end
+				for i=1, GetNumGuildMembers() do 
+					local n, _, _, l, _, _, _, _, online = GetGuildRosterInfo(i) 
+					if online and n then 
+						nameLevels[n] = tostring(l)
+					end 
+				end
+			elseif event == "RAID_ROSTER_UPDATE" and not bcmDB.nogroup then
+				wipe(nameGroup)
+				if UnitInRaid("player") then
+					for i=1, GetNumRaidMembers() do
+						local n, _, g = GetRaidRosterInfo(i)
+						if n then nameGroup[n] = tostring(g) end
+					end
+				end
+			elseif event == "PARTY_MEMBERS_CHANGED" and not bcmDB.nolevel then
+				for i=1, GetNumPartyMembers() do
+					local n = UnitName("party"..i)
+					local l = UnitLevel("party"..i)
+					if n then nameLevels[n] = tostring(l) end
+				end
+			elseif event == "UPDATE_MOUSEOVER_UNIT" and not bcmDB.nolevel then
+				if UnitIsPlayer("mouseover") and UnitFactionGroup("player") == UnitFactionGroup("mouseover") then
+					nameLevels[UnitName("mouseover")] = tostring(UnitLevel("mouseover"))
+				end
+			elseif event == "FRIENDLIST_UPDATE" and not bcmDB.nolevel then
+				for i = 1, GetNumFriends() do
+					local n, l = GetFriendInfo(i)
+					if n and l then
+						nameLevels[n] = tostring(l)
+					end
 				end
 			end
-		elseif event == "PARTY_MEMBERS_CHANGED" and not bcmDB.nolevel then
-			for i=1, GetNumPartyMembers() do
-				local n = UnitName("party"..i)
-				local l = UnitLevel("party"..i)
-				nameLevels[n] = tostring(l)
-			end
-		elseif event == "UPDATE_MOUSEOVER_UNIT" and not bcmDB.nolevel then
-			if UnitIsPlayer("mouseover") and UnitFactionGroup("player") == UnitFactionGroup("mouseover") then
-				nameLevels[UnitName("mouseover")] = tostring(UnitLevel("mouseover"))
-			end
-		elseif event == "FRIENDLIST_UPDATE" and not bcmDB.nolevel then
-			for i = 1, GetNumFriends() do
-				local n, l = GetFriendInfo(i)
-				if n and l then
-					nameLevels[n] = tostring(l)
-				end
-			end
-		end
-	end)
-	frame:RegisterEvent("PLAYER_TARGET_CHANGED")
-	frame:RegisterEvent("RAID_ROSTER_UPDATE")
-	frame:RegisterEvent("GUILD_ROSTER_UPDATE")
-	frame:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-	frame:RegisterEvent("FRIENDLIST_UPDATE")
+		end)
+		frame:RegisterEvent("PLAYER_TARGET_CHANGED")
+		frame:RegisterEvent("RAID_ROSTER_UPDATE")
+		frame:RegisterEvent("GUILD_ROSTER_UPDATE")
+		frame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+		frame:RegisterEvent("FRIENDLIST_UPDATE")
+	end
 
 	local changeName = function(name, misc, nameToChange)
 		if not bcmDB.nolevel and nameLevels[name] then
@@ -64,10 +71,10 @@ f.functions[#f.functions+1] = function()
 		if not bcmDB.nogroup and nameGroup[name] then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
-		return ("|Hplayer:%s:%s[%s]|h"):format(name, misc, nameToChange)
+		return "|Hplayer:"..name..":"..misc..bcmDB.playerNameLBrack..nameToChange..bcmDB.playerNameRBrack.."|h"
 	end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h", changeName)
+		text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h:", changeName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 

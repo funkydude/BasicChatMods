@@ -48,6 +48,7 @@ f.functions[#f.functions+1] = function()
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
+	L.PLAYERBRACKETS = "Player Brackets:"
 
 --[[ Start WowAce Localization Mess ]]--
 local GetL = GetLocale()
@@ -114,6 +115,10 @@ end
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
+			BCM_PlayerLBrack:SetText("1234567890")
+			BCM_PlayerLBrack:SetText(bcmDB.playerNameLBrack)
+			BCM_PlayerRBrack:SetText("1234567890")
+			BCM_PlayerRBrack:SetText(bcmDB.playerNameRBrack)
 		elseif frame:GetName() == "BCM_Highlight" and BCM_Highlight_Input and bcmDB.highlightWord then
 			BCM_Highlight_Input:SetText("1234567890")
 			BCM_Highlight_Input:SetText(bcmDB.highlightWord)
@@ -501,6 +506,7 @@ end
 		local onClick = function(frame)
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
+				if not BCM_PlayerName_Harvest then BCM_Warning:Show() end
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = nil
 				else
@@ -518,17 +524,39 @@ end
 
 		local levelsBtn = CreateFrame("CheckButton", "BCM_PlayerLevel_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
 		levelsBtn:SetScript("OnClick", onClick)
-		levelsBtn:SetPoint("TOPLEFT", 16, -150)
+		levelsBtn:SetPoint("TOPLEFT", 16, -140)
 		local levelsBtnText = levelsBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		levelsBtnText:SetPoint("LEFT", levelsBtn, "RIGHT")
 		levelsBtnText:SetText(L.SHOWLEVELS)
 
 		local groupBtn = CreateFrame("CheckButton", "BCM_PlayerGroup_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
 		groupBtn:SetScript("OnClick", onClick)
-		groupBtn:SetPoint("TOPLEFT", 16, -180)
+		groupBtn:SetPoint("TOPLEFT", 16, -170)
 		local groupBtnText = groupBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		groupBtnText:SetPoint("LEFT", groupBtn, "RIGHT")
 		groupBtnText:SetText(L.SHOWGROUP)
+
+		local brackInputText = BCM_PlayerNames:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		brackInputText:SetPoint("TOPLEFT", 16, -210)
+		brackInputText:SetText(L.PLAYERBRACKETS)
+		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_PlayerNames, "InputBoxTemplate")
+		brackLInput:SetPoint("TOPLEFT", 32, -230)
+		brackLInput:SetAutoFocus(false)
+		brackLInput:SetWidth(20)
+		brackLInput:SetHeight(20)
+		brackLInput:SetJustifyH("CENTER")
+		brackLInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.playerNameLBrack = frame:GetText() end
+		end)
+		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_PlayerNames, "InputBoxTemplate")
+		brackRInput:SetPoint("TOPLEFT", 64, -230)
+		brackRInput:SetAutoFocus(false)
+		brackRInput:SetWidth(20)
+		brackRInput:SetHeight(20)
+		brackRInput:SetJustifyH("CENTER")
+		brackRInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.playerNameRBrack = frame:GetText() end
+		end)
 	end
 
 	--[[ Scroll Down ]]--
