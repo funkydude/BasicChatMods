@@ -19,13 +19,16 @@ f.functions[#f.functions+1] = function()
 		frame:SetScript("OnEvent", function(_, event)
 			if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
 				if UnitIsPlayer("target") and UnitFactionGroup("player") == UnitFactionGroup("target") then
-					nameLevels[UnitName("target")] = tostring(UnitLevel("target"))
+					local n, l = UnitName("target")
+					if n and l and l > 0 then
+						nameLevels[n] = tostring(l)
+					end
 				end
 			elseif event == "GUILD_ROSTER_UPDATE" and not bcmDB.nolevel then
 				if not IsInGuild() then return end
 				for i=1, GetNumGuildMembers() do 
 					local n, _, _, l, _, _, _, _, online = GetGuildRosterInfo(i) 
-					if online and n then 
+					if online and n and l and l > 0 then 
 						nameLevels[n] = tostring(l)
 					end 
 				end
@@ -34,23 +37,26 @@ f.functions[#f.functions+1] = function()
 				if UnitInRaid("player") then
 					for i=1, GetNumRaidMembers() do
 						local n, _, g = GetRaidRosterInfo(i)
-						if n then nameGroup[n] = tostring(g) end
+						if n and g then nameGroup[n] = tostring(g) end
 					end
 				end
 			elseif event == "PARTY_MEMBERS_CHANGED" and not bcmDB.nolevel then
 				for i=1, GetNumPartyMembers() do
 					local n = UnitName("party"..i)
 					local l = UnitLevel("party"..i)
-					if n then nameLevels[n] = tostring(l) end
+					if n and l and l > 0 then nameLevels[n] = tostring(l) end
 				end
 			elseif event == "UPDATE_MOUSEOVER_UNIT" and not bcmDB.nolevel then
 				if UnitIsPlayer("mouseover") and UnitFactionGroup("player") == UnitFactionGroup("mouseover") then
-					nameLevels[UnitName("mouseover")] = tostring(UnitLevel("mouseover"))
+					local n, l = UnitName("mouseover"), UnitLevel("mouseover")
+					if n and l and l > 0 then
+						nameLevels[n] = tostring(l)
+					end
 				end
 			elseif event == "FRIENDLIST_UPDATE" and not bcmDB.nolevel then
 				for i = 1, GetNumFriends() do
 					local n, l = GetFriendInfo(i)
-					if n and l then
+					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
 					end
 				end
@@ -64,17 +70,19 @@ f.functions[#f.functions+1] = function()
 		frame:RegisterEvent("FRIENDLIST_UPDATE")
 	end
 
-	local changeName = function(name, misc, nameToChange)
-		if not bcmDB.nolevel and nameLevels[name] then
+	local changeName = function(name, misc, nameToChange, colon)
+		if not bcmDB.nolevel and nameLevels and nameLevels[name] then
 			nameToChange = (nameLevels[name])..":"..nameToChange
 		end
-		if not bcmDB.nogroup and nameGroup[name] then
+		if not bcmDB.nogroup and nameGroup and nameGroup[name] then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
-		return "|Hplayer:"..name..":"..misc..bcmDB.playerNameLBrack..nameToChange..bcmDB.playerNameRBrack.."|h"
+		local rBrack = bcmDB.playerNameRBrack --Don't add colon for events where no colon exists
+		if colon == "" and rBrack:find(":$") then rBrack = rBrack:sub(0,-2) end
+		return "|Hplayer:"..name..":"..misc..bcmDB.playerNameLBrack..nameToChange..rBrack.."|h "
 	end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|Hplayer:(.-):(.+)%[(.-)%]|h:", changeName)
+		text = text:gsub("|Hplayer:(.-):?([.-|]h)%[(.-)%]|h(:?) ", changeName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
