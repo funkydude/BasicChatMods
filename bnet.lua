@@ -23,7 +23,7 @@ f.functions[#f.functions+1] = function()
 		return ("|HBNplayer:%s|k:%s:%s|h[|cFF%s%s|r]"):format(misc, id, moreMisc, color, fakeName)
 	end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|HBNplayer:(.+)|k:(%d-):(.+)|h%[(.-)%]", changeBNetName)
+		text = text:gsub("|HBNplayer:(.-)|k:(%d-):(.-)|h%[(.-)%]", changeBNetName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
