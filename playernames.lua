@@ -70,7 +70,7 @@ f.functions[#f.functions+1] = function()
 		frame:RegisterEvent("FRIENDLIST_UPDATE")
 	end
 
-	local changeName = function(name, misc, nameToChange, colon)
+	local changeDetailedName = function(name, misc, nameToChange, colon)
 		if not bcmDB.nolevel and nameLevels and nameLevels[name] then
 			nameToChange = (nameLevels[name])..":"..nameToChange
 		end
@@ -79,10 +79,15 @@ f.functions[#f.functions+1] = function()
 		end
 		local rBrack = bcmDB.playerNameRBrack --Don't add colon for events where no colon exists
 		if colon == "" and rBrack:find(":$") then rBrack = rBrack:sub(0,-2) end
-		return "|Hplayer:"..name..":"..misc..bcmDB.playerNameLBrack..nameToChange..rBrack.."|h "
+		return "|Hplayer:"..name..misc..bcmDB.playerNameLBrack..nameToChange..rBrack.."|h "
 	end
+	--local changeName = function(name, nameToChange)
+	--	
+	--	return "|Hplayer:"..name.."|h%"..bcmDB.playerNameLBrack..nameToChange..rBrack.."|h"
+	--end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|Hplayer:(.-):?([.-|]h)%[(.-)%]|h(:?) ", changeName)
+		text = text:gsub("|Hplayer:(.-)(:.-)%[(.-)%]|h(:?) ", changeDetailedName)
+		--text = text:gsub("|Hplayer:(.-)|h%[(.-)%]|h", changeName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
