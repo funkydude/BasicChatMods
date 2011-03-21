@@ -2,6 +2,25 @@
 --[[     BCM Core     ]]--
 
 local _, f = ...
+
+--[[ Common Functions ]]--
+function f:GetColor(className, isLocal)
+	local found
+	if isLocal then
+		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+			if v == className then className = k found = true break end
+		end
+		if not found then
+			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+				if v == className then className = k break end
+			end
+		end
+	end
+	local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[className] or RAID_CLASS_COLORS[className]
+	local color = ("%02x%02x%02x"):format(tbl.r*255, tbl.g*255, tbl.b*255)
+	return color
+end
+
 f.functions = {}
 f.fire = CreateFrame("Frame")
 f.fire:RegisterEvent("PLAYER_LOGIN")
