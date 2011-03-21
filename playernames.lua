@@ -19,15 +19,15 @@ f.functions[#f.functions+1] = function()
 		nameLevels, nameGroup, nameColor = {}, {}, {}
 		local frame = CreateFrame("Frame", "BCM_PlayerName_Harvest")
 		nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
-		frame:SetScript("OnEvent", function(_, event)
+		frame:SetScript("OnEvent", function(frame, event)
 			if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
-				if UnitIsPlayer("target") and UnitFactionGroup("player") == UnitFactionGroup("target") then
-					local n, l = UnitName("target")
+				if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
+					local n, l = UnitName("target"), UnitLevel("target")
 					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
 					end
 				end
-			elseif event == "GUILD_ROSTER_UPDATE" and (not bcmDB.nolevel or not bcmDB.noMiscColor) then
+			elseif event == "PLAYER_LOGIN" and (not bcmDB.nolevel or not bcmDB.noMiscColor) then
 				if not IsInGuild() then return end
 				for i=1, GetNumGuildMembers() do
 					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
@@ -51,14 +51,15 @@ f.functions[#f.functions+1] = function()
 					if n and l and l > 0 then nameLevels[n] = tostring(l) end
 				end
 			elseif event == "UPDATE_MOUSEOVER_UNIT" and not bcmDB.nolevel then
-				if UnitIsPlayer("mouseover") and UnitFactionGroup("player") == UnitFactionGroup("mouseover") then
+				if UnitIsPlayer("mouseover") and UnitIsFriend("player", "mouseover") then
 					local n, l = UnitName("mouseover"), UnitLevel("mouseover")
 					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
 					end
 				end
 			elseif event == "FRIENDLIST_UPDATE" and (not bcmDB.nolevel or not bcmDB.noMiscColor) then
-				for i = 1, GetNumFriends() do
+				local _, num = GetNumFriends()
+				for i = 1, num do
 					local n, l, c = GetFriendInfo(i)
 					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
@@ -69,13 +70,24 @@ f.functions[#f.functions+1] = function()
 		end)
 		frame:RegisterEvent("PLAYER_TARGET_CHANGED")
 		frame:RegisterEvent("RAID_ROSTER_UPDATE")
-		frame:RegisterEvent("GUILD_ROSTER_UPDATE")
+		frame:RegisterEvent("PLAYER_LOGIN")
 		frame:RegisterEvent("PARTY_MEMBERS_CHANGED")
 		frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 		frame:RegisterEvent("FRIENDLIST_UPDATE")
 	end
 
 	local changeName = function(name, misc, nameToChange, colon)
+		--Do this here instead of listening to the event, as the event can be slower than a player login
+		if nameColor and not nameColor[name] and UnitIsInMyGuild(name) then
+			for i=1, GetNumGuildMembers() do
+				local n, _, _, l, c = GetGuildRosterInfo(i)
+				if n == name and l and l > 0 then
+					nameLevels[n] = tostring(l)
+					nameColor[n] = f:GetColor(c, true)
+					break
+				end
+			end
+		end
 		if not bcmDB.noMiscColor and misc:len() < 5 and nameColor and nameColor[name] then
 			nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
 		end

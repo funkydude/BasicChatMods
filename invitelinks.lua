@@ -25,6 +25,7 @@ f.functions[#f.functions+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
 
 	local oldShow = ChatFrame_OnHyperlinkShow
 	ChatFrame_OnHyperlinkShow = function(self, link, ...)
