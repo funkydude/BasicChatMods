@@ -12,26 +12,21 @@ f.functions[#f.functions+1] = function()
 	end
 
 	--Copying Functions
-	local lines = {}
 	local copyFunc = function(frame, btn)
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local _, size = cf:GetFont()
 		FCF_SetChatWindowFontSize(cf, cf, 0.01)
-		local ct = 1
+		local text = ""
 		for i = select("#", cf:GetRegions()), 1, -1 do
 			local region = select(i, cf:GetRegions())
 			if region:GetObjectType() == "FontString" then
-				lines[ct] = tostring(region:GetText())
-				ct = ct + 1
+				text = text..region:GetText().."\n"
 			end
 		end
-		local lineCt = ct - 1
-		local text = table.concat(lines, "\n", 1, lineCt)
 		FCF_SetChatWindowFontSize(cf, cf, size)
 		BCMCopyFrame:Show()
 		BCMCopyBox:SetText(text)
 		BCMCopyBox:HighlightText(0)
-		wipe(lines)
 	end
 	local hintFunc = function(frame)
 		if SHOW_NEWBIE_TIPS ~= "1" and bcmDB.noChatCopyTip then return end
@@ -52,18 +47,18 @@ f.functions[#f.functions+1] = function()
 	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 		tile = true, tileSize = 16, edgeSize = 16,
-		insets = {left = 3, right = 3, top = 5, bottom = 3}}
+		insets = {left = 1, right = 1, top = 1, bottom = 1}}
 	)
 	frame:SetBackdropColor(0,0,0,1)
-	frame:SetWidth(500)
-	frame:SetHeight(400)
+	frame:SetWidth(650)
+	frame:SetHeight(500)
 	frame:SetPoint("CENTER", UIParent, "CENTER")
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
 
 	local scrollArea = CreateFrame("ScrollFrame", "BCMCopyScroll", frame, "UIPanelScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
+	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -5)
+	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 5)
 
 	local editBox = CreateFrame("EditBox", "BCMCopyBox", frame)
 	editBox:SetMultiLine(true)
@@ -71,14 +66,14 @@ f.functions[#f.functions+1] = function()
 	editBox:EnableMouse(true)
 	editBox:SetAutoFocus(false)
 	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetWidth(400)
-	editBox:SetHeight(270)
+	editBox:SetWidth(620)
+	editBox:SetHeight(495)
 	editBox:SetScript("OnEscapePressed", function(f) f:GetParent():GetParent():Hide() f:SetText("") end)
 
 	scrollArea:SetScrollChild(editBox)
 
 	local close = CreateFrame("Button", "BCMCloseButton", frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 25)
 
 	for i = 1, 10 do
 		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
