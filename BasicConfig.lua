@@ -22,10 +22,13 @@ f.functions[#f.functions+1] = function()
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
+	L.BCM_GMOTD = "chatframe1 re-gmotd on/off"
 	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
+	L.BCM_History = "needs numerical input/chat frame selector"
 	L.BCM_InviteLinks = "Scan for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
 	L.BCM_PlayerNames = "Add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
+	L.BCM_Resize = "Add options?"
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
 	L.BCM_TellTarget = "Allows you to whisper/tell your current target with the command /tt message or /wt message."
@@ -420,6 +423,9 @@ end
 		end)
 	end
 
+	--[[ GMOTD ]]--
+	makePanel("BCM_GMOTD", bcm, "GMOTD")
+
 	--[[ Highlight ]]--
 	makePanel("BCM_Highlight", bcm, "Highlight")
 
@@ -447,6 +453,9 @@ end
 			end
 		end)
 	end
+
+	--[[ History ]]--
+	makePanel("BCM_History", bcm, "History")
 
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")
@@ -567,6 +576,9 @@ end
 			if changed then bcmDB.playerNameRBrack = frame:GetText() end
 		end)
 	end
+
+	--[[ Resize ]]--
+	makePanel("BCM_Resize", bcm, "Resize")
 
 	--[[ Scroll Down ]]--
 	makePanel("BCM_ScrollDown", bcm, "Scroll Down")
