@@ -5,8 +5,8 @@ local _, f = ...
 
 --[[ Common Functions ]]--
 function f:GetColor(className, isLocal)
-	local found
 	if isLocal then
+		local found
 		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 			if v == className then className = k found = true break end
 		end
@@ -45,14 +45,7 @@ f.fire:SetScript("OnEvent", function()
 		f.fire:SetScript("OnUpdate", function(frame)
 			if (GetTime() - frame.t) > 10 then
 				local info = ChatTypeInfo.GUILD
-				for i=1, 10 do
-					local cF = _G[("%s%d"):format("ChatFrame", i)]
-					for j=1, #cF.messageTypeList do
-						if cF.messageTypeList[j] == "GUILD" then
-							cF:AddMessage("|cFF33FF99BasicChatMods|r: "..(GUILD_MOTD_TEMPLATE):format(GetGuildRosterMOTD()), info.r, info.g, info.b)
-						end
-					end
-				end
+				ChatFrame1:AddMessage("|cFF33FF99BasicChatMods|r: "..(GUILD_MOTD_TEMPLATE):format(GetGuildRosterMOTD()), info.r, info.g, info.b)
 				frame.t = nil
 				frame:SetScript("OnUpdate", nil)
 			end
@@ -67,6 +60,7 @@ f.fire:SetScript("OnEvent", function()
 
 	for i=1, 10 do
 		--Increase message history
+		--XXX needs own module
 		local cF = _G[format("%s%d", "ChatFrame", i)]
 		if i ~= 2 and #cF.messageTypeList > 0 then
 			cF:SetMaxLines(1000)
@@ -75,16 +69,17 @@ f.fire:SetScript("OnEvent", function()
 		--Allow arrow keys editing in the edit box
 		local eB =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 		eB:SetAltArrowKeyMode(false)
+
+		--Allow resizing chatframes to whatever size you wish!
+		--XXX needs own module
+		cF:SetMinResize(100,10)
+		cF:SetMaxResize(0,0)
 	end
 end)
 
 --These need to be set before PLAYER_LOGIN
 for i=1, 10 do
-	--Allow resizing chatframes to whatever size you wish!
 	local cF = _G[format("%s%d", "ChatFrame", i)]
-	cF:SetMinResize(0,0)
-	cF:SetMaxResize(0,0)
-
 	--Allow the chat frame to move to the end of the screen
 	cF:SetClampRectInsets(0,0,0,0)
 end
