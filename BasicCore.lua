@@ -38,18 +38,10 @@ f.fire:SetScript("OnEvent", function()
 		f.functions[i]()
 		f.functions[i] = nil
 	end
-
-	--[[ Re-MotD ]]--
-	if IsInGuild() then
-		f.fire.t = GetTime()
-		f.fire:SetScript("OnUpdate", function(frame)
-			if (GetTime() - frame.t) > 10 then
-				local info = ChatTypeInfo.GUILD
-				ChatFrame1:AddMessage("|cFF33FF99BasicChatMods|r: "..(GUILD_MOTD_TEMPLATE):format(GetGuildRosterMOTD()), info.r, info.g, info.b)
-				frame.t = nil
-				frame:SetScript("OnUpdate", nil)
-			end
-		end)
+	for i=1, 10 do
+		--Allow arrow keys editing in the edit box
+		local eB =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+		eB:SetAltArrowKeyMode(false)
 	end
 
 	--[[ Self-Cleanup ]]--
@@ -57,24 +49,6 @@ f.fire:SetScript("OnEvent", function()
 	f.fire:UnregisterEvent("PLAYER_LOGIN")
 	f.fire:SetScript("OnEvent", nil)
 	f.fire = nil
-
-	for i=1, 10 do
-		--Increase message history
-		--XXX needs own module
-		local cF = _G[format("%s%d", "ChatFrame", i)]
-		if i ~= 2 and #cF.messageTypeList > 0 then
-			cF:SetMaxLines(1000)
-		end
-
-		--Allow arrow keys editing in the edit box
-		local eB =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
-		eB:SetAltArrowKeyMode(false)
-
-		--Allow resizing chatframes to whatever size you wish!
-		--XXX needs own module
-		cF:SetMinResize(100,10)
-		cF:SetMaxResize(0,0)
-	end
 end)
 
 --These need to be set before PLAYER_LOGIN

@@ -19,10 +19,13 @@ chatcopy.lua
 editbox.lua
 fade.lua
 font.lua
+gmotd.lua
 highlight.lua
+history.lua
 invitelinks.lua
 justify.lua
 playernames.lua
+resize.lua
 scrolldown.lua
 sticky.lua
 telltarget.lua
