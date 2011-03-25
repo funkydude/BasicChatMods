@@ -555,9 +555,13 @@ end
 		linesInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then
 				local input, cF = tonumber(frame:GetText()), BCM_Lines_GetText:GetText()
-				if not input then return end
-				if input <1 then frame:SetText(1) return end
-				if input >2500 then frame:SetText(2500) return end
+				if not input then
+					return
+				elseif input <1 then
+					input = 1 frame:SetText(input)
+				elseif input >2500 then
+					input = 2500 frame:SetText(input)
+				end
 				bcmDB.lines[cF] = input
 				_G[cF]:SetMaxLines(input)
 			end
