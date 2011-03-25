@@ -3,7 +3,7 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide then return end
+	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide or not GetCVarBool("chatMouseScroll") then return end
 
 	FloatingChatFrame_OnMouseScroll = function(frame, d)
 		if d then
@@ -38,9 +38,7 @@ f.functions[#f.functions+1] = function()
 		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 		btn:ClearAllPoints()
 		local cf = btn:GetParent():GetParent()
-		if GetCVarBool("chatMouseScroll") then
-			cf:SetScript("OnMouseWheel", FloatingChatFrame_OnMouseScroll)
-		end
+		cf:SetScript("OnMouseWheel", FloatingChatFrame_OnMouseScroll)
 		cf:HookScript("OnShow", FloatingChatFrame_OnMouseScroll)
 		btn:SetParent(cf)
 		btn:SetPoint("TOPRIGHT")
