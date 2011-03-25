@@ -4,16 +4,19 @@
 local _, f = ...
 f.functions[#f.functions+1] = function()
 	local bcmDB = bcmDB
+	bcmDB.playerNameLBrack = nil --temp
+	bcmDB.playerNameRBrack = nil --temp
+	--Cleanup vars for disabled modules
+	if bcmDB.BCM_PlayerNames and bcmDB.BCM_BNet then bcmDB.playerLBrack, bcmDB.playerRBrack, bcmDB.playerSeparator = nil, nil, nil end
 	if bcmDB.BCM_PlayerNames then
-		bcmDB.nolevel, bcmDB.nogroup, bcmDB.noMiscColor, bcmDB.playerNameLBrack, bcmDB.playerNameRBrack = nil, nil, nil, nil, nil
+		bcmDB.nolevel, bcmDB.nogroup, bcmDB.noMiscColor = nil, nil, nil
 		return
 	end
 
 	local newAddMsg = {}
-	if not bcmDB.playerNameLBrack then bcmDB.playerNameLBrack = "[" end
-	if not bcmDB.playerNameRBrack then bcmDB.playerNameRBrack = "]:" end
+	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
-	--[[ Harvest Levels ]]--
+	--[[ Harvest Data ]]--
 	local nameLevels, nameGroup, nameColor
 	if not bcmDB.nolevel or not bcmDB.nogroup or not bcmDB.noMiscColor then
 		nameLevels, nameGroup, nameColor = {}, {}, {}
@@ -77,7 +80,8 @@ f.functions[#f.functions+1] = function()
 	end
 
 	local changeName = function(name, misc, nameToChange, colon)
-		--Do this here instead of listening to the event, as the event can be slower than a player login
+		--Do this here instead of listening to the event, as the event is slower than a player login
+		--leading to names lacking color, unless we held a database of the entire guild
 		if nameColor and not nameColor[name] and UnitIsInMyGuild(name) then
 			for i=1, GetNumGuildMembers() do
 				local n, _, _, l, c = GetGuildRosterInfo(i)
@@ -97,9 +101,7 @@ f.functions[#f.functions+1] = function()
 		if not bcmDB.nogroup and nameGroup and nameGroup[name] then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
-		local rBrack = bcmDB.playerNameRBrack --Don't add colon for events where no colon exists
-		if colon == "" and rBrack:find(":$") then rBrack = rBrack:sub(0,-2) end
-		return "|Hplayer:"..name..misc..bcmDB.playerNameLBrack..nameToChange..rBrack.."|h"
+		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
 	local AddMessage = function(frame, text, ...)
 		text = text:gsub("|Hplayer:(%S-)([:|]%S-)%[(%S-)%]|h(:?)", changeName)

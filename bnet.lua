@@ -3,17 +3,21 @@
 
 local _, f = ...
 f.functions[#f.functions+1] = function()
-	if bcmDB.BCM_BNetColor then return end
+	bcmDB.BCM_BNetColor = nil --temp
+	if bcmDB.BCM_BNet then bcmDB.noBNetColor = nil return end
 
 	local newAddMsg = {}
-	local changeBNetName = function(misc, id, moreMisc, fakeName)
+	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
+
+	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
 		local englishClass = select(7, BNGetToonInfo(id))
-		if strlen(englishClass) < 2 then return end -- Friend logging off
-		local color = f:GetColor(englishClass, true)
-		return ("|HBNplayer:%s|k:%s:%s|h[|cFF%s%s|r]"):format(misc, id, moreMisc, color, fakeName)
+		if strlen(englishClass) > 2 and not bcmDB.noBNetColor then -- Friend logging off/Starcraft 2 or disabled
+			fakeName = "|cFF"..f:GetColor(englishClass, true)..fakeName.."|r"
+		end
+		return misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
 	end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|HBNplayer:(%S-)|k:(%d-):(%S-)|h%[(%S-)%]", changeBNetName)
+		text = text:gsub("(|HBNplayer:%S-|k:)(%d-)(:%S-|h)%[(%S-)%](|?h?)(:?)", changeBNetName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 

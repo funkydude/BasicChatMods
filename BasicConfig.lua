@@ -10,25 +10,25 @@ f.functions[#f.functions+1] = function()
 	-------------------------------]]--
 
 	local L = {}
-	L.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will increase the amount of lines your chat frames remember, allow you to drag your chat frames to the very edge of the screen, allow you to resize your chat frames to any size you wish, and re-display the Guild MotD 10 seconds after logging in.\n\nThe remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
+	L.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat customization. Due to the way BCM is designed a /reload may be required for some changes.\n\nBy default BCM will allow you to drag your chat frames to the very edge of the screen, the remaining customization is done in BCM's modules which can be enabled or disabled at will.\n\n In BCM disabled modules use no memory, disable the ones you don't use!"
 	L.WARNING = "<<The changes you've made require a /reload to take effect>>"
 	L.OPTIONS = "<<More options may be available after enabling this module>>"
 
 	L.BCM_AutoLog = "Automatically log chat after logging on and automatically log the combat log when in a raid instance."
-	L.BCM_BNetColor = "Class color the various Real Id events such as whispers, conversations, and friends logging on."
+	L.BCM_BNet = "Customize the brackets or add color to the various Real Id events such as whispers, conversations, and friends logging on."
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
-	L.BCM_GMOTD = "chatframe1 re-gmotd on/off"
+	L.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
 	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
 	L.BCM_History = "needs numerical input/chat frame selector"
 	L.BCM_InviteLinks = "Scan for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
-	L.BCM_PlayerNames = "Add the player's group and the player's level (if known) next to the player name. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
+	L.BCM_PlayerNames = "Customize the player name in chat with player level/group (if known) or remove/change brackets. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
-	L.BCM_Resize = "Add options?"
+	L.BCM_Resize = "Allows you to change the size of the chat frame to sizes smaller/bigger than what Blizz allows."
 	L.BCM_ScrollDown = "Create a small clickable arrow over your chat frames that flashes if you're not at the very bottom."
 	L.BCM_Sticky = "Customize your 'sticky' chat. Makes the chat edit box remember the last chat type you used so that you don't need to re-enter it again next time you chat."
 	L.BCM_TellTarget = "Allows you to whisper/tell your current target with the command /tt message or /wt message."
@@ -54,6 +54,7 @@ f.functions[#f.functions+1] = function()
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
+	L.COLORMISC = "Class color misc names (friend login, channel join, etc.)"
 	L.PLAYERBRACKETS = "Player Brackets:"
 
 --[[ Start WowAce Localization Mess ]]--
@@ -116,15 +117,34 @@ end
 		if frame:GetName() == "BCM_AutoLog" and BCM_ChatLog_Button then
 			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
 			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
+		elseif frame:GetName() == "BCM_BNet" and BCM_BNetColor_Button then
+			BCM_BNetColor_Button:SetChecked(not bcmDB.noBNetColor and true)
+			BCM_PlayerBrackDesc:SetParent(frame)
+			BCM_PlayerLBrack:SetParent(frame)
+			BCM_PlayerRBrack:SetParent(frame)
+			BCM_PlayerSeparator:SetParent(frame)
+			BCM_PlayerLBrack:SetText("1234567890")
+			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
+			BCM_PlayerRBrack:SetText("1234567890")
+			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
+			BCM_PlayerSeparator:SetText("1234567890")
+			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
 		elseif frame:GetName() == "BCM_ChatCopy" and BCM_ChatCopy_Button then
 			BCM_ChatCopy_Button:SetChecked(not bcmDB.noChatCopyTip and true)
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
+			BCM_PlayerColor_Button:SetChecked(not bcmDB.noMiscColor and true)
+			BCM_PlayerBrackDesc:SetParent(frame)
+			BCM_PlayerLBrack:SetParent(frame)
+			BCM_PlayerRBrack:SetParent(frame)
+			BCM_PlayerSeparator:SetParent(frame)
 			BCM_PlayerLBrack:SetText("1234567890")
-			BCM_PlayerLBrack:SetText(bcmDB.playerNameLBrack)
+			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
 			BCM_PlayerRBrack:SetText("1234567890")
-			BCM_PlayerRBrack:SetText(bcmDB.playerNameRBrack)
+			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
+			BCM_PlayerSeparator:SetText("1234567890")
+			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
 		elseif frame:GetName() == "BCM_Highlight" and BCM_Highlight_Input and bcmDB.highlightWord then
 			BCM_Highlight_Input:SetText("1234567890")
 			BCM_Highlight_Input:SetText(bcmDB.highlightWord)
@@ -243,7 +263,55 @@ end
 	end
 
 	--[[ BNet Color ]]--
-	makePanel("BCM_BNetColor", bcm, "BNet Color")
+	makePanel("BCM_BNet", bcm, "BattleNet")
+
+	if not bcmDB.BCM_BNet then
+		local colorBtn = CreateFrame("CheckButton", "BCM_BNetColor_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
+		colorBtn:SetScript("OnClick", function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				bcmDB.noBNetColor = nil
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				bcmDB.noBNetColor = true
+			end
+		end)
+		colorBtn:SetPoint("TOPLEFT", 16, -160)
+		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
+		colorBtnText:SetText(CLASS_COLORS)
+
+		local brackInputText = BCM_BNet:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
+		brackInputText:SetPoint("TOPLEFT", 16, -240)
+		brackInputText:SetText(L.PLAYERBRACKETS)
+		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_BNet, "InputBoxTemplate")
+		brackLInput:SetPoint("TOPLEFT", 32, -260)
+		brackLInput:SetAutoFocus(false)
+		brackLInput:SetWidth(20)
+		brackLInput:SetHeight(20)
+		brackLInput:SetJustifyH("CENTER")
+		brackLInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.playerLBrack = frame:GetText() end
+		end)
+		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_BNet, "InputBoxTemplate")
+		brackRInput:SetPoint("TOPLEFT", 64, -260)
+		brackRInput:SetAutoFocus(false)
+		brackRInput:SetWidth(20)
+		brackRInput:SetHeight(20)
+		brackRInput:SetJustifyH("CENTER")
+		brackRInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.playerRBrack = frame:GetText() end
+		end)
+		local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_BNet, "InputBoxTemplate")
+		separatorInput:SetPoint("TOPLEFT", 96, -260)
+		separatorInput:SetAutoFocus(false)
+		separatorInput:SetWidth(20)
+		separatorInput:SetHeight(20)
+		separatorInput:SetJustifyH("CENTER")
+		separatorInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then bcmDB.playerSeparator = frame:GetText() end
+		end)
+	end
 
 	--[[ Button Hide ]]--
 	makePanel("BCM_ButtonHide", bcm, "Button Hide")
@@ -527,6 +595,8 @@ end
 				if not BCM_PlayerName_Harvest then BCM_Warning:Show() end
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = nil
+				elseif frame:GetName() == "BCM_PlayerColor_Button" then
+					bcmDB.noMiscColor = nil
 				else
 					bcmDB.nogroup = nil
 				end
@@ -534,6 +604,8 @@ end
 				PlaySound("igMainMenuOptionCheckBoxOff")
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = true
+				elseif frame:GetName() == "BCM_PlayerColor_Button" then
+					bcmDB.noMiscColor = true
 				else
 					bcmDB.nogroup = true
 				end
@@ -554,27 +626,45 @@ end
 		groupBtnText:SetPoint("LEFT", groupBtn, "RIGHT")
 		groupBtnText:SetText(L.SHOWGROUP)
 
-		local brackInputText = BCM_PlayerNames:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		brackInputText:SetPoint("TOPLEFT", 16, -210)
-		brackInputText:SetText(L.PLAYERBRACKETS)
-		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_PlayerNames, "InputBoxTemplate")
-		brackLInput:SetPoint("TOPLEFT", 32, -230)
-		brackLInput:SetAutoFocus(false)
-		brackLInput:SetWidth(20)
-		brackLInput:SetHeight(20)
-		brackLInput:SetJustifyH("CENTER")
-		brackLInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then bcmDB.playerNameLBrack = frame:GetText() end
-		end)
-		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_PlayerNames, "InputBoxTemplate")
-		brackRInput:SetPoint("TOPLEFT", 64, -230)
-		brackRInput:SetAutoFocus(false)
-		brackRInput:SetWidth(20)
-		brackRInput:SetHeight(20)
-		brackRInput:SetJustifyH("CENTER")
-		brackRInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then bcmDB.playerNameRBrack = frame:GetText() end
-		end)
+		local colorBtn = CreateFrame("CheckButton", "BCM_PlayerColor_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
+		colorBtn:SetScript("OnClick", onClick)
+		colorBtn:SetPoint("TOPLEFT", 16, -200)
+		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
+		colorBtnText:SetText(L.COLORMISC)
+
+		if not BCM_PlayerBrackDesc then
+			local brackInputText = BCM_PlayerNames:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
+			brackInputText:SetPoint("TOPLEFT", 16, -240)
+			brackInputText:SetText(L.PLAYERBRACKETS)
+			local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_PlayerNames, "InputBoxTemplate")
+			brackLInput:SetPoint("TOPLEFT", 32, -260)
+			brackLInput:SetAutoFocus(false)
+			brackLInput:SetWidth(20)
+			brackLInput:SetHeight(20)
+			brackLInput:SetJustifyH("CENTER")
+			brackLInput:SetScript("OnTextChanged", function(frame, changed)
+				if changed then bcmDB.playerLBrack = frame:GetText() end
+			end)
+			local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_PlayerNames, "InputBoxTemplate")
+			brackRInput:SetPoint("TOPLEFT", 64, -260)
+			brackRInput:SetAutoFocus(false)
+			brackRInput:SetWidth(20)
+			brackRInput:SetHeight(20)
+			brackRInput:SetJustifyH("CENTER")
+			brackRInput:SetScript("OnTextChanged", function(frame, changed)
+				if changed then bcmDB.playerRBrack = frame:GetText() end
+			end)
+			local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_PlayerNames, "InputBoxTemplate")
+			separatorInput:SetPoint("TOPLEFT", 96, -260)
+			separatorInput:SetAutoFocus(false)
+			separatorInput:SetWidth(20)
+			separatorInput:SetHeight(20)
+			separatorInput:SetJustifyH("CENTER")
+			separatorInput:SetScript("OnTextChanged", function(frame, changed)
+				if changed then bcmDB.playerSeparator = frame:GetText() end
+			end)
+		end
 	end
 
 	--[[ Resize ]]--
