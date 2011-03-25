@@ -72,6 +72,13 @@ f.functions[#f.functions+1] = function()
 		chn[4] = "%[%d0?%. DéfenseLocale.-%]"
 		chn[5] = "%[%d0?%. RechercheDeGroupe%]"
 		chn[6] = "%[%d0?%. RecrutementDeGuilde.-%]"
+	elseif L == "zhTW" then --Traditional Chinese
+		chn[1] = "%[%d0?%. 綜合.-%]"
+		chn[2] = "%[%d0?%. 交易.-%]"
+		chn[3] = "%[%d0?%. 世界防務%]"
+		chn[4] = "%[%d0?%. 本地防務.-%]"
+		chn[5] = "%[%d0?%. 組隊%]"
+		chn[6] = "%[%d0?%. 公會招募.-%]"
 	end
 
 	local newAddMsg = {}
