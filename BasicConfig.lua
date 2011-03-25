@@ -296,6 +296,7 @@ end
 		brackLInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then bcmDB.playerLBrack = frame:GetText() end
 		end)
+		brackLInput:SetScript("OnEnterPressed", brackLInput:GetScript("OnEscapePressed"))
 		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_BNet, "InputBoxTemplate")
 		brackRInput:SetPoint("TOPLEFT", 64, -260)
 		brackRInput:SetAutoFocus(false)
@@ -305,6 +306,7 @@ end
 		brackRInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then bcmDB.playerRBrack = frame:GetText() end
 		end)
+		brackRInput:SetScript("OnEnterPressed", brackRInput:GetScript("OnEscapePressed"))
 		local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_BNet, "InputBoxTemplate")
 		separatorInput:SetPoint("TOPLEFT", 96, -260)
 		separatorInput:SetAutoFocus(false)
@@ -314,6 +316,7 @@ end
 		separatorInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then bcmDB.playerSeparator = frame:GetText() end
 		end)
+		separatorInput:SetScript("OnEnterPressed", separatorInput:GetScript("OnEscapePressed"))
 	end
 
 	--[[ Button Hide ]]--
@@ -363,6 +366,7 @@ end
 		chanNameInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then bcmDB.replacements[frame.value] = frame:GetText() end
 		end)
+		chanNameInput:SetScript("OnEnterPressed", chanNameInput:GetScript("OnEscapePressed"))
 	end
 
 	--[[ Chat Copy ]]--
@@ -523,6 +527,7 @@ end
 				BCM_Warning:Show()
 			end
 		end)
+		secondaryNameInput:SetScript("OnEnterPressed", secondaryNameInput:GetScript("OnEscapePressed"))
 	end
 
 	--[[ History ]]--
@@ -566,6 +571,7 @@ end
 				_G[cF]:SetMaxLines(input)
 			end
 		end)
+		linesInput:SetScript("OnEnterPressed", linesInput:GetScript("OnEscapePressed"))
 	end
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")
@@ -688,6 +694,7 @@ end
 			brackLInput:SetScript("OnTextChanged", function(frame, changed)
 				if changed then bcmDB.playerLBrack = frame:GetText() end
 			end)
+			brackLInput:SetScript("OnEnterPressed", brackLInput:GetScript("OnEscapePressed"))
 			local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_PlayerNames, "InputBoxTemplate")
 			brackRInput:SetPoint("TOPLEFT", 64, -260)
 			brackRInput:SetAutoFocus(false)
@@ -697,6 +704,7 @@ end
 			brackRInput:SetScript("OnTextChanged", function(frame, changed)
 				if changed then bcmDB.playerRBrack = frame:GetText() end
 			end)
+			brackRInput:SetScript("OnEnterPressed", brackRInput:GetScript("OnEscapePressed"))
 			local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_PlayerNames, "InputBoxTemplate")
 			separatorInput:SetPoint("TOPLEFT", 96, -260)
 			separatorInput:SetAutoFocus(false)
@@ -706,6 +714,7 @@ end
 			separatorInput:SetScript("OnTextChanged", function(frame, changed)
 				if changed then bcmDB.playerSeparator = frame:GetText() end
 			end)
+			separatorInput:SetScript("OnEnterPressed", separatorInput:GetScript("OnEscapePressed"))
 		end
 	end
 
@@ -806,6 +815,7 @@ end
 				bcmDB.stampcolor = "|cff"..txt
 			end
 		end)
+		stampColInput:SetScript("OnEnterPressed", stampColInput:GetScript("OnEscapePressed"))
 		local stampColInputText = stampColInput:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		stampColInputText:SetPoint("LEFT", stampColInput, "RIGHT", 10, 0)
 		stampColInputText:SetText(">>>   http://bit.ly/bevPp")
@@ -826,6 +836,7 @@ end
 				bcmDB.stampformat = frame:GetText()
 			end
 		end)
+		stampBrackInput:SetScript("OnEnterPressed", stampBrackInput:GetScript("OnEscapePressed"))
 	end
 
 	--[[ URLCopy ]]--
