@@ -194,7 +194,7 @@ end
 	local panelDesc = bcm:CreateFontString("BCMPanelDesc", "ARTWORK", "GameFontNormalLarge")
 	panelDesc:SetWidth(350)
 	panelDesc:SetWordWrap(true)
-	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", BCM, "OptionsBaseCheckButtonTemplate")
+	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", bcm, "OptionsBaseCheckButtonTemplate")
 	enableBtn:SetScript("OnClick", function(frame)
 		BCM_Warning:Show()
 		local tick = frame:GetChecked()
