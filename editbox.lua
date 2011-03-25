@@ -2,7 +2,7 @@
 --[[     EditBox Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	if bcmDB.BCM_EditBox then return end
 
 	--Classic mode hides the editbox when not in use, IM mode fades it out

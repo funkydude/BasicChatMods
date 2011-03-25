@@ -21,7 +21,7 @@ function f:GetColor(className, isLocal)
 	return color
 end
 
-f.functions = {}
+f.modules = {}
 f.fire = CreateFrame("Frame")
 f.fire:RegisterEvent("PLAYER_LOGIN")
 f.fire:SetScript("OnEvent", function()
@@ -34,9 +34,9 @@ f.fire:SetScript("OnEvent", function()
 	end
 
 	--[[ Run Modules ]]--
-	for i = 1, #f.functions do
-		f.functions[i]()
-		f.functions[i] = nil
+	for i = 1, #f.modules do
+		f.modules[i]()
+		f.modules[i] = nil
 	end
 	for i=1, 10 do
 		--Allow arrow keys editing in the edit box
@@ -45,7 +45,7 @@ f.fire:SetScript("OnEvent", function()
 	end
 
 	--[[ Self-Cleanup ]]--
-	f.functions = nil
+	f.modules = nil
 	f.fire:UnregisterEvent("PLAYER_LOGIN")
 	f.fire:SetScript("OnEvent", nil)
 	f.fire = nil

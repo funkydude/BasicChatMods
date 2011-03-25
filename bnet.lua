@@ -2,7 +2,7 @@
 --[[     BNet Color Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	bcmDB.BCM_BNetColor = nil --temp
 	if bcmDB.BCM_BNet then bcmDB.noBNetColor = nil return end
 

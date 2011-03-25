@@ -2,7 +2,7 @@
 --[[     Button Hide Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	if bcmDB.BCM_ButtonHide then return end
 
 	local hideFunc = function(frame) frame:Hide() end

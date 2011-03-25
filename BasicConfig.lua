@@ -2,7 +2,7 @@
 --[[     Basic Config Module     ]]--
 
 local name, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	if bcmDB.noconfig then return end
 
 	--[[-------------------------------
@@ -24,7 +24,7 @@ f.functions[#f.functions+1] = function()
 	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
 	L.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
 	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
-	L.BCM_History = "needs numerical input/chat frame selector"
+	L.BCM_History = "Choose how many lines of chat history your chat frames remember."
 	L.BCM_InviteLinks = "Scan for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
 	L.BCM_PlayerNames = "Customize the player name in chat with player level/group (if known) or remove/change brackets. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 	L.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
@@ -131,6 +131,9 @@ end
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
 		elseif frame:GetName() == "BCM_ChatCopy" and BCM_ChatCopy_Button then
 			BCM_ChatCopy_Button:SetChecked(not bcmDB.noChatCopyTip and true)
+		elseif frame:GetName() == "BCM_History" and BCM_Lines_Set then
+			BCM_Lines_Set:SetText(1234)
+			BCM_Lines_Set:SetText(_G[BCM_Lines_GetText:GetText()]:GetMaxLines())
 		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
@@ -525,6 +528,41 @@ end
 	--[[ History ]]--
 	makePanel("BCM_History", bcm, "History")
 
+	if not bcmDB.BCM_History then
+		local get = CreateFrame("Frame", "BCM_Lines_Get", BCM_History, "UIDropDownMenuTemplate")
+		get:SetPoint("TOPLEFT", 16, -140)
+		BCM_Lines_GetText:SetText("ChatFrame1")
+		UIDropDownMenu_Initialize(get, function()
+			local selected, info = BCM_Lines_GetText:GetText(), UIDropDownMenu_CreateInfo()
+			info.func = function(v) BCM_Lines_GetText:SetText(v.value)
+				BCM_Lines_Set:SetText(bcmDB.lines[v.value] or _G[v.value]:GetMaxLines())
+			end
+			for i=1, 10 do
+				info.text = ("ChatFrame%d"):format(i)
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+			end
+		end)
+
+		local linesInput = CreateFrame("EditBox", "BCM_Lines_Set", BCM_History, "InputBoxTemplate")
+		linesInput:SetPoint("LEFT", get, "RIGHT", 170, 0)
+		linesInput:SetNumeric(true)
+		linesInput:SetAutoFocus(false)
+		linesInput:SetWidth(100)
+		linesInput:SetHeight(20)
+		linesInput:SetJustifyH("CENTER")
+		linesInput:SetMaxLetters(4)
+		linesInput:SetScript("OnTextChanged", function(frame, changed)
+			if changed then
+				local input, cF = tonumber(frame:GetText()), BCM_Lines_GetText:GetText()
+				if not input then return end
+				if input <1 then frame:SetText(1) return end
+				if input >2500 then frame:SetText(2500) return end
+				bcmDB.lines[cF] = input
+				_G[cF]:SetMaxLines(input)
+			end
+		end)
+	end
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")
 

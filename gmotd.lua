@@ -2,7 +2,7 @@
 --[[     GMOTD Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	if not IsInGuild() or bcmDB.BCM_GMOTD then return end
 
 	f.fire.t = GetTime()

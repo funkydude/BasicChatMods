@@ -2,7 +2,7 @@
 --[[     Timestamp Customize Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	--[[ Color codes ---> http://www.december.com/html/spec/colorcodes.html ]]--
 
 	local bcmDB = bcmDB

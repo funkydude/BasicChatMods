@@ -2,7 +2,7 @@
 --[[     Player Names Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	local bcmDB = bcmDB
 	bcmDB.playerNameLBrack = nil --temp
 	bcmDB.playerNameRBrack = nil --temp

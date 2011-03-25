@@ -2,7 +2,7 @@
 --[[     Highlight Module     ]]--
 
 local _, f = ...
-f.functions[#f.functions+1] = function()
+f.modules[#f.modules+1] = function()
 	if bcmDB.BCM_Highlight then bcmDB.highlightWord = nil return end
 
 	--[[ Start one-time table creation ]]--
