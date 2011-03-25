@@ -1,8 +1,8 @@
 
 --[[     Fade Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Fade then return end
 
 	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0

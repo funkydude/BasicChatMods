@@ -1,10 +1,10 @@
 
 --[[     BCM Core     ]]--
 
-local _, f = ...
+local _, BCM = ...
 
 --[[ Common Functions ]]--
-function f:GetColor(className, isLocal)
+function BCM:GetColor(className, isLocal)
 	if isLocal then
 		local found
 		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
@@ -21,10 +21,10 @@ function f:GetColor(className, isLocal)
 	return color
 end
 
-f.modules = {}
-f.fire = CreateFrame("Frame")
-f.fire:RegisterEvent("PLAYER_LOGIN")
-f.fire:SetScript("OnEvent", function()
+BCM.modules = {}
+BCM.Enable = CreateFrame("Frame")
+BCM.Enable:RegisterEvent("PLAYER_LOGIN")
+BCM.Enable:SetScript("OnEvent", function()
 	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then bcmDB = {} end
 	if not bcmDB.v then
@@ -34,9 +34,9 @@ f.fire:SetScript("OnEvent", function()
 	end
 
 	--[[ Run Modules ]]--
-	for i = 1, #f.modules do
-		f.modules[i]()
-		f.modules[i] = nil
+	for i = 1, #BCM.modules do
+		BCM.modules[i]()
+		BCM.modules[i] = nil
 	end
 	for i=1, 10 do
 		--Allow arrow keys editing in the edit box
@@ -45,10 +45,9 @@ f.fire:SetScript("OnEvent", function()
 	end
 
 	--[[ Self-Cleanup ]]--
-	f.modules = nil
-	f.fire:UnregisterEvent("PLAYER_LOGIN")
-	f.fire:SetScript("OnEvent", nil)
-	f.fire = nil
+	BCM.modules = nil
+	BCM.Enable:UnregisterEvent("PLAYER_LOGIN")
+	BCM.Enable:SetScript("OnEvent", nil)
 end)
 
 --These need to be set before PLAYER_LOGIN

@@ -1,8 +1,8 @@
 
 --[[     BNet Color Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	bcmDB.BCM_BNetColor = nil --temp
 	if bcmDB.BCM_BNet then bcmDB.noBNetColor = nil return end
 
@@ -12,7 +12,7 @@ f.modules[#f.modules+1] = function()
 	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
 		local englishClass = select(7, BNGetToonInfo(id))
 		if strlen(englishClass) > 2 and not bcmDB.noBNetColor then -- Friend logging off/Starcraft 2 or disabled
-			fakeName = "|cFF"..f:GetColor(englishClass, true)..fakeName.."|r"
+			fakeName = "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r"
 		end
 		return misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
 	end

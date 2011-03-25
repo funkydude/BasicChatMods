@@ -1,8 +1,8 @@
 
 --[[     Scrolldown Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide or not GetCVarBool("chatMouseScroll") then return end
 
 	FloatingChatFrame_OnMouseScroll = function(frame, d)

@@ -1,8 +1,8 @@
 
 --[[     Resize Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Resize then return end
 
 	for i=1, 10 do

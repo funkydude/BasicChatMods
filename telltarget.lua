@@ -1,8 +1,8 @@
 
 --[[    Tell Target Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_TellTarget then return end
 
 	SlashCmdList["TELLTARGET"] = function(msg)

@@ -1,8 +1,8 @@
 
 --[[     Player Names Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	local bcmDB = bcmDB
 	bcmDB.playerNameLBrack = nil --temp
 	bcmDB.playerNameRBrack = nil --temp
@@ -36,7 +36,7 @@ f.modules[#f.modules+1] = function()
 					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
 					if online and n and l and l > 0 then
 						nameLevels[n] = tostring(l)
-						nameColor[n] = f:GetColor(c)
+						nameColor[n] = BCM:GetColor(c)
 					end
 				end
 			elseif event == "RAID_ROSTER_UPDATE" and not bcmDB.nogroup then
@@ -66,7 +66,7 @@ f.modules[#f.modules+1] = function()
 					local n, l, c = GetFriendInfo(i)
 					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
-						nameColor[n] = f:GetColor(c, true)
+						nameColor[n] = BCM:GetColor(c, true)
 					end
 				end
 			end
@@ -87,7 +87,7 @@ f.modules[#f.modules+1] = function()
 				local n, _, _, l, c = GetGuildRosterInfo(i)
 				if n == name and l and l > 0 then
 					nameLevels[n] = tostring(l)
-					nameColor[n] = f:GetColor(c, true)
+					nameColor[n] = BCM:GetColor(c, true)
 					break
 				end
 			end

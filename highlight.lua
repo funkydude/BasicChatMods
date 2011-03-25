@@ -1,14 +1,13 @@
 
 --[[     Highlight Module     ]]--
 
-local _, f = ...
-f.modules[#f.modules+1] = function()
+local _, BCM = ...
+BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Highlight then bcmDB.highlightWord = nil return end
 
 	--[[ Start one-time table creation ]]--
 	local _, class = UnitClass("player")
-	local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-	local color = ("|cFF%02x%02x%02x%%1|r"):format(tbl.r*255, tbl.g*255, tbl.b*255)
+	local color = "|cFF"..BCM:GetColor(class).."|r"
 
 	local utf8sub = function(str, start, numChars)
 		local currentIndex = start
