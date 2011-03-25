@@ -54,7 +54,7 @@ f.functions[#f.functions+1] = function()
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
-	L.COLORMISC = "Class color misc names (friend login, channel join, etc.)"
+	L.COLORMISC = "Class color missed names (friend login, channel join, etc.)"
 	L.PLAYERBRACKETS = "Player Brackets:"
 
 --[[ Start WowAce Localization Mess ]]--
