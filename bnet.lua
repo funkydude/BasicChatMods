@@ -1,5 +1,5 @@
 
---[[     BNet Color Module     ]]--
+--[[     BattleNet Module     ]]--
 
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()

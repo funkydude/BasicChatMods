@@ -265,7 +265,7 @@ end
 		combatLogBtnText:SetText(L.COMBATLOG)
 	end
 
-	--[[ BNet Color ]]--
+	--[[ BattleNet ]]--
 	makePanel("BCM_BNet", bcm, "BattleNet")
 
 	if not bcmDB.BCM_BNet then

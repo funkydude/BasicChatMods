@@ -9,7 +9,7 @@ BCM.modules[#BCM.modules+1] = function()
 		local cF = _G[format("%s%d", "ChatFrame", i)]
 		local name, size = cF:GetFont()
 		if i == 1 then
-			--delete defaults
+			--remove defaults
 			if name == bcmDB.fontname then bcmDB.fontname = nil end
 			if bcmDB.fontsize and (tostring(size)):find(bcmDB.fontsize.."%.") then bcmDB.fontsize = nil end
 		end
