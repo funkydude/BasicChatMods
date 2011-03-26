@@ -7,7 +7,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	--[[ Start one-time table creation ]]--
 	local _, class = UnitClass("player")
-	local color = "|cFF"..BCM:GetColor(class).."|r"
+	local color = "|cFF"..BCM:GetColor(class).."%1|r"
 
 	local utf8sub = function(str, start, numChars)
 		local currentIndex = start
