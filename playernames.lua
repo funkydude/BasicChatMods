@@ -104,7 +104,7 @@ BCM.modules[#BCM.modules+1] = function()
 		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
 	local AddMessage = function(frame, text, ...)
-		text = text:gsub("|Hplayer:(%S-)([:|]%S-)%[(%S-)%]|h(:?)", changeName)
+		text = text:gsub("|Hplayer:(%S-)([:|]%S-)%[(%S- ?%S*)%]|h(:?)", changeName)
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 

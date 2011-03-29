@@ -54,7 +54,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	L.SHOWLEVELS = "Player level next to name."
 	L.SHOWGROUP = "Player group next to name."
-	L.COLORMISC = "Class color missed names (friend login, channel join, etc.)"
+	L.COLORMISC = "Class color friend/guild logon."
 	L.PLAYERBRACKETS = "Player Brackets:"
 
 --[[ Start WowAce Localization Mess ]]--
@@ -85,26 +85,23 @@ end
 	local onShow = function(frame)
 		--Don't move recycled widgets when opening the main BCM panel
 		if InterfaceOptionsFramePanelContainer.displayedPanel and InterfaceOptionsFramePanelContainer.displayedPanel.name == name then return end
+		local panel = frame:GetName()
 
 		local btn = BCMEnableButton
-		btn:ClearAllPoints()
 		btn:SetParent(frame)
 		btn:SetPoint("TOPLEFT", 16, -100)
 
 		local desc = BCMPanelDesc
-		desc:ClearAllPoints()
 		desc:SetParent(frame)
 		desc:SetPoint("TOPLEFT", 16, -20)
-		desc:SetText(L[frame:GetName()] or "No Description")
+		desc:SetText(L[panel] or "No Description")
 
 		local warn = BCM_Warning
-		warn:ClearAllPoints()
 		warn:SetParent(frame)
 		warn:SetPoint("CENTER", 0, -200)
-		if bcmDB[frame:GetName()] then
+		if bcmDB[panel] then
 			btn:SetChecked(false)
 			local optionWarn = BCM_OptionsWarn
-			optionWarn:ClearAllPoints()
 			optionWarn:SetParent(frame)
 			optionWarn:SetPoint("CENTER")
 			optionWarn:Show()
@@ -114,44 +111,52 @@ end
 		end
 
 		--[[ Modules ]]--
-		if frame:GetName() == "BCM_AutoLog" and BCM_ChatLog_Button then
+		if panel == "BCM_AutoLog" and BCM_ChatLog_Button then
 			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
 			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
-		elseif frame:GetName() == "BCM_BNet" and BCM_BNetColor_Button then
+		elseif panel == "BCM_BNet" and BCM_BNetColor_Button then
 			BCM_BNetColor_Button:SetChecked(not bcmDB.noBNetColor and true)
 			BCM_PlayerBrackDesc:SetParent(frame)
+			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -180)
 			BCM_PlayerLBrack:SetParent(frame)
+			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -200)
 			BCM_PlayerRBrack:SetParent(frame)
+			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -200)
 			BCM_PlayerSeparator:SetParent(frame)
+			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -200)
 			BCM_PlayerLBrack:SetText("1234567890")
 			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
 			BCM_PlayerRBrack:SetText("1234567890")
 			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
 			BCM_PlayerSeparator:SetText("1234567890")
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
-		elseif frame:GetName() == "BCM_ChatCopy" and BCM_ChatCopy_Button then
+		elseif panel == "BCM_ChatCopy" and BCM_ChatCopy_Button then
 			BCM_ChatCopy_Button:SetChecked(not bcmDB.noChatCopyTip and true)
-		elseif frame:GetName() == "BCM_History" and BCM_Lines_Set then
+		elseif panel == "BCM_History" and BCM_Lines_Set then
 			BCM_Lines_Set:SetText(1234)
 			BCM_Lines_Set:SetText(_G[BCM_Lines_GetText:GetText()]:GetMaxLines())
-		elseif frame:GetName() == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
+		elseif panel == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
 			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
 			BCM_PlayerColor_Button:SetChecked(not bcmDB.noMiscColor and true)
 			BCM_PlayerBrackDesc:SetParent(frame)
+			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -240)
 			BCM_PlayerLBrack:SetParent(frame)
+			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -260)
 			BCM_PlayerRBrack:SetParent(frame)
+			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -260)
 			BCM_PlayerSeparator:SetParent(frame)
+			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -260)
 			BCM_PlayerLBrack:SetText("1234567890")
 			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
 			BCM_PlayerRBrack:SetText("1234567890")
 			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
 			BCM_PlayerSeparator:SetText("1234567890")
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
-		elseif frame:GetName() == "BCM_Highlight" and BCM_Highlight_Input and bcmDB.highlightWord then
+		elseif panel == "BCM_Highlight" and BCM_Highlight_Input and bcmDB.highlightWord then
 			BCM_Highlight_Input:SetText("1234567890")
 			BCM_Highlight_Input:SetText(bcmDB.highlightWord)
-		elseif frame:GetName() == "BCM_Timestamp" and BCM_Timestamp_InputCol then
+		elseif panel == "BCM_Timestamp" and BCM_Timestamp_InputCol then
 			BCM_Timestamp_InputCol:SetText("123456")
 			BCM_Timestamp_Format:SetText("1234567890")
 			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
@@ -197,8 +202,7 @@ end
 	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", bcm, "OptionsBaseCheckButtonTemplate")
 	enableBtn:SetScript("OnClick", function(frame)
 		BCM_Warning:Show()
-		local tick = frame:GetChecked()
-		if tick then
+		if frame:GetChecked() then
 			PlaySound("igMainMenuOptionCheckBoxOn")
 			bcmDB[frame:GetParent():GetName()] = nil
 		else
@@ -279,16 +283,16 @@ end
 				bcmDB.noBNetColor = true
 			end
 		end)
-		colorBtn:SetPoint("TOPLEFT", 16, -160)
+		colorBtn:SetPoint("TOPLEFT", 16, -140)
 		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
 		colorBtnText:SetText(CLASS_COLORS)
 
 		local brackInputText = BCM_BNet:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
-		brackInputText:SetPoint("TOPLEFT", 16, -240)
+		brackInputText:SetPoint("TOPLEFT", 16, -180)
 		brackInputText:SetText(L.PLAYERBRACKETS)
 		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_BNet, "InputBoxTemplate")
-		brackLInput:SetPoint("TOPLEFT", 32, -260)
+		brackLInput:SetPoint("TOPLEFT", 32, -200)
 		brackLInput:SetAutoFocus(false)
 		brackLInput:SetWidth(20)
 		brackLInput:SetHeight(20)
@@ -298,7 +302,7 @@ end
 		end)
 		brackLInput:SetScript("OnEnterPressed", brackLInput:GetScript("OnEscapePressed"))
 		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_BNet, "InputBoxTemplate")
-		brackRInput:SetPoint("TOPLEFT", 64, -260)
+		brackRInput:SetPoint("TOPLEFT", 64, -200)
 		brackRInput:SetAutoFocus(false)
 		brackRInput:SetWidth(20)
 		brackRInput:SetHeight(20)
@@ -308,7 +312,7 @@ end
 		end)
 		brackRInput:SetScript("OnEnterPressed", brackRInput:GetScript("OnEscapePressed"))
 		local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_BNet, "InputBoxTemplate")
-		separatorInput:SetPoint("TOPLEFT", 96, -260)
+		separatorInput:SetPoint("TOPLEFT", 96, -200)
 		separatorInput:SetAutoFocus(false)
 		separatorInput:SetWidth(20)
 		separatorInput:SetHeight(20)
@@ -475,7 +479,7 @@ end
 		BCM_FontFlagText:SetText(NONE)
 		UIDropDownMenu_Initialize(fontFlag, function()
 			local selected, info = BCM_FontFlagText:GetText(), UIDropDownMenu_CreateInfo()
-			info.func = function(v) print(v.value) BCM_FontFlagText:SetText(v:GetText())
+			info.func = function(v) BCM_FontFlagText:SetText(v:GetText())
 				if v.value == NONE then 
 					bcmDB.fontflag = nil
 				else
