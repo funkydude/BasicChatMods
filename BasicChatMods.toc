@@ -2,14 +2,15 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 6.43
+## Version: 6.50
 ## Title: BasicChatMods
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
 BasicCore.lua
-
 BasicConfig.lua
+
+history.lua
 
 autolog.lua
 bnet.lua
@@ -21,7 +22,6 @@ fade.lua
 font.lua
 gmotd.lua
 highlight.lua
-history.lua
 invitelinks.lua
 justify.lua
 playernames.lua

@@ -22,9 +22,9 @@ function BCM:GetColor(className, isLocal)
 end
 
 BCM.modules = {}
-BCM.Enable = CreateFrame("Frame")
-BCM.Enable:RegisterEvent("PLAYER_LOGIN")
-BCM.Enable:SetScript("OnEvent", function()
+BCM.Events = CreateFrame("Frame")
+BCM.Events:RegisterEvent("PLAYER_LOGIN")
+BCM.Events:SetScript("OnEvent", function()
 	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then bcmDB = {} end
 	if not bcmDB.v then
@@ -46,8 +46,7 @@ BCM.Enable:SetScript("OnEvent", function()
 
 	--[[ Self-Cleanup ]]--
 	BCM.modules = nil
-	BCM.Enable:UnregisterEvent("PLAYER_LOGIN")
-	BCM.Enable:SetScript("OnEvent", nil)
+	BCM.Events:SetScript("OnEvent", function(frame, event) frame[event](event) end)
 end)
 
 --These need to be set before PLAYER_LOGIN

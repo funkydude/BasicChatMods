@@ -20,23 +20,22 @@ BCM.modules[#BCM.modules+1] = function()
 	local nameLevels, nameGroup, nameColor
 	if not bcmDB.nolevel or not bcmDB.nogroup or not bcmDB.noMiscColor then
 		nameLevels, nameGroup, nameColor = {}, {}, {}
-		local frame = CreateFrame("Frame", "BCM_PlayerName_Harvest")
 		nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
-		frame:SetScript("OnEvent", function(frame, event)
+		if IsInGuild() then
+			for i=1, GetNumGuildMembers() do
+				local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
+				if online and n and l and l > 0 then
+					nameLevels[n] = tostring(l)
+					nameColor[n] = BCM:GetColor(c)
+				end
+			end
+		end
+		local harvestData =  function(event)
 			if event == "PLAYER_TARGET_CHANGED" and not bcmDB.nolevel then
 				if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
 					local n, l = UnitName("target"), UnitLevel("target")
 					if n and l and l > 0 then
 						nameLevels[n] = tostring(l)
-					end
-				end
-			elseif event == "PLAYER_LOGIN" and (not bcmDB.nolevel or not bcmDB.noMiscColor) then
-				if not IsInGuild() then return end
-				for i=1, GetNumGuildMembers() do
-					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
-					if online and n and l and l > 0 then
-						nameLevels[n] = tostring(l)
-						nameColor[n] = BCM:GetColor(c)
 					end
 				end
 			elseif event == "RAID_ROSTER_UPDATE" and not bcmDB.nogroup then
@@ -70,13 +69,16 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 			end
-		end)
-		frame:RegisterEvent("PLAYER_TARGET_CHANGED")
-		frame:RegisterEvent("RAID_ROSTER_UPDATE")
-		frame:RegisterEvent("PLAYER_LOGIN")
-		frame:RegisterEvent("PARTY_MEMBERS_CHANGED")
-		frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-		frame:RegisterEvent("FRIENDLIST_UPDATE")
+		end
+		do
+			local events = {"PLAYER_TARGET_CHANGED", "RAID_ROSTER_UPDATE", "PARTY_MEMBERS_CHANGED", "UPDATE_MOUSEOVER_UNIT", "FRIENDLIST_UPDATE"}
+			for i=1, #events do
+				BCM.Events:RegisterEvent(events[i])
+				BCM.Events[events[i]] = harvestData
+				events[i] = nil
+			end
+			events = nil
+		end
 	end
 
 	local changeName = function(name, misc, nameToChange, colon)

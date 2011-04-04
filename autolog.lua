@@ -6,37 +6,30 @@ BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_AutoLog then bcmDB.logchat = nil bcmDB.logcombat = nil return end
 
 	if bcmDB.logchat then
-		LoggingChat(true)
 		print("|cFF33FF99BasicChatMods|r: ", CHATLOGENABLED)
+		LoggingChat(true)
 	end
 
 	if bcmDB.logcombat then
 		local isLoggingCombat = nil
-		local _, type = GetInstanceInfo()
-		if type == "raid" then
-			LoggingCombat(true)
-			isLoggingCombat = true
-			print("|cFF33FF99BasicChatMods|r: ", COMBATLOGENABLED)
-		end
-
-		local doLogCombat = CreateFrame("Frame")
-		doLogCombat:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		doLogCombat:SetScript("OnEvent", function()
+		BCM.Events.ZONE_CHANGED_NEW_AREA = function()
 			local _, type = GetInstanceInfo()
 			if type == "raid" then
 				if not isLoggingCombat then
-					LoggingCombat(true)
 					isLoggingCombat = true
 					print("|cFF33FF99BasicChatMods|r: ", COMBATLOGENABLED)
+					LoggingCombat(true)
 				end
 			else
 				if isLoggingCombat then
-					LoggingCombat(false)
 					isLoggingCombat = nil
 					print("|cFF33FF99BasicChatMods|r: ", COMBATLOGDISABLED)
+					LoggingCombat(false)
 				end
 			end
-		end)
+		end
+		BCM.Events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+		BCM.Events.ZONE_CHANGED_NEW_AREA()
 	end
 end
 

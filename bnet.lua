@@ -9,10 +9,18 @@ BCM.modules[#BCM.modules+1] = function()
 	local newAddMsg = {}
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
+	local storedName
+	if bcmDB.noRealName then storedName = {} end
 	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
-		local englishClass = select(7, BNGetToonInfo(id))
-		if strlen(englishClass) > 2 and not bcmDB.noBNetColor then -- Friend logging off/Starcraft 2 or disabled
-			fakeName = "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r"
+		local _, charName, _, _, _, _, englishClass = BNGetToonInfo(id)
+		if strlen(englishClass) > 2 then --Friend logging off/Starcraft 2
+			if storedName then storedName[id] = charName end --Store name for logoff events, if enabled
+			--Replace real name with charname if enabled
+			fakeName = bcmDB.noRealName and charName or fakeName
+			fakeName = bcmDB.noBNetColor and fakeName or "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r" --Color name if enabled
+		else
+			--Replace real name with stored charname if enabled, for logoff events
+			fakeName = bcmDB.noRealName and storedName and storedName[id] or fakeName
 		end
 		return misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
 	end

@@ -35,6 +35,8 @@ BCM.modules[#BCM.modules+1] = function()
 	L.BCM_Timestamp = "Customize the timestamps you want your chat to use. Choose a color or no color at all, then choose the exact format of the timestamp."
 	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 
+	L.FAKENAMES = "Replace real names with character names."
+
 	L.CHATLOG = "Always log chat."
 	L.COMBATLOG = "Log combat in a raid instance."
 
@@ -116,14 +118,15 @@ end
 			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
 		elseif panel == "BCM_BNet" and BCM_BNetColor_Button then
 			BCM_BNetColor_Button:SetChecked(not bcmDB.noBNetColor and true)
+			BCM_BNetFakeName_Button:SetChecked(bcmDB.noRealName)
 			BCM_PlayerBrackDesc:SetParent(frame)
-			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -180)
+			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -210)
 			BCM_PlayerLBrack:SetParent(frame)
-			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -200)
+			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -230)
 			BCM_PlayerRBrack:SetParent(frame)
-			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -200)
+			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -230)
 			BCM_PlayerSeparator:SetParent(frame)
-			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -200)
+			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -230)
 			BCM_PlayerLBrack:SetText("1234567890")
 			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
 			BCM_PlayerRBrack:SetText("1234567890")
@@ -235,8 +238,8 @@ end
 				PlaySound("igMainMenuOptionCheckBoxOn")
 				if frame:GetName() == "BCM_ChatLog_Button" then
 					bcmDB.logchat = true
-					LoggingChat(true)
 					print("|cFF33FF99BasicChatMods|r: ", CHATLOGENABLED)
+					LoggingChat(true)
 				else
 					BCM_Warning:Show()
 					bcmDB.logcombat = true
@@ -245,8 +248,8 @@ end
 				PlaySound("igMainMenuOptionCheckBoxOff")
 				if frame:GetName() == "BCM_ChatLog_Button" then
 					bcmDB.logchat = nil
-					LoggingChat(false)
 					print("|cFF33FF99BasicChatMods|r: ", CHATLOGDISABLED)
+					LoggingChat(false)
 				else
 					BCM_Warning:Show()
 					bcmDB.logcombat = nil
@@ -273,26 +276,42 @@ end
 	makePanel("BCM_BNet", bcm, "BattleNet")
 
 	if not bcmDB.BCM_BNet then
-		local colorBtn = CreateFrame("CheckButton", "BCM_BNetColor_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
-		colorBtn:SetScript("OnClick", function(frame)
+		local OnClick = function(frame)
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
-				bcmDB.noBNetColor = nil
+				if frame:GetName() == "BCM_BNetFakeName_Button" then
+					bcmDB.noRealName = true
+				else
+					bcmDB.noBNetColor = nil
+				end
 			else
 				PlaySound("igMainMenuOptionCheckBoxOff")
-				bcmDB.noBNetColor = true
+				if frame:GetName() == "BCM_BNetFakeName_Button" then
+					bcmDB.noRealName = nil
+				else
+					bcmDB.noBNetColor = true
+				end
 			end
-		end)
+		end
+
+		local colorBtn = CreateFrame("CheckButton", "BCM_BNetColor_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
+		colorBtn:SetScript("OnClick", OnClick)
 		colorBtn:SetPoint("TOPLEFT", 16, -140)
 		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
 		colorBtnText:SetText(CLASS_COLORS)
+		local fakeNameBtn = CreateFrame("CheckButton", "BCM_BNetFakeName_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
+		fakeNameBtn:SetScript("OnClick", OnClick)
+		fakeNameBtn:SetPoint("TOPLEFT", 16, -170)
+		local fakeNameBtnText = fakeNameBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		fakeNameBtnText:SetPoint("LEFT", fakeNameBtn, "RIGHT")
+		fakeNameBtnText:SetText(L.FAKENAMES)
 
 		local brackInputText = BCM_BNet:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
-		brackInputText:SetPoint("TOPLEFT", 16, -180)
+		brackInputText:SetPoint("TOPLEFT", 16, -210)
 		brackInputText:SetText(L.PLAYERBRACKETS)
 		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_BNet, "InputBoxTemplate")
-		brackLInput:SetPoint("TOPLEFT", 32, -200)
+		brackLInput:SetPoint("TOPLEFT", 32, -230)
 		brackLInput:SetAutoFocus(false)
 		brackLInput:SetWidth(20)
 		brackLInput:SetHeight(20)
@@ -302,7 +321,7 @@ end
 		end)
 		brackLInput:SetScript("OnEnterPressed", brackLInput:GetScript("OnEscapePressed"))
 		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_BNet, "InputBoxTemplate")
-		brackRInput:SetPoint("TOPLEFT", 64, -200)
+		brackRInput:SetPoint("TOPLEFT", 64, -230)
 		brackRInput:SetAutoFocus(false)
 		brackRInput:SetWidth(20)
 		brackRInput:SetHeight(20)
@@ -312,7 +331,7 @@ end
 		end)
 		brackRInput:SetScript("OnEnterPressed", brackRInput:GetScript("OnEscapePressed"))
 		local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_BNet, "InputBoxTemplate")
-		separatorInput:SetPoint("TOPLEFT", 96, -200)
+		separatorInput:SetPoint("TOPLEFT", 96, -230)
 		separatorInput:SetAutoFocus(false)
 		separatorInput:SetWidth(20)
 		separatorInput:SetHeight(20)
