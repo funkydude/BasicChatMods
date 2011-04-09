@@ -2,6 +2,9 @@
 --[[     BCM Core     ]]--
 
 local _, BCM = ...
+BCM.chatFrames = 10
+BCM.modules, BCM.Events = {}, CreateFrame("Frame")
+BCM.Events:SetScript("OnEvent", function(frame, event) frame[event](frame) end)
 
 --[[ Common Functions ]]--
 function BCM:GetColor(className, isLocal)
@@ -21,10 +24,7 @@ function BCM:GetColor(className, isLocal)
 	return color
 end
 
-BCM.modules = {}
-BCM.Events = CreateFrame("Frame")
-BCM.Events:RegisterEvent("PLAYER_LOGIN")
-BCM.Events:SetScript("OnEvent", function()
+BCM.Events.PLAYER_LOGIN = function(frame)
 	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then bcmDB = {} end
 	if not bcmDB.v then
@@ -34,11 +34,11 @@ BCM.Events:SetScript("OnEvent", function()
 	end
 
 	--[[ Run Modules ]]--
-	for i = 1, #BCM.modules do
+	for i=1, #BCM.modules do
 		BCM.modules[i]()
 		BCM.modules[i] = nil
 	end
-	for i=1, 10 do
+	for i=1, BCM.chatFrames do
 		--Allow arrow keys editing in the edit box
 		local eB =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 		eB:SetAltArrowKeyMode(false)
@@ -46,11 +46,12 @@ BCM.Events:SetScript("OnEvent", function()
 
 	--[[ Self-Cleanup ]]--
 	BCM.modules = nil
-	BCM.Events:SetScript("OnEvent", function(frame, event) frame[event](event) end)
-end)
+	frame.PLAYER_LOGIN = nil
+end
+BCM.Events:RegisterEvent("PLAYER_LOGIN")
 
 --These need to be set before PLAYER_LOGIN
-for i=1, 10 do
+for i=1, BCM.chatFrames do
 	local cF = _G[format("%s%d", "ChatFrame", i)]
 	--Allow the chat frame to move to the end of the screen
 	cF:SetClampRectInsets(0,0,0,0)

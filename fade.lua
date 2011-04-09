@@ -8,7 +8,7 @@ BCM.modules[#BCM.modules+1] = function()
 	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 	CHAT_FRAME_BUTTON_FRAME_MIN_ALPHA = 0
-	for i=1, 10 do
+	for i=1, BCM.chatFrames do
 		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
 		tab:SetAlpha(0)
 		tab.noMouseAlpha = 0

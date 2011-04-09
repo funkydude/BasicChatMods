@@ -21,7 +21,7 @@ BCM.modules[#BCM.modules+1] = function()
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
-	for i = 1, 10 do
+	for i=1, BCM.chatFrames do
 		local cF = _G[format("%s%d", "ChatFrame", i)]
 		--skip combatlog and frames with no messages registered
 		if i ~= 2 and #cF.messageTypeList > 0 then

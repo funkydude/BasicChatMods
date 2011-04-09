@@ -9,8 +9,15 @@ BCM.modules[#BCM.modules+1] = function()
 	local newAddMsg = {}
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
-	local storedName
-	if bcmDB.noRealName then storedName = {} end
+	local storedName = nil
+	if bcmDB.noRealName then
+		storedName = {}
+		local _, n = BNGetNumFriends()
+		for i=1, n do
+			local _, _, _, toon, id = BNGetFriendInfo(i)
+			storedName[id] = toon
+		end
+	end
 	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
 		local _, charName, _, _, _, _, englishClass = BNGetToonInfo(id)
 		if charName ~= "" then
@@ -19,7 +26,10 @@ BCM.modules[#BCM.modules+1] = function()
 			fakeName = bcmDB.noRealName and charName or fakeName
 		else
 			--Replace real name with stored charname if enabled, for logoff events
-			fakeName = bcmDB.noRealName and storedName and storedName[id] or fakeName
+			if bcmDB.noRealName and storedName and storedName[id] then
+				fakeName = storedName[id]
+				storedName[id] = nil
+			end
 		end
 		if englishClass ~= "" then --Friend logging off/Starcraft 2
 			fakeName = bcmDB.noBNetColor and fakeName or "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r" --Color name if enabled
@@ -31,7 +41,7 @@ BCM.modules[#BCM.modules+1] = function()
 		return newAddMsg[frame:GetName()](frame, text, ...)
 	end
 
-	for i = 1, 10 do
+	for i=1, BCM.chatFrames do
 		local cF = _G[format("%s%d", "ChatFrame", i)]
 		--skip combatlog and frames with no messages registered
 		if i ~= 2 and #cF.messageTypeList > 0 then

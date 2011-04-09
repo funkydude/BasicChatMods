@@ -8,7 +8,7 @@ BCM.modules[#BCM.modules+1] = function()
 	--Classic mode hides the editbox when not in use, IM mode fades it out
 	--since we move the editbox above the chat tabs, we don't want it always showing
 	SetCVar("chatStyle", "classic")
-	for i =1, 10 do
+	for i=1, BCM.chatFrames do
 		local eb =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 		local cf = _G[format("%s%d", "ChatFrame", i)]
 		eb:ClearAllPoints()

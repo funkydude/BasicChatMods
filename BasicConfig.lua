@@ -430,7 +430,7 @@ end
 			local selected, info = BCM_FontNameText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_FontNameText:SetText(v:GetText())
 				bcmDB.fontname = v.value
-				for i = 1, 10 do
+				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
 					local _, size = cF:GetFont()
 					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
@@ -478,7 +478,7 @@ end
 			local selected, info = BCM_FontSizeText:GetText(), UIDropDownMenu_CreateInfo()
 			info.func = function(v) BCM_FontSizeText:SetText(v:GetText())
 				bcmDB.fontsize = v.value
-				for i = 1, 10 do
+				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
 					local fName, size = cF:GetFont()
 					cF:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
@@ -504,7 +504,7 @@ end
 				else
 					bcmDB.fontflag = v.value
 				end
-				for i = 1, 10 do
+				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
 					local fName, size = cF:GetFont()
 					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
@@ -565,7 +565,7 @@ end
 			info.func = function(v) BCM_Lines_GetText:SetText(v.value)
 				BCM_Lines_Set:SetText(bcmDB.lines[v.value] or _G[v.value]:GetMaxLines())
 			end
-			for i=1, 10 do
+			for i=1, BCM.chatFrames do
 				info.text = ("ChatFrame%d"):format(i)
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
@@ -615,7 +615,7 @@ end
 					BCM_Justify_SetText:SetText(L.LEFT)
 				end
 			end
-			for i=1, 10 do
+			for i=1, BCM.chatFrames do
 				info.text = ("ChatFrame%d"):format(i)
 				info.checked = info.text == selected
 				UIDropDownMenu_AddButton(info)
@@ -661,9 +661,9 @@ end
 
 	if not bcmDB.BCM_PlayerNames then
 		local onClick = function(frame)
+			BCM_Warning:Show()
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
-				if not BCM_PlayerName_Harvest then BCM_Warning:Show() end
 				if frame:GetName() == "BCM_PlayerLevel_Button" then
 					bcmDB.nolevel = nil
 				elseif frame:GetName() == "BCM_PlayerColor_Button" then

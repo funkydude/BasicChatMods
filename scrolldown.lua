@@ -34,7 +34,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local clickFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
-	for i=1, 10 do
+	for i=1, BCM.chatFrames do
 		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 		btn:ClearAllPoints()
 		local cf = btn:GetParent():GetParent()
