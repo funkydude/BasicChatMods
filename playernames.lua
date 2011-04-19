@@ -96,21 +96,23 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ End Harvest Data ]]--
 
 	local changeName = function(name, misc, nameToChange, colon)
-		--Do this here instead of listening to the guild event, as the event is slower than a player login
-		--leading to player logins lacking color/level, unless we held a database of the entire guild.
-		--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
-		if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) and UnitIsInMyGuild(name) then
-			for i=1, GetNumGuildMembers() do
-				local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
-				if n == name and l and l > 0 then
-					if nameLevels then nameLevels[n] = tostring(l) end
-					if nameColor then nameColor[n] = BCM:GetColor(c) end
-					break
+		if misc:len() < 5 then
+			--Do this here instead of listening to the guild event, as the event is slower than a player login
+			--leading to player logins lacking color/level, unless we held a database of the entire guild.
+			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
+			if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) and UnitIsInMyGuild(name) then
+				for i=1, GetNumGuildMembers() do
+					local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
+					if n == name and l and l > 0 then
+						if nameLevels then nameLevels[n] = tostring(l) end
+						if nameColor then nameColor[n] = BCM:GetColor(c) end
+						break
+					end
 				end
 			end
-		end
-		if misc:len() < 5 and nameColor and nameColor[name] then
-			nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
+			if nameColor and nameColor[name] then
+				nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
+			end
 		end
 		if nameLevels and nameLevels[name] then
 			nameToChange = (nameLevels[name])..":"..nameToChange
