@@ -21,7 +21,7 @@ BCM.modules[#BCM.modules+1] = function()
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
 	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
-	L.BCM_Font = "Change the font name/size/flag of your chat frames. Disable if you use defaults."
+	L.BCM_Font = "Change the font name, size, and style of your chat frames & edit box."
 	L.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
 	L.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
 	L.BCM_History = "Choose how many lines of chat history your chat frames remember."
@@ -432,8 +432,10 @@ end
 				bcmDB.fontname = v.value
 				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local _, size = cF:GetFont()
 					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
+					cFE:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
 				end
 			end
 			local lsm = LibStub and LibStub("LibSharedMedia-3.0", true)
@@ -480,8 +482,10 @@ end
 				bcmDB.fontsize = v.value
 				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local fName, size = cF:GetFont()
 					cF:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
+					cFE:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
 				end
 			end
 			for i=8, 18 do
@@ -506,8 +510,10 @@ end
 				end
 				for i=1, BCM.chatFrames do
 					local cF = _G[format("%s%d", "ChatFrame", i)]
+					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local fName, size = cF:GetFont()
 					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
+					cFE:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
 				end
 			end
 			local tbl = {NONE, "OUTLINE", "THICKOUTLINE", "MONOCHROME"}
