@@ -1,4 +1,4 @@
-## Interface: 40000
+## Interface: 40100
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
