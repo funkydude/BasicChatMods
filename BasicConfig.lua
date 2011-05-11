@@ -19,7 +19,7 @@ BCM.modules[#BCM.modules+1] = function()
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
-	L.BCM_EditBox = "This module simply moves the edit box (the box you type in) to the top of the chat frame, instead of the bottom."
+	L.BCM_EditBox = "Move the edit box (the box you type in) to the top of the chat frame, instead of the bottom and allow hiding of its background."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name, size, and style of your chat frames & edit box."
 	L.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
@@ -414,6 +414,35 @@ end
 
 	--[[ Edit Box ]]--
 	makePanel("BCM_EditBox", bcm, "Edit Box")
+
+	if not bcmDB.BCM_EditBox then
+		local editBoxBGBtn = CreateFrame("CheckButton", "BCM_EditBoxBG_Button", BCM_EditBox, "OptionsBaseCheckButtonTemplate")
+		editBoxBGBtn:SetScript("OnClick", function(frame)
+			if frame:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOn")
+				bcmDB.noEditBoxBG = true
+				for i=1, BCM.chatFrames do
+					local eb = format("%s%d%s", "ChatFrame", i, "EditBox")
+					_G[eb.."Left"]:Hide()
+					_G[eb.."Mid"]:Hide()
+					_G[eb.."Right"]:Hide()
+				end
+			else
+				PlaySound("igMainMenuOptionCheckBoxOff")
+				bcmDB.noEditBoxBG = nil
+				for i=1, BCM.chatFrames do
+					local eb = format("%s%d%s", "ChatFrame", i, "EditBox")
+					_G[eb.."Left"]:Show()
+					_G[eb.."Mid"]:Show()
+					_G[eb.."Right"]:Show()
+				end
+			end
+		end)
+		editBoxBGBtn:SetPoint("TOPLEFT", 16, -150)
+		local editBoxBGBtnText = editBoxBGBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		editBoxBGBtnText:SetPoint("LEFT", editBoxBGBtn, "RIGHT")
+		editBoxBGBtnText:SetText(HIDE_PULLOUT_BG)
+	end
 
 	--[[ Fade ]]--
 	makePanel("BCM_Fade", bcm, "Fade")
