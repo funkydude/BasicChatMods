@@ -7,6 +7,17 @@
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
+
+Locales\enUS.lua
+Locales\deDE.lua
+Locales\koKR.lua
+Locales\frFR.lua
+Locales\esMX.lua
+Locales\ruRU.lua
+Locales\zhCN.lua
+Locales\esES.lua
+Locales\zhTW.lua
+
 BasicCore.lua
 BasicConfig.lua
 
