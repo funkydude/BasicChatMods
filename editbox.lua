@@ -22,6 +22,8 @@ BCM.modules[#BCM.modules+1] = function()
 			_G[eb_text.."Mid"]:Hide()
 			_G[eb_text.."Right"]:Hide()
 		end
+
+		eb:SetScale(bcmDB.editBoxScale or 1)
 	end
 end
 

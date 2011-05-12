@@ -19,7 +19,7 @@ BCM.modules[#BCM.modules+1] = function()
 	L.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
 	L.BCM_ChannelNames = "Selectively replace the channel names with custom names of your liking. E.g. [Party] >> [P]"
 	L.BCM_ChatCopy = "This module allows you to copy chat directly from your chat frame by double-clicking the chat frame tab."
-	L.BCM_EditBox = "Move the edit box (the box you type in) to the top of the chat frame, instead of the bottom and allow hiding of its background."
+	L.BCM_EditBox = "Customize the Edit Box (the box you type in) like moving it to the top, hiding the background, and increasing the size."
 	L.BCM_Fade = "Fade out the chat frames completely instead of partially when moving your mouse away from a chat frame."
 	L.BCM_Font = "Change the font name, size, and style of your chat frames & edit box."
 	L.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
@@ -36,6 +36,8 @@ BCM.modules[#BCM.modules+1] = function()
 	L.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 
 	L.FAKENAMES = "Replace real names with character names."
+
+	L.SIZE = "Size"
 
 	L.CHATLOG = "Always log chat."
 	L.COMBATLOG = "Log combat in a raid instance."
@@ -439,9 +441,24 @@ end
 			end
 		end)
 		editBoxBGBtn:SetPoint("TOPLEFT", 16, -150)
+		editBoxBGBtn:SetChecked(bcmDB.noEditBoxBG)
 		local editBoxBGBtnText = editBoxBGBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		editBoxBGBtnText:SetPoint("LEFT", editBoxBGBtn, "RIGHT")
 		editBoxBGBtnText:SetText(HIDE_PULLOUT_BG)
+
+		local editBoxSlider = CreateFrame("Slider", "BCM_EditBoxScale_Slider", BCM_EditBox, "OptionsSliderTemplate")
+		editBoxSlider:SetMinMaxValues(0.5, 2)
+		editBoxSlider:SetValue(bcmDB.editBoxScale or 1)
+		editBoxSlider:SetValueStep(0.1)
+		editBoxSlider:SetScript("OnValueChanged", function(_, v)
+			BCM_EditBoxScale_SliderText:SetFormattedText("%s %.1f", L.SIZE, v)
+			if v == 1 then bcmDB.editBoxScale = nil else bcmDB.editBoxScale = v end
+			for i=1, BCM.chatFrames do _G[format("%s%d%s", "ChatFrame", i, "EditBox")]:SetScale(v) end
+		end)
+		BCM_EditBoxScale_SliderHigh:SetText(2)
+		BCM_EditBoxScale_SliderLow:SetText(0.5)
+		BCM_EditBoxScale_SliderText:SetFormattedText("%s %.1f", L.SIZE, bcmDB.editBoxScale or 1)
+		editBoxSlider:SetPoint("TOPLEFT", 20, -200)
 	end
 
 	--[[ Fade ]]--
