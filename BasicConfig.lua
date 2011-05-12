@@ -115,12 +115,7 @@ end
 		end
 
 		--[[ Modules ]]--
-		if panel == "BCM_AutoLog" and BCM_ChatLog_Button then
-			BCM_ChatLog_Button:SetChecked(bcmDB.logchat)
-			BCM_CombatLog_Button:SetChecked(bcmDB.logcombat)
-		elseif panel == "BCM_BNet" and BCM_BNetColor_Button then
-			BCM_BNetColor_Button:SetChecked(not bcmDB.noBNetColor and true)
-			BCM_BNetFakeName_Button:SetChecked(bcmDB.noRealName)
+		if panel == "BCM_BNet" and BCM_BNetColor_Button then
 			BCM_PlayerBrackDesc:SetParent(frame)
 			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -210)
 			BCM_PlayerLBrack:SetParent(frame)
@@ -135,15 +130,10 @@ end
 			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
 			BCM_PlayerSeparator:SetText("1234567890")
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
-		elseif panel == "BCM_ChatCopy" and BCM_ChatCopy_Button then
-			BCM_ChatCopy_Button:SetChecked(not bcmDB.noChatCopyTip and true)
 		elseif panel == "BCM_History" and BCM_Lines_Set then
 			BCM_Lines_Set:SetText(1234)
 			BCM_Lines_Set:SetText(_G[BCM_Lines_GetText:GetText()]:GetMaxLines())
 		elseif panel == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
-			BCM_PlayerLevel_Button:SetChecked(not bcmDB.nolevel and true)
-			BCM_PlayerGroup_Button:SetChecked(not bcmDB.nogroup and true)
-			BCM_PlayerColor_Button:SetChecked(not bcmDB.noMiscColor and true)
 			BCM_PlayerBrackDesc:SetParent(frame)
 			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -240)
 			BCM_PlayerLBrack:SetParent(frame)
@@ -262,6 +252,7 @@ end
 		local chatLogBtn = CreateFrame("CheckButton", "BCM_ChatLog_Button", BCM_AutoLog, "OptionsBaseCheckButtonTemplate")
 		chatLogBtn:SetScript("OnClick", onClick)
 		chatLogBtn:SetPoint("TOPLEFT", 16, -150)
+		chatLogBtn:SetChecked(bcmDB.logchat)
 		local chatLogBtnText = chatLogBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		chatLogBtnText:SetPoint("LEFT", chatLogBtn, "RIGHT")
 		chatLogBtnText:SetText(L.CHATLOG)
@@ -269,6 +260,7 @@ end
 		local combatLogBtn = CreateFrame("CheckButton", "BCM_CombatLog_Button", BCM_AutoLog, "OptionsBaseCheckButtonTemplate")
 		combatLogBtn:SetScript("OnClick", onClick)
 		combatLogBtn:SetPoint("TOPLEFT", 16, -180)
+		combatLogBtn:SetChecked(bcmDB.logcombat)
 		local combatLogBtnText = combatLogBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		combatLogBtnText:SetPoint("LEFT", combatLogBtn, "RIGHT")
 		combatLogBtnText:SetText(L.COMBATLOG)
@@ -299,12 +291,14 @@ end
 		local colorBtn = CreateFrame("CheckButton", "BCM_BNetColor_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
 		colorBtn:SetScript("OnClick", OnClick)
 		colorBtn:SetPoint("TOPLEFT", 16, -140)
+		colorBtn:SetChecked(not bcmDB.noBNetColor and true)
 		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
 		colorBtnText:SetText(CLASS_COLORS)
 		local fakeNameBtn = CreateFrame("CheckButton", "BCM_BNetFakeName_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
 		fakeNameBtn:SetScript("OnClick", OnClick)
 		fakeNameBtn:SetPoint("TOPLEFT", 16, -170)
+		fakeNameBtn:SetChecked(bcmDB.noRealName)
 		local fakeNameBtnText = fakeNameBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		fakeNameBtnText:SetPoint("LEFT", fakeNameBtn, "RIGHT")
 		fakeNameBtnText:SetText(L.FAKENAMES)
@@ -409,6 +403,7 @@ end
 			end
 		end)
 		chatCopyBtn:SetPoint("TOPLEFT", 16, -150)
+		chatCopyBtn:SetChecked(not bcmDB.noChatCopyTip and true)
 		local chatCopyBtnText = chatCopyBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		chatCopyBtnText:SetPoint("LEFT", chatCopyBtn, "RIGHT")
 		chatCopyBtnText:SetText(SHOW_NEWBIE_TIPS_TEXT)
@@ -738,6 +733,7 @@ end
 		local levelsBtn = CreateFrame("CheckButton", "BCM_PlayerLevel_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
 		levelsBtn:SetScript("OnClick", onClick)
 		levelsBtn:SetPoint("TOPLEFT", 16, -140)
+		levelsBtn:SetChecked(not bcmDB.nolevel and true)
 		local levelsBtnText = levelsBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		levelsBtnText:SetPoint("LEFT", levelsBtn, "RIGHT")
 		levelsBtnText:SetText(L.SHOWLEVELS)
@@ -745,6 +741,7 @@ end
 		local groupBtn = CreateFrame("CheckButton", "BCM_PlayerGroup_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
 		groupBtn:SetScript("OnClick", onClick)
 		groupBtn:SetPoint("TOPLEFT", 16, -170)
+		groupBtn:SetChecked(not bcmDB.nogroup and true)
 		local groupBtnText = groupBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		groupBtnText:SetPoint("LEFT", groupBtn, "RIGHT")
 		groupBtnText:SetText(L.SHOWGROUP)
@@ -752,6 +749,7 @@ end
 		local colorBtn = CreateFrame("CheckButton", "BCM_PlayerColor_Button", BCM_PlayerNames, "OptionsBaseCheckButtonTemplate")
 		colorBtn:SetScript("OnClick", onClick)
 		colorBtn:SetPoint("TOPLEFT", 16, -200)
+		colorBtn:SetChecked(not bcmDB.noMiscColor and true)
 		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
 		colorBtnText:SetText(L.COLORMISC)
