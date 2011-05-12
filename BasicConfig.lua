@@ -464,7 +464,7 @@ end
 
 	if not bcmDB.BCM_Font then
 		local fontName = CreateFrame("Frame", "BCM_FontName", BCM_Font, "UIDropDownMenuTemplate")
-		fontName:SetPoint("TOPLEFT", 4, -140)
+		fontName:SetPoint("TOPLEFT", -5, -140)
 		BCM_FontNameMiddle:SetWidth(100)
 		BCM_FontNameText:SetText("Font")
 		UIDropDownMenu_Initialize(fontName, function()
@@ -513,32 +513,29 @@ end
 			end
 		end)
 
-		local fontSize = CreateFrame("Frame", "BCM_FontSize", BCM_Font, "UIDropDownMenuTemplate")
-		fontSize:SetPoint("LEFT", fontName, "RIGHT", 100, 0)
-		BCM_FontSizeMiddle:SetWidth(70)
-		BCM_FontSizeText:SetText(FONT_SIZE)
-		UIDropDownMenu_Initialize(fontSize, function()
-			local selected, info = BCM_FontSizeText:GetText(), UIDropDownMenu_CreateInfo()
-			info.func = function(v) BCM_FontSizeText:SetText(v:GetText())
-				bcmDB.fontsize = v.value
-				for i=1, BCM.chatFrames do
-					local cF = _G[format("%s%d", "ChatFrame", i)]
-					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
-					local fName, size = cF:GetFont()
-					cF:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
-					cFE:SetFont(bcmDB.fontname or fName, v.value, bcmDB.fontflag)
-				end
-			end
-			for i=8, 18 do
-				info.text = FONT_SIZE_TEMPLATE:format(i)
-				info.value = i
-				info.checked = info.text == selected
-				UIDropDownMenu_AddButton(info)
+		local fontSizeSlider = CreateFrame("Slider", "BCM_FontSize", BCM_Font, "OptionsSliderTemplate")
+		fontSizeSlider:SetMinMaxValues(6, 20)
+		fontSizeSlider:SetValue(bcmDB.fontsize or select(2, ChatFrame1:GetFont()))
+		fontSizeSlider:SetValueStep(1)
+		fontSizeSlider:SetWidth(110)
+		fontSizeSlider:SetScript("OnValueChanged", function(_, v)
+			BCM_FontSizeText:SetFormattedText(FONT_SIZE.." "..FONT_SIZE_TEMPLATE, v)
+			bcmDB.fontsize = v
+			for i=1, BCM.chatFrames do
+				local cF = _G[format("%s%d", "ChatFrame", i)]
+				local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+				local fName = cF:GetFont()
+				cF:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag)
+				cFE:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag)
 			end
 		end)
+		BCM_FontSizeHigh:SetText(20)
+		BCM_FontSizeLow:SetText(6)
+		BCM_FontSizeText:SetFormattedText(FONT_SIZE.." "..FONT_SIZE_TEMPLATE, bcmDB.fontsize or select(2, ChatFrame1:GetFont()))
+		fontSizeSlider:SetPoint("LEFT", fontName, "RIGHT", 120, 0)
 
 		local fontFlag = CreateFrame("Frame", "BCM_FontFlag", BCM_Font, "UIDropDownMenuTemplate")
-		fontFlag:SetPoint("LEFT", fontSize, "RIGHT", 70, 0)
+		fontFlag:SetPoint("LEFT", fontSizeSlider, "RIGHT", 5, 0)
 		BCM_FontFlagMiddle:SetWidth(100)
 		BCM_FontFlagText:SetText(NONE)
 		UIDropDownMenu_Initialize(fontFlag, function()
