@@ -524,45 +524,38 @@ BCM.modules[#BCM.modules+1] = function()
 	makePanel("BCM_History", bcm, "History")
 
 	if not bcmDB.BCM_History then
-		local get = CreateFrame("Frame", "BCM_Lines_Get", BCM_History, "UIDropDownMenuTemplate")
-		get:SetPoint("TOPLEFT", 16, -140)
-		BCM_Lines_GetText:SetText("ChatFrame1")
-		UIDropDownMenu_Initialize(get, function()
-			local selected, info = BCM_Lines_GetText:GetText(), UIDropDownMenu_CreateInfo()
-			info.func = function(v) BCM_Lines_GetText:SetText(v.value)
-				BCM_Lines_Set:SetText(bcmDB.lines[v.value] or _G[v.value]:GetMaxLines())
-			end
-			for i=1, BCM.chatFrames do
-				info.text = ("ChatFrame%d"):format(i)
-				info.checked = info.text == selected
-				UIDropDownMenu_AddButton(info)
-			end
+		local chatFrameSlider = CreateFrame("Slider", "BCM_History_Get", BCM_History, "OptionsSliderTemplate")
+		chatFrameSlider:SetMinMaxValues(1, 10)
+		chatFrameSlider:SetValue(1)
+		chatFrameSlider:SetValueStep(1)
+		chatFrameSlider:SetScript("OnValueChanged", function(_, v)
+			local cF = ("ChatFrame%d"):format(v)
+			BCM_History_GetText:SetText(cF..": ".._G[cF].name)
+			BCM_History_Set:SetValue(bcmDB.lines and bcmDB.lines[cF] or _G[cF]:GetMaxLines())
+			BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, bcmDB.lines and bcmDB.lines[cF] or _G[cF]:GetMaxLines())
 		end)
+		BCM_History_GetHigh:SetText(10)
+		BCM_History_GetLow:SetText(1)
+		BCM_History_GetText:SetText("ChatFrame1: "..ChatFrame1.name)
+		chatFrameSlider:SetPoint("TOPLEFT", 16, -160)
 
-		local linesInput = CreateFrame("EditBox", "BCM_Lines_Set", BCM_History, "InputBoxTemplate")
-		linesInput:SetPoint("LEFT", get, "RIGHT", 170, 0)
-		linesInput:SetNumeric(true)
-		linesInput:SetAutoFocus(false)
-		linesInput:SetWidth(100)
-		linesInput:SetHeight(20)
-		linesInput:SetJustifyH("CENTER")
-		linesInput:SetMaxLetters(4)
-		linesInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then
-				local input, cF = tonumber(frame:GetText()), BCM_Lines_GetText:GetText()
-				if not input then
-					return
-				elseif input <1 then
-					input = 1 frame:SetText(input)
-				elseif input >2500 then
-					input = 2500 frame:SetText(input)
-				end
-				bcmDB.lines[cF] = input
-				_G[cF]:SetMaxLines(input)
-			end
+		local linesSetSlider = CreateFrame("Slider", "BCM_History_Set", BCM_History, "OptionsSliderTemplate")
+		linesSetSlider:SetMinMaxValues(10, 2500)
+		linesSetSlider:SetValue(bcmDB.lines and bcmDB.lines.ChatFrame1 or ChatFrame1:GetMaxLines())
+		linesSetSlider:SetValueStep(10)
+		linesSetSlider:SetWidth(200)
+		linesSetSlider:SetScript("OnValueChanged", function(_, v)
+			BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, v)
+			local cF = ("ChatFrame%d"):format(BCM_History_Get:GetValue())
+			bcmDB.lines[cF] = v
+			_G[cF]:SetMaxLines(v)
 		end)
-		linesInput:SetScript("OnEnterPressed", linesInput:GetScript("OnEscapePressed"))
+		BCM_History_SetHigh:SetText(2500)
+		BCM_History_SetLow:SetText(10)
+		BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, bcmDB.lines and bcmDB.lines.ChatFrame1 or 1000)
+		linesSetSlider:SetPoint("TOPLEFT", 190, -160)
 	end
+
 	--[[ Invite Links ]]--
 	makePanel("BCM_InviteLinks", bcm, "Invite Links")
 
