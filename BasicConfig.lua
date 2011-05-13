@@ -53,9 +53,6 @@ BCM.modules[#BCM.modules+1] = function()
 			BCM_PlayerRBrack:SetText(bcmDB.playerRBrack)
 			BCM_PlayerSeparator:SetText("1234567890")
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
-		elseif panel == "BCM_History" and BCM_Lines_Set then
-			BCM_Lines_Set:SetText(1234)
-			BCM_Lines_Set:SetText(_G[BCM_Lines_GetText:GetText()]:GetMaxLines())
 		elseif panel == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerBrackDesc:SetParent(frame)
 			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -240)
@@ -530,13 +527,13 @@ BCM.modules[#BCM.modules+1] = function()
 		chatFrameSlider:SetValueStep(1)
 		chatFrameSlider:SetScript("OnValueChanged", function(_, v)
 			local cF = ("ChatFrame%d"):format(v)
-			BCM_History_GetText:SetText(cF..": ".._G[cF].name)
+			BCM_History_GetText:SetFormattedText("%s: %s", cF, _G[cF].name)
 			BCM_History_Set:SetValue(bcmDB.lines and bcmDB.lines[cF] or _G[cF]:GetMaxLines())
 			BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, bcmDB.lines and bcmDB.lines[cF] or _G[cF]:GetMaxLines())
 		end)
 		BCM_History_GetHigh:SetText(10)
 		BCM_History_GetLow:SetText(1)
-		BCM_History_GetText:SetText("ChatFrame1: "..ChatFrame1.name)
+		BCM_History_GetText:SetFormattedText("ChatFrame1: %s", ChatFrame1.name)
 		chatFrameSlider:SetPoint("TOPLEFT", 16, -160)
 
 		local linesSetSlider = CreateFrame("Slider", "BCM_History_Set", BCM_History, "OptionsSliderTemplate")
@@ -563,57 +560,37 @@ BCM.modules[#BCM.modules+1] = function()
 	makePanel("BCM_Justify", bcm, "Justify")
 
 	if not bcmDB.BCM_Justify then
-		local get = CreateFrame("Frame", "BCM_Justify_Get", BCM_Justify, "UIDropDownMenuTemplate")
-		get:SetPoint("TOPLEFT", 16, -140)
-		BCM_Justify_GetText:SetText("ChatFrame1")
-		UIDropDownMenu_Initialize(get, function()
-			local selected, info = BCM_Justify_GetText:GetText(), UIDropDownMenu_CreateInfo()
-			info.func = function(v) BCM_Justify_GetText:SetText(v.value)
-				if bcmDB.justify and bcmDB.justify[v.value] then
-					BCM_Justify_SetText:SetText(BCM[bcmDB.justify[v.value]])
-				else
-					BCM_Justify_SetText:SetText(BCM.LEFT)
-				end
-			end
-			for i=1, BCM.chatFrames do
-				info.text = ("ChatFrame%d"):format(i)
-				info.checked = info.text == selected
-				UIDropDownMenu_AddButton(info)
-			end
+		local chatFrameSlider = CreateFrame("Slider", "BCM_Justify_Get", BCM_Justify, "OptionsSliderTemplate")
+		chatFrameSlider:SetMinMaxValues(1, 10)
+		chatFrameSlider:SetValue(1)
+		chatFrameSlider:SetValueStep(1)
+		chatFrameSlider:SetScript("OnValueChanged", function(_, v)
+			local cF = ("ChatFrame%d"):format(v)
+			BCM_Justify_GetText:SetFormattedText("%s: %s", cF, _G[cF].name)
+			BCM_Justify_Set:SetValue(bcmDB.justify and ((bcmDB.justify[cF] == "RIGHT" and 3) or (bcmDB.justify[cF] == "CENTER" and 2)) or 1)
+			BCM_Justify_SetText:SetText(bcmDB.justify and bcmDB.justify[cF] and BCM[bcmDB.justify[cF]] or BCM.LEFT)
 		end)
+		BCM_Justify_GetHigh:SetText(10)
+		BCM_Justify_GetLow:SetText(1)
+		BCM_Justify_GetText:SetFormattedText("ChatFrame1: %s", ChatFrame1.name)
+		chatFrameSlider:SetPoint("TOPLEFT", 16, -160)
 
-		local set = CreateFrame("Frame", "BCM_Justify_Set", BCM_Justify, "UIDropDownMenuTemplate")
-		set:SetPoint("LEFT", get, "RIGHT", 140, 0)
-		if bcmDB.justify and bcmDB.justify[BCM_Justify_GetText:GetText()] then
-			BCM_Justify_SetText:SetText(bcmDB.justify[BCM_Justify_GetText:GetText()])
-		else
-			BCM_Justify_SetText:SetText(BCM.LEFT)
-		end
-		UIDropDownMenu_Initialize(set, function()
-			local selected, info = BCM_Justify_SetText:GetText(), UIDropDownMenu_CreateInfo()
-			info.func = function(v) BCM_Justify_SetText:SetText(v:GetText())
-				if not bcmDB.justify then bcmDB.justify = {} end
-				_G[BCM_Justify_GetText:GetText()]:SetJustifyH(v.value)
-				if v.value == "RIGHT" or v.value == "CENTER" then
-					bcmDB.justify[BCM_Justify_GetText:GetText()] = v.value
-				else
-					bcmDB.justify[BCM_Justify_GetText:GetText()] = nil
-					--remove the table if we have no entries
-					local w = nil
-					for k in pairs(bcmDB.justify) do w = true end
-					if not w then bcmDB.justify = nil end
-				end
-			end
-			local tbl = {"LEFT", "RIGHT", "CENTER"}
-			for i=1, #tbl do
-				info.text = BCM[tbl[i]]
-				info.value = tbl[i]
-				info.checked = info.text == selected
-				UIDropDownMenu_AddButton(info)
-				tbl[i] = nil
-			end
-			tbl = nil
+		local justifyPosition = CreateFrame("Slider", "BCM_Justify_Set", BCM_Justify, "OptionsSliderTemplate")
+		justifyPosition:SetMinMaxValues(1, 3)
+		justifyPosition:SetValue(bcmDB.justify and ((bcmDB.justify.ChatFrame1 == "RIGHT" and 3) or (bcmDB.justify.ChatFrame1 == "CENTER" and 2)) or 1)
+		justifyPosition:SetValueStep(1)
+		justifyPosition:SetScript("OnValueChanged", function(_, v)
+			if not bcmDB.justify then bcmDB.justify = {} end
+			local cF = ("ChatFrame%d"):format(BCM_Justify_Get:GetValue())
+			local justify = v == 1 and "LEFT" or v == 2 and "CENTER" or v == 3 and "RIGHT"
+			_G[cF]:SetJustifyH(justify)
+			if v == 1 then bcmDB.justify[cF] = nil else bcmDB.justify[cF] = justify end
+			BCM_Justify_SetText:SetText(BCM[justify])
 		end)
+		BCM_Justify_SetHigh:SetText(BCM.RIGHT)
+		BCM_Justify_SetLow:SetText(BCM.LEFT)
+		BCM_Justify_SetText:SetText(bcmDB.justify and bcmDB.justify.ChatFrame1 and BCM[bcmDB.justify.ChatFrame1] or BCM.LEFT)
+		justifyPosition:SetPoint("TOPLEFT", 250, -160)
 	end
 
 	--[[ Player Names ]]--
