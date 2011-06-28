@@ -1,8 +1,8 @@
-## Interface: 40100
+## Interface: 40200
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 6.60
+## Version: 6.61
 ## Title: BasicChatMods
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
