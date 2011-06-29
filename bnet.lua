@@ -19,7 +19,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end
 	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
-		local _, charName, _, _, _, _, englishClass = BNGetToonInfo(id)
+		local _, charName, _, _, _, _, _, englishClass = BNGetToonInfo(id)
 		if charName ~= "" then
 			if storedName then storedName[id] = charName end --Store name for logoff events, if enabled
 			--Replace real name with charname if enabled
