@@ -20,7 +20,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 		local desc = BCMPanelDesc
 		desc:SetParent(frame)
-		desc:SetPoint("TOPLEFT", 16, -20)
+		desc:SetPoint("CENTER", frame, "TOP", 0, -30)
 		desc:SetText(BCM[panel] or "No Description")
 
 		local warn = BCM_Warning
@@ -101,18 +101,18 @@ BCM.modules[#BCM.modules+1] = function()
 	local bcm = CreateFrame("Frame", "BCM", InterfaceOptionsFramePanelContainer)
 	bcm.name = name
 	InterfaceOptions_AddCategory(bcm)
-	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-	bcmTitle:SetPoint("TOPLEFT", 16, -16)
+	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
+	bcmTitle:SetPoint("CENTER", bcm, "TOP", 0, -30)
 	bcmTitle:SetText(name.." @project-version@") --wowace magic, replaced with tag version
-	local bcmDesc = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	bcmDesc:SetPoint("TOPLEFT", 16, -62)
+	local bcmDesc = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	bcmDesc:SetPoint("CENTER")
 	bcmDesc:SetText(BCM.CORE)
-	bcmDesc:SetWidth(375)
+	bcmDesc:SetWidth(450)
 	bcmDesc:SetJustifyH("CENTER")
 
 	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
 	local panelDesc = bcm:CreateFontString("BCMPanelDesc", "ARTWORK", "GameFontNormalLarge")
-	panelDesc:SetWidth(350)
+	panelDesc:SetWidth(500)
 	panelDesc:SetWordWrap(true)
 	local enableBtn = CreateFrame("CheckButton", "BCMEnableButton", bcm, "OptionsBaseCheckButtonTemplate")
 	enableBtn:SetScript("OnClick", function(frame)
@@ -136,6 +136,7 @@ BCM.modules[#BCM.modules+1] = function()
 	optionsWarn:SetJustifyH("CENTER")
 	optionsWarn:SetText(BCM.OPTIONS)
 	optionsWarn:Hide()
+	BCM.info = {}
 
 	--[[-------------------------------
 	-- Module Panel Creation
@@ -274,7 +275,7 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM_ChanName_DropMiddle:SetWidth(130)
 		BCM_ChanName_DropText:SetText(ADD_CHANNEL)
 		UIDropDownMenu_Initialize(chan, function()
-			local selected, info = BCM_ChanName_DropText:GetText(), UIDropDownMenu_CreateInfo()
+			local selected, info = BCM_ChanName_DropText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
 				if v:GetText() == BCM.CUSTOMCHANNEL then BCM_ChanName_Tip:Show() else BCM_ChanName_Tip:Hide() end
 				local input = BCM_ChanName_Input
@@ -388,7 +389,7 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM_FontNameMiddle:SetWidth(100)
 		BCM_FontNameText:SetText("Font")
 		UIDropDownMenu_Initialize(fontName, function()
-			local selected, info = BCM_FontNameText:GetText(), UIDropDownMenu_CreateInfo()
+			local selected, info = BCM_FontNameText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_FontNameText:SetText(v:GetText())
 				bcmDB.fontname = v.value
 				for i=1, BCM.chatFrames do
@@ -459,7 +460,7 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM_FontFlagMiddle:SetWidth(100)
 		BCM_FontFlagText:SetText(NONE)
 		UIDropDownMenu_Initialize(fontFlag, function()
-			local selected, info = BCM_FontFlagText:GetText(), UIDropDownMenu_CreateInfo()
+			local selected, info = BCM_FontFlagText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_FontFlagText:SetText(v:GetText())
 				if v.value == NONE then 
 					bcmDB.fontflag = nil
@@ -695,7 +696,7 @@ BCM.modules[#BCM.modules+1] = function()
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
 		UIDropDownMenu_Initialize(sticky, function()
-			local selected, info = BCM_Sticky_DropText:GetText(), UIDropDownMenu_CreateInfo()
+			local selected, info = BCM_Sticky_DropText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
 				local btn = BCM_Sticky_Button
 				btn:Enable()
