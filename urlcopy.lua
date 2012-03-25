@@ -73,6 +73,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	--[[ Popup Box ]]--
 	StaticPopupDialogs["BCM_URLCopyBox"] = {
+		preferredIndex = 3,
 		text = "URL",
 		button1 = CLOSE,
 		hasEditBox = 1,
