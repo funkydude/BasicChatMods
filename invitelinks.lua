@@ -31,7 +31,11 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_OnHyperlinkShow = function(self, link, ...)
 		if (link):sub(1, 6) == "invite" then
 			if IsAltKeyDown() then
-				InviteUnit((link):sub(8))
+				if InviteToGroup then
+					InviteToGroup((link):sub(8))
+				else
+					InviteUnit((link):sub(8))
+				end
 			end
 			return
 		end
