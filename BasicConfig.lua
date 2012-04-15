@@ -386,7 +386,7 @@ BCM.modules[#BCM.modules+1] = function()
 		fontName:SetPoint("TOPLEFT", -5, -140)
 		BCM_FontNameMiddle:SetWidth(100)
 		BCM_FontNameText:SetText("Font")
-		UIDropDownMenu_Initialize(fontName, function()
+		fontName.initialize = function()
 			local selected, info = BCM_FontNameText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_FontNameText:SetText(v:GetText())
 				bcmDB.fontname = v.value
@@ -430,7 +430,7 @@ BCM.modules[#BCM.modules+1] = function()
 				end
 				tbl = nil
 			end
-		end)
+		end
 
 		local fontSizeSlider = CreateFrame("Slider", "BCM_FontSize", BCM_Font, "OptionsSliderTemplate")
 		fontSizeSlider:SetMinMaxValues(6, 20)
@@ -457,7 +457,7 @@ BCM.modules[#BCM.modules+1] = function()
 		fontFlag:SetPoint("LEFT", fontSizeSlider, "RIGHT", 5, 0)
 		BCM_FontFlagMiddle:SetWidth(100)
 		BCM_FontFlagText:SetText(NONE)
-		UIDropDownMenu_Initialize(fontFlag, function()
+		fontFlag.initialize = function()
 			local selected, info = BCM_FontFlagText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_FontFlagText:SetText(v:GetText())
 				if v.value == NONE then 
@@ -481,7 +481,7 @@ BCM.modules[#BCM.modules+1] = function()
 				tbl[i] = nil
 			end
 			tbl = nil
-		end)
+		end
 	end
 
 	--[[ GMOTD ]]--
@@ -693,7 +693,7 @@ BCM.modules[#BCM.modules+1] = function()
 		local sticky = CreateFrame("Frame", "BCM_Sticky_Drop", BCM_Sticky, "UIDropDownMenuTemplate")
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
-		UIDropDownMenu_Initialize(sticky, function()
+		sticky.initialize = function()
 			local selected, info = BCM_Sticky_DropText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
 				local btn = BCM_Sticky_Button
@@ -714,7 +714,7 @@ BCM.modules[#BCM.modules+1] = function()
 				tbl[i] = nil
 			end
 			tbl = nil
-		end)
+		end
 
 		local stickyBtn = CreateFrame("CheckButton", "BCM_Sticky_Button", BCM_Sticky, "OptionsBaseCheckButtonTemplate")
 		stickyBtn:SetScript("OnClick", function(frame)
