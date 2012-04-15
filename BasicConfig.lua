@@ -270,39 +270,44 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if not bcmDB.BCM_ChannelNames then
 		local channelTip = BCM_ChannelNames:CreateFontString("BCM_ChanName_Tip", "ARTWORK", "GameFontHighlight")
-		channelTip:SetPoint("TOPLEFT", 50, -215)
+		channelTip:SetPoint("TOPLEFT", 210, -170)
 		channelTip:SetText("%1 == ".. BCM.CHANNELNUMBER.. "\n%2 == ".. BCM.CHANNELNAME)
 		channelTip:Hide()
-		local channelSlider = CreateFrame("Slider", "BCM_ChanName_Get", BCM_ChannelNames, "OptionsSliderTemplate")
-		channelSlider:SetMinMaxValues(1, 17)
-		channelSlider:SetValue(1)
-		channelSlider:SetValueStep(1)
-		channelSlider:SetScript("OnValueChanged", function(_, v)
-			wipe(BCM.info) --remove
-			BCM.info[1], BCM.info[2], BCM.info[3], BCM.info[4], BCM.info[5], BCM.info[6], BCM.info[7], BCM.info[8], BCM.info[9],
-				BCM.info[10], BCM.info[11], BCM.info[12], BCM.info[13], BCM.info[14], BCM.info[15], BCM.info[16], BCM.info[17] = 
-				BCM.GENERAL, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER,
-			GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL
-
-			BCM_ChanName_GetText:SetText(BCM.info[v])
-			BCM_ChanName_Input:SetText(bcmDB.replacements[v])
-			wipe(BCM.info)
-			if v == 17 then BCM_ChanName_Tip:Show() else BCM_ChanName_Tip:Hide() end
-		end)
-		BCM_ChanName_GetHigh:SetText("")
-		BCM_ChanName_GetLow:SetText("")
-		BCM_ChanName_GetText:SetText(BCM.GENERAL)
-		channelSlider:SetPoint("TOPLEFT", 50, -160)
+		local chan = CreateFrame("Frame", "BCM_ChanName_Drop", BCM_ChannelNames, "UIDropDownMenuTemplate")
+		chan:SetPoint("TOPLEFT", 16, -140)
+		BCM_ChanName_DropMiddle:SetWidth(130)
+		BCM_ChanName_DropText:SetText(ADD_CHANNEL)
+		chan.initialize = function()
+			local selected, info = BCM_ChanName_DropText:GetText(), wipe(BCM.info)
+			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
+				if v:GetText() == BCM.CUSTOMCHANNEL then BCM_ChanName_Tip:Show() else BCM_ChanName_Tip:Hide() end
+				local input = BCM_ChanName_Input
+				input:EnableMouse(true)
+				input:SetText("1234567890") --for some reason the text wont display without calling something long
+				input:SetText(bcmDB.replacements[v.value])
+				input.value = v.value
+			end
+			local tbl = {BCM.GENERAL, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.GUILDRECRUIT, BATTLEGROUND, BATTLEGROUND_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL}
+			for i=1, #tbl do
+				info.text = tbl[i]
+				info.value = i
+				info.checked = info.text == selected
+				UIDropDownMenu_AddButton(info)
+				tbl[i] = nil
+			end
+			tbl = nil
+		end
 
 		local chanNameInput = CreateFrame("EditBox", "BCM_ChanName_Input", BCM_ChannelNames, "InputBoxTemplate")
-		chanNameInput:SetPoint("TOPLEFT", 50, -190)
+		chanNameInput:SetPoint("LEFT", chan, "RIGHT", 170, 0)
 		chanNameInput:SetAutoFocus(false)
-		chanNameInput:SetWidth(150)
+		chanNameInput:SetWidth(100)
 		chanNameInput:SetHeight(20)
 		chanNameInput:SetJustifyH("CENTER")
 		chanNameInput:SetMaxLetters(10)
+		chanNameInput:EnableMouse(false)
 		chanNameInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then bcmDB.replacements[BCM_ChanName_Get:GetValue()] = frame:GetText() end
+			if changed then bcmDB.replacements[frame.value] = frame:GetText() end
 		end)
 		chanNameInput:SetScript("OnEnterPressed", chanNameInput:GetScript("OnEscapePressed"))
 	end
