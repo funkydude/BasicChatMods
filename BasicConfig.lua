@@ -699,45 +699,28 @@ BCM.modules[#BCM.modules+1] = function()
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
 		sticky.initialize = function()
-			local selected, info = BCM_Sticky_DropText:GetText(), wipe(BCM.info)
-			info.func = function(v) BCM_Sticky_DropText:SetText(v:GetText())
-				local btn = BCM_Sticky_Button
-				btn:Enable()
-				if ChatTypeInfo[v.value].sticky > 0 then
-					btn:SetChecked(true)
+			local info = wipe(BCM.info)
+			info.func = function(v)
+				if ChatTypeInfo[v.value].sticky == 1 then
+					ChatTypeInfo[v.value].sticky = 0
+					bcmDB.sticky[v.value] = 0
 				else
-					btn:SetChecked(false)
+					ChatTypeInfo[v.value].sticky = 1
+					bcmDB.sticky[v.value] = 1
 				end
-				btn.value = v.value
 			end
 			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "BN_WHISPER", "BN_CONVERSATION", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
 			for i=1, #tbl do
 				info.text = _G[tbl[i]]
 				info.value = tbl[i]
-				info.checked = info.text == selected
+				info.checked = ChatTypeInfo[tbl[i]].sticky == 1
+				info.isNotRadio = true
+				info.keepShownOnClick = 1
 				UIDropDownMenu_AddButton(info)
 				tbl[i] = nil
 			end
 			tbl = nil
 		end
-
-		local stickyBtn = CreateFrame("CheckButton", "BCM_Sticky_Button", BCM_Sticky, "OptionsBaseCheckButtonTemplate")
-		stickyBtn:SetScript("OnClick", function(frame)
-			if frame:GetChecked() then
-				PlaySound("igMainMenuOptionCheckBoxOn")
-				ChatTypeInfo[frame.value].sticky = 1
-				bcmDB.sticky[frame.value] = 1
-			else
-				PlaySound("igMainMenuOptionCheckBoxOff")
-				ChatTypeInfo[frame.value].sticky = 0
-				bcmDB.sticky[frame.value] = 0
-			end
-		end)
-		stickyBtn:Disable()
-		stickyBtn:SetPoint("LEFT", sticky, "RIGHT", 225, 0)
-		local stickyBtnText = stickyBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		stickyBtnText:SetPoint("RIGHT", stickyBtn, "LEFT")
-		stickyBtnText:SetText(GUILD_NEWS_MAKE_STICKY)
 	end
 
 	--[[ Tell Target ]]--
