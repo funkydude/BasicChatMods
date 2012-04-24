@@ -422,11 +422,7 @@ BCM.modules[#BCM.modules+1] = function()
 				elseif myLocale == "zhTW" then
 					tbl = {["提示訊息"] = "Fonts\\bHEI00M.ttf", ["聊天"] = "Fonts\\bHEI01B.ttf", ["傷害數字"] = "Fonts\\bKAI00M.ttf", ["預設"] = "Fonts\\bLEI00D.ttf"}
 				elseif myLocale == "zhCN" then
-					if ReportPlayer then --XXX 4.3.4 compat
-						tbl = {["伤害数字"] = "Fonts\\ARKai_C.ttf", ["默认"] = "Fonts\\ARKai_T.ttf", ["聊天"] = "Fonts\\ARHei.ttf"}
-					else
-						tbl = {["伤害数字"] = "Fonts\\ZYKai_C.ttf", ["默认"] = "Fonts\\ZYKai_T.ttf", ["聊天"] = "Fonts\\ZYHei.ttf"}
-					end
+					tbl = {["伤害数字"] = "Fonts\\ARKai_C.ttf", ["默认"] = "Fonts\\ARKai_T.ttf", ["聊天"] = "Fonts\\ARHei.ttf"}
 				else
 					tbl = {["Arial Narrow"] = "Fonts\\ARIALN.TTF", ["Friz Quadrata"] = "Fonts\\FRIZQT__.TTF", ["Morpheus"] = "Fonts\\MORPHEUS.TTF", ["Skurri"] = "Fonts\\SKURRI.TTF"}
 				end
