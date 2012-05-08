@@ -12,7 +12,6 @@ BCM.modules[#BCM.modules+1] = function()
 		return
 	end
 
-	local newAddMsg = {}
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
 	--[[ Start Harvest Data ]]--
@@ -122,18 +121,9 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
-	local AddMessage = function(frame, text, ...)
+	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		text = text:gsub("|Hplayer:(%S-)([:|]%S-)%[(%S- ?%S*)%]|h(:?)", changeName)
-		return newAddMsg[frame:GetName()](frame, text, ...)
-	end
-
-	for i=1, BCM.chatFrames do
-		local cF = _G[format("%s%d", "ChatFrame", i)]
-		--skip combatlog and frames with no messages registered
-		if i ~= 2 and #cF.messageTypeList > 0 then
-			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage
-			cF.AddMessage = AddMessage
-		end
+		return text
 	end
 end
 

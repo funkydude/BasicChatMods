@@ -81,21 +81,11 @@ BCM.modules[#BCM.modules+1] = function()
 		chn[6] = "%[%d0?%. 公會招募.-%]"
 	end
 
-	local newAddMsg = {}
-	local AddMessage = function(frame, text, ...)
+	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		for i=1, 17 do
 			text = gsub(text, chn[i], rplc[i])
 		end
-		return newAddMsg[frame:GetName()](frame, text, ...)
-	end
-
-	for i=1, BCM.chatFrames do
-		local cF = _G[format("%s%d", "ChatFrame", i)]
-		--skip combatlog and frames with no messages registered
-		if i ~= 2 and #cF.messageTypeList > 0 then
-			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage
-			cF.AddMessage = AddMessage
-		end
+		return text
 	end
 end
 

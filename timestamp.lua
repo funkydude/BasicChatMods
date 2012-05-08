@@ -14,20 +14,10 @@ BCM.modules[#BCM.modules+1] = function()
 	if not bcmDB.stampformat then bcmDB.stampformat = "[%I:%M:%S]" end --add a format if we lack one
 
 	local time = time
-	local newAddMsg = {}
 
-	local AddMessage = function(frame, text, ...)
+	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		text = BetterDate(bcmDB.stampcolor..bcmDB.stampformat.."|r ", time())..text
-		return newAddMsg[frame:GetName()](frame, text, ...)
-	end
-
-	for i=1, BCM.chatFrames do
-		local cF = _G[format("%s%d", "ChatFrame", i)]
-		--skip combatlog and frames with no messages registered
-		if i ~= 2 and #cF.messageTypeList > 0 then
-			newAddMsg[format("%s%d", "ChatFrame", i)] = cF.AddMessage
-			cF.AddMessage = AddMessage
-		end
+		return text
 	end
 end
 

@@ -12,7 +12,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if i == 1 then
 			--remove defaults
 			if name == bcmDB.fontname then bcmDB.fontname = nil end
-			if bcmDB.fontsize and (tostring(size)):find(bcmDB.fontsize.."%.") then bcmDB.fontsize = nil end
+			if bcmDB.fontsize and (tostring(size)):find(bcmDB.fontsize..".", nil, true) then bcmDB.fontsize = nil end
 		end
 
 		cF:SetFont(bcmDB.fontname or name, bcmDB.fontsize or size, bcmDB.fontflag)

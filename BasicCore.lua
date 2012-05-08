@@ -3,7 +3,7 @@
 
 local _, BCM = ...
 BCM.chatFrames = 10
-BCM.modules, BCM.Events = {}, CreateFrame("Frame")
+BCM.modules, BCM.chatFuncs, BCM.Events = {}, {}, CreateFrame("Frame")
 BCM.Events:SetScript("OnEvent", function(frame, event) frame[event](frame) end)
 
 --[[ Common Functions ]]--
@@ -24,6 +24,14 @@ function BCM:GetColor(className, isLocal)
 	return color
 end
 
+local oldAddMsg = {}
+local AddMessage = function(frame, text, ...)
+	for i=1, #BCM.chatFuncs do
+		text = BCM.chatFuncs[i](text)
+	end
+	return oldAddMsg[frame:GetName()](frame, text, ...)
+end
+
 BCM.Events.PLAYER_LOGIN = function(frame)
 	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then bcmDB = {} end
@@ -38,10 +46,20 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		BCM.modules[i]()
 		BCM.modules[i] = nil
 	end
+
+	--[[ Hook Chat Frame ]]--
 	for i=1, BCM.chatFrames do
+		local n = ("%s%d"):format("ChatFrame", i)
+
 		--Allow arrow keys editing in the edit box
-		local eB =  _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+		local eB =  _G[n.."EditBox"]
 		eB:SetAltArrowKeyMode(false)
+
+		if i ~= 2 then --skip combatlog
+			local cF = _G[n]
+			oldAddMsg[n] = cF.AddMessage
+			cF.AddMessage = AddMessage
+		end
 	end
 
 	--[[ Self-Cleanup ]]--
@@ -52,7 +70,7 @@ BCM.Events:RegisterEvent("PLAYER_LOGIN")
 
 --These need to be set before PLAYER_LOGIN
 for i=1, BCM.chatFrames do
-	local cF = _G[format("%s%d", "ChatFrame", i)]
+	local cF = _G[("%s%d"):format("ChatFrame", i)]
 	--Allow the chat frame to move to the end of the screen
 	cF:SetClampRectInsets(0,0,0,0)
 end
