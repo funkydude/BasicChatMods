@@ -2,49 +2,30 @@
 --[[     URLCopy Module     ]]--
 
 local _, BCM = ...
+local repTbl = {
+	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
+	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/%S+",
+	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
+	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/",
+	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
+	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?$",
+	"(http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
+	"(http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?) ",
+	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
+	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
+	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
+	"([%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
+	"%d+%.%d+%.%d+%.%d+:?%d*/?%S*",
+}
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
 	local gsub = gsub
-	local filterFunc = function(self, event, msg, ...)
-		local newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/%S+", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?$", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "(http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ", "|cffffffff|Hurl:%1|h[%1]|h|r ")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "(http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?) ", "|cffffffff|Hurl:%1|h[%1]|h|r ")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "([%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ", "|cffffffff|Hurl:%1|h[%1]|h|r ")
-		if found > 0 then return false, newMsg, ... end
-
-		newMsg, found = gsub(msg, "%d+%.%d+%.%d+%.%d+:?%d*/?%S*", "|cffffffff|Hurl:%1|h[%1]|h|r")
-		if found > 0 then return false, newMsg, ... end
+	local filterFunc = function(_, _, msg, ...)
+		for i=1, #repTbl do
+			local newMsg, found = gsub(msg, repTbl[i], "|cffffffff|Hbcmurl~%1|h[%1]|h|r")
+			if found > 0 then return false, newMsg, ... end
+		end
 	end
 
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
@@ -57,18 +38,21 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
 
 	local currentLink = nil
 	local oldShow = ChatFrame_OnHyperlinkShow
-	ChatFrame_OnHyperlinkShow = function(self, link, ...)
-		if (link):sub(1, 3) == "url" then
-			currentLink = (link):sub(5)
+	ChatFrame_OnHyperlinkShow = function(self, data, ...)
+		local isURL, link = strsplit("~", data)
+		if isURL and isURL == "bcmurl" then
+			currentLink = link
 			StaticPopup_Show("BCM_URLCopyBox")
 			return
 		end
-		oldShow(self, link, ...)
+		oldShow(self, data, ...)
 	end
 
 	--[[ Popup Box ]]--
