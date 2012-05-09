@@ -2,7 +2,7 @@
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 6.71
+## Version: 6.75
 ## Title: BasicChatMods
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication

@@ -79,6 +79,13 @@ BCM.modules[#BCM.modules+1] = function()
 		chn[4] = "%[%d0?%. 本地防務.-%]"
 		chn[5] = "%[%d0?%. 尋求組隊%]"
 		chn[6] = "%[%d0?%. 公會招募.-%]"
+	elseif L == "koKR" then --Korean
+		chn[1] = "%[%d0?%. 일반.-%]"
+		chn[2] = "%[%d0?%. 거래.-%]"
+		chn[3] = "%[%d0?%. 광역수비%]"
+		chn[4] = "%[%d0?%. 지역수비.-%]"
+		chn[5] = "%[%d0?%. 파티찾기%]"
+		chn[6] = "%[%d0?%. 길드찾기.-%]"
 	end
 
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)

@@ -2,23 +2,24 @@
 --[[     URLCopy Module     ]]--
 
 local _, BCM = ...
-local repTbl = {
-	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
-	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/%S+",
-	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
-	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/",
-	"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
-	"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?$",
-	"(http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
-	"(http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?) ",
-	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
-	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
-	"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
-	"([%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
-	"%d+%.%d+%.%d+%.%d+:?%d*/?%S*",
-}
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
+
+	local repTbl = {
+		"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
+		"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/%S+",
+		"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
+		"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/",
+		"http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
+		"http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?$",
+		"(http://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
+		"(http://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?) ",
+		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
+		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
+		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
+		"([%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
+		"%d+%.%d+%.%d+%.%d+:?%d*/?%S*",
+	}
 
 	local gsub = gsub
 	local filterFunc = function(_, _, msg, ...)
