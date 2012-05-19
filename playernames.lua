@@ -23,9 +23,10 @@ BCM.modules[#BCM.modules+1] = function()
 
 		BCM.Events.PLAYER_TARGET_CHANGED = function()
 			if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
-				local n, l = UnitName("target"), UnitLevel("target")
+				local n, s = UnitName("target")
+				local l = UnitLevel("target")
 				if n and l and l > 0 then
-					nameLevels[n] = tostring(l)
+					nameLevels[n..(s and "-"..s or "")] = tostring(l)
 				end
 			end
 		end
@@ -33,18 +34,21 @@ BCM.modules[#BCM.modules+1] = function()
 
 		BCM.Events.PARTY_MEMBERS_CHANGED = function()
 			for i=1, GetNumPartyMembers() do
-				local n = UnitName("party"..i)
+				local n, s = UnitName("party"..i)
 				local l = UnitLevel("party"..i)
-				if n and l and l > 0 then nameLevels[n] = tostring(l) end
+				if n and l and l > 0 then
+					nameLevels[n..(s and "-"..s or "")] = tostring(l)
+				end
 			end
 		end
 		BCM.Events:RegisterEvent("PARTY_MEMBERS_CHANGED")
 
 		BCM.Events.UPDATE_MOUSEOVER_UNIT = function()
 			if UnitIsPlayer("mouseover") and UnitIsFriend("player", "mouseover") then
-				local n, l = UnitName("mouseover"), UnitLevel("mouseover")
+				local n, s = UnitName("mouseover")
+				local l = UnitLevel("mouseover")
 				if n and l and l > 0 then
-					nameLevels[n] = tostring(l)
+					nameLevels[n..(s and "-"..s or "")] = tostring(l)
 				end
 			end
 		end
@@ -109,8 +113,22 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 			end
-			if nameColor and nameColor[name] then
-				nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
+			if nameColor then
+				--If the displayed name was an in-chat who result, take the data and color it.
+				if not nameColor[name] then
+					local num = GetNumWhoResults()
+					for i=1, num do
+						local n, _, l, _, _, _, c = GetWhoInfo(i)
+						if n == name and l and l > 0 then
+							if nameLevels then nameLevels[n] = tostring(l) end
+							if nameColor then nameColor[n] = BCM:GetColor(c) end
+							break
+						end
+					end
+				end
+				if nameColor[name] then
+					nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
+				end
 			end
 		end
 		if nameLevels and nameLevels[name] then
@@ -122,7 +140,7 @@ BCM.modules[#BCM.modules+1] = function()
 		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
-		text = text:gsub("|Hplayer:(%S-)([:|]%S-)%[(%S- ?%S*)%]|h(:?)", changeName)
+		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h(:?)", changeName)
 		return text
 	end
 end
