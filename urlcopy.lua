@@ -45,15 +45,16 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
 
 	local currentLink = nil
-	local oldShow = ChatFrame_OnHyperlinkShow
-	ChatFrame_OnHyperlinkShow = function(self, data, ...)
+
+	local SetHyperlink = ItemRefTooltip.SetHyperlink
+	function ItemRefTooltip:SetHyperlink(data, ...)
 		local isURL, link = strsplit("~", data)
 		if isURL and isURL == "bcmurl" then
 			currentLink = link
 			StaticPopup_Show("BCM_URLCopyBox")
-			return
+		else
+			SetHyperlink(self, data, ...)
 		end
-		oldShow(self, data, ...)
 	end
 
 	--[[ Popup Box ]]--

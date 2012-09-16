@@ -27,8 +27,8 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
 
-	local oldShow = ChatFrame_OnHyperlinkShow
-	ChatFrame_OnHyperlinkShow = function(self, link, ...)
+	local SetHyperlink = ItemRefTooltip.SetHyperlink
+	function ItemRefTooltip:SetHyperlink(link, ...)
 		if (link):sub(1, 6) == "invite" then
 			if IsAltKeyDown() then
 				if InviteToGroup then
@@ -37,9 +37,9 @@ BCM.modules[#BCM.modules+1] = function()
 					InviteUnit((link):sub(8))
 				end
 			end
-			return
+		else
+			SetHyperlink(self, link, ...)
 		end
-		oldShow(self, link, ...)
 	end
 end
 
