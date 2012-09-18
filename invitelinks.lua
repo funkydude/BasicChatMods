@@ -13,7 +13,7 @@ BCM.modules[#BCM.modules+1] = function()
 	local filterFunc = function(self, event, msg, player, ...)
 		local found, hasFound
 		for i=1, 4 do
-			msg, found = gsub(msg, triggers[i], "|cffFF7256|Hinvite:"..player.."|h[%1]|h|r"..(i > 2 and " " or ""))
+			msg, found = gsub(msg, triggers[i], "|cffFF7256|HBCMinvite:"..player..":|h[%1]|h|r"..(i > 2 and " " or ""))
 			if found > 0 then hasFound = true end
 		end
 		if hasFound then
@@ -29,17 +29,21 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local SetHyperlink = ItemRefTooltip.SetHyperlink
 	function ItemRefTooltip:SetHyperlink(link, ...)
-		if (link):sub(1, 6) == "invite" then
-			if IsAltKeyDown() then
-				if InviteToGroup then
-					InviteToGroup((link):sub(8))
-				else
-					InviteUnit((link):sub(8))
-				end
-			end
+		if link:find("BCMinvite:", nil, true) then
+			return
 		else
 			SetHyperlink(self, link, ...)
 		end
 	end
+	hooksecurefunc("HandleModifiedItemClick", function(link)
+		if IsAltKeyDown() then
+			local player = link:match("BCMinvite:(.-):")
+			if InviteToGroup then
+				InviteToGroup(player)
+			else
+				InviteUnit(player)
+			end
+		end
+	end)
 end
 
