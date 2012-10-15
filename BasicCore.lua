@@ -26,6 +26,7 @@ end
 
 local oldAddMsg = {}
 local AddMessage = function(frame, text, ...)
+	if not text or text == "" then return end
 	for i=1, #BCM.chatFuncs do
 		text = BCM.chatFuncs[i](text)
 	end
