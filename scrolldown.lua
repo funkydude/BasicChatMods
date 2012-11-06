@@ -5,23 +5,23 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide or not GetCVarBool("chatMouseScroll") then return end
 
-	FloatingChatFrame_OnMouseScroll = function(frame, d)
+	local scrollFunc = function(frame, d)
 		if d then
 			if d > 0 then
 				if IsShiftKeyDown() then
 					frame:ScrollToTop()
 				elseif IsControlKeyDown() then
 					frame:PageUp()
-				else
-					frame:ScrollUp()
+				--else -- Blizz function does this
+				--	frame:ScrollUp()
 				end
 			elseif d < 0 then
 				if IsShiftKeyDown() then
 					frame:ScrollToBottom()
 				elseif IsControlKeyDown() then
 					frame:PageDown()
-				else
-					frame:ScrollDown()
+				--else -- Blizz function does this
+				--	frame:ScrollDown()
 				end
 			end
 		end
@@ -38,8 +38,8 @@ BCM.modules[#BCM.modules+1] = function()
 		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
 		btn:ClearAllPoints()
 		local cf = btn:GetParent():GetParent()
-		cf:SetScript("OnMouseWheel", FloatingChatFrame_OnMouseScroll)
-		cf:HookScript("OnShow", FloatingChatFrame_OnMouseScroll)
+		cf:HookScript("OnMouseWheel", scrollFunc)
+		cf:HookScript("OnShow", scrollFunc)
 		btn:SetParent(cf)
 		btn:SetPoint("TOPRIGHT")
 		btn:SetScript("OnClick", clickFunc)
