@@ -32,17 +32,6 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 		BCM.Events:RegisterEvent("PLAYER_TARGET_CHANGED")
 
-		BCM.Events.PARTY_MEMBERS_CHANGED = function()
-			for i=1, GetNumPartyMembers() do
-				local n, s = UnitName("party"..i)
-				local l = UnitLevel("party"..i)
-				if n and l and l > 0 then
-					nameLevels[n..(s and "-"..s or "")] = tostring(l)
-				end
-			end
-		end
-		BCM.Events:RegisterEvent("PARTY_MEMBERS_CHANGED")
-
 		BCM.Events.UPDATE_MOUSEOVER_UNIT = function()
 			if UnitIsPlayer("mouseover") and UnitIsFriend("player", "mouseover") then
 				local n, s = UnitName("mouseover")
@@ -55,18 +44,25 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM.Events:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 	end
 
-	if not bcmDB.nogroup then
-		nameGroup = {}
-		BCM.Events.RAID_ROSTER_UPDATE = function()
-			wipe(nameGroup)
-			if UnitInRaid("player") then
-				for i=1, GetNumRaidMembers() do
-					local n, _, g = GetRaidRosterInfo(i)
-					if n and g then nameGroup[n] = tostring(g) end
+	if not bcmDB.nolevel or not bcmDB.nogroup then
+		if not bcmDB.nogroup then
+			nameGroup = {}
+		end
+		if not bcmDB.nolevel then
+			nameLevels = {}
+		end
+		BCM.Events.GROUP_ROSTER_UPDATE = function()
+			for i = 1, GetNumGroupMembers() do
+				local name, _, subgroup, level = GetRaidRosterInfo(i)
+				if nameLevels and name and level then
+					nameLevels[name] = tostring(level)
+				end
+				if nameGroup and name and subgroup then
+					nameGroup[name] = tostring(subgroup)
 				end
 			end
 		end
-		BCM.Events:RegisterEvent("RAID_ROSTER_UPDATE")
+		BCM.Events:RegisterEvent("GROUP_ROSTER_UPDATE")
 	end
 
 	if not bcmDB.noMiscColor then
