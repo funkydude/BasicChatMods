@@ -52,7 +52,7 @@ BCM.modules[#BCM.modules+1] = function()
 			if nameGroup then wipe(nameGroup) end
 			for i = 1, GetNumGroupMembers() do
 				local name, _, subgroup, level = GetRaidRosterInfo(i)
-				if nameLevels and name and level then
+				if nameLevels and name and level and level > 0 then
 					nameLevels[name] = tostring(level)
 				end
 				if nameGroup and name and subgroup then
@@ -72,9 +72,11 @@ BCM.modules[#BCM.modules+1] = function()
 			local _, num = GetNumFriends()
 			for i = 1, num do
 				local n, l, c = GetFriendInfo(i)
-				if n and l and l > 0 then
-					if nameLevels then nameLevels[n] = tostring(l) end
-					if nameColor then nameColor[n] = BCM:GetColor(c, true) end
+				if nameLevels and n and l and l > 0 then
+					nameLevels[n] = tostring(l)
+				end
+				if nameColor and n and c then
+					nameColor[n] = BCM:GetColor(c, true)
 				end
 			end
 		end
@@ -85,9 +87,11 @@ BCM.modules[#BCM.modules+1] = function()
 			BCM.Events.GUILD_ROSTER_UPDATE = function()
 				for i=1, GetNumGuildMembers() do
 					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
-					if online and n and l and l > 0 then
-						if nameLevels then nameLevels[n] = tostring(l) print(n) end
-						if nameColor then nameColor[n] = BCM:GetColor(c) end
+					if nameLevels and online and n and l and l > 0 then
+						nameLevels[n] = tostring(l)
+					end
+					if nameColor and online and n and c then
+						nameColor[n] = BCM:GetColor(c)
 					end
 				end
 				-- Cache all names at login
