@@ -48,10 +48,8 @@ BCM.modules[#BCM.modules+1] = function()
 		if not bcmDB.nogroup then
 			nameGroup = {}
 		end
-		if not bcmDB.nolevel then
-			nameLevels = {}
-		end
 		BCM.Events.GROUP_ROSTER_UPDATE = function()
+			if nameGroup then wipe(nameGroup) end
 			for i = 1, GetNumGroupMembers() do
 				local name, _, subgroup, level = GetRaidRosterInfo(i)
 				if nameLevels and name and level then
@@ -63,13 +61,13 @@ BCM.modules[#BCM.modules+1] = function()
 			end
 		end
 		BCM.Events:RegisterEvent("GROUP_ROSTER_UPDATE")
+		BCM.Events.GROUP_ROSTER_UPDATE()
 	end
 
-	if not bcmDB.noMiscColor then
-		nameColor = {}
-	end
-
-	if not bcmDB.nogroup or not bcmDB.noMiscColor then
+	if not bcmDB.nolevel or not bcmDB.noMiscColor then
+		if not bcmDB.noMiscColor then
+			nameColor = {}
+		end
 		BCM.Events.FRIENDLIST_UPDATE = function()
 			local _, num = GetNumFriends()
 			for i = 1, num do
@@ -81,15 +79,23 @@ BCM.modules[#BCM.modules+1] = function()
 			end
 		end
 		BCM.Events:RegisterEvent("FRIENDLIST_UPDATE")
+		ShowFriends()
 
 		if IsInGuild() then
-			for i=1, GetNumGuildMembers() do
-				local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
-				if online and n and l and l > 0 then
-					if nameLevels then nameLevels[n] = tostring(l) end
-					if nameColor then nameColor[n] = BCM:GetColor(c) end
+			BCM.Events.GUILD_ROSTER_UPDATE = function()
+				for i=1, GetNumGuildMembers() do
+					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
+					if online and n and l and l > 0 then
+						if nameLevels then nameLevels[n] = tostring(l) print(n) end
+						if nameColor then nameColor[n] = BCM:GetColor(c) end
+					end
 				end
+				-- Cache all names at login
+				BCM.Events:UnregisterEvent("GUILD_ROSTER_UPDATE")
+				BCM.Events.GUILD_ROSTER_UPDATE = nil
 			end
+			BCM.Events:RegisterEvent("GUILD_ROSTER_UPDATE")
+			GuildRoster()
 		end
 	end
 	--[[ End Harvest Data ]]--
