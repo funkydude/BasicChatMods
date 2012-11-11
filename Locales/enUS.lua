@@ -51,3 +51,5 @@ BCM.SHOWGROUP = "Player group next to name."
 BCM.COLORMISC = "Class color friend/guild logon."
 BCM.PLAYERBRACKETS = "Player Brackets:"
 
+BCM.CLICKTOCOPY = "Shift-click to copy chat."
+

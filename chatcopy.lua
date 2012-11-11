@@ -5,12 +5,6 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ChatCopy then return end
 
-	local doubleclick = "Shift-click to copy chat."
-	local L = GetLocale()
-	if L == "deDE" then
-		doubleclick = "Shift-click to copy chat."
-	end
-
 	--Copying Functions
 	local copyFunc = function(frame, btn)
 		if not IsShiftKeyDown() then return end
@@ -33,11 +27,11 @@ BCM.modules[#BCM.modules+1] = function()
 		if bcmDB.noChatCopyTip then return end
 
 		if SHOW_NEWBIE_TIPS == "1" then
-			GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+			GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|t"..BCM.CLICKTOCOPY, 1, 0, 0)
 			GameTooltip:Show()
 		else
 			GameTooltip:SetOwner(frame, "ANCHOR_TOP")
-			GameTooltip:AddLine("|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+			GameTooltip:AddLine("|TInterface\\Icons\\Spell_ChargePositive:20|t"..BCM.CLICKTOCOPY, 1, 0, 0)
 			GameTooltip:Show()
 		end
 	end
