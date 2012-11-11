@@ -45,6 +45,13 @@ BCM.modules[#BCM.modules+1] = function()
 			chatTab:SetAlpha(0)
 		end
 	end)
+	-- Update alpha for non-docked chat frame tabs
+	for i=1, BCM.chatFrames do
+		local chatTab = _G[("ChatFrame%dTab"):format(i)]
+		chatTab:SetAlpha(0)
+	end
+
+	-- Remove the delay between mousing away from the chat frame and the fade starting
 	CHAT_TAB_HIDE_DELAY = 0
 end
 
