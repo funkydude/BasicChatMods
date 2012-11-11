@@ -31,17 +31,19 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 
 		local chatTab = _G[frameName.."Tab"]
-		UIFrameFadeRemoveFrame(chatTab)
-		chatTab:SetAlpha(0)
+		if not chatTab.alerting then
+			UIFrameFadeRemoveFrame(chatTab)
+			chatTab:SetAlpha(0)
+		end
 
 		if not chatFrame.isDocked then
 			UIFrameFadeRemoveFrame(chatFrame.buttonFrame)
-			chatFrame.buttonFrame:SetAlpha(0)
+			chatFrame.buttonFrame:SetAlpha(0.2)
 		end
 	end)
 	hooksecurefunc("FCFTab_UpdateAlpha", function(chatFrame)
 		local chatTab = _G[chatFrame:GetName().."Tab"]
-		if not chatFrame.hasBeenFaded then
+		if not chatFrame.hasBeenFaded and not chatTab.alerting then
 			chatTab:SetAlpha(0)
 		end
 	end)
