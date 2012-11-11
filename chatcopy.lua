@@ -5,14 +5,15 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ChatCopy then return end
 
-	local doubleclick = "Double-click to copy chat."
+	local doubleclick = "Shift-click to copy chat."
 	local L = GetLocale()
 	if L == "deDE" then
-		doubleclick = "Double-click to copy chat."
+		doubleclick = "Shift-click to copy chat."
 	end
 
 	--Copying Functions
 	local copyFunc = function(frame, btn)
+		if not IsShiftKeyDown() then return end
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local _, size = cf:GetFont()
 		FCF_SetChatWindowFontSize(cf, cf, 0.01)
@@ -29,17 +30,16 @@ BCM.modules[#BCM.modules+1] = function()
 		BCMCopyBox:HighlightText(0)
 	end
 	local hintFunc = function(frame)
-		if SHOW_NEWBIE_TIPS ~= "1" and bcmDB.noChatCopyTip then return end
+		if bcmDB.noChatCopyTip then return end
 
-		GameTooltip:SetOwner(frame, "ANCHOR_TOP")
 		if SHOW_NEWBIE_TIPS == "1" then
-			GameTooltip:AddLine(CHAT_OPTIONS_LABEL, 1, 1, 1)
-			GameTooltip:AddLine(NEWBIE_TOOLTIP_CHATOPTIONS, nil, nil, nil, 1)
+			GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+			GameTooltip:Show()
+		else
+			GameTooltip:SetOwner(frame, "ANCHOR_TOP")
+			GameTooltip:AddLine("|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
+			GameTooltip:Show()
 		end
-		if not bcmDB.noChatCopyTip then
-			GameTooltip:AddLine((SHOW_NEWBIE_TIPS == "1" and "\n" or "").."|TInterface\\Icons\\Spell_ChargePositive:20|t"..doubleclick, 1, 0, 0)
-		end
-		GameTooltip:Show()
 	end
 
 	--Create Frames/Objects
@@ -77,8 +77,8 @@ BCM.modules[#BCM.modules+1] = function()
 
 	for i=1, BCM.chatFrames do
 		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
-		tab:SetScript("OnDoubleClick", copyFunc)
-		tab:SetScript("OnEnter", hintFunc)
+		tab:HookScript("OnClick", copyFunc)
+		tab:HookScript("OnEnter", hintFunc)
 	end
 end
 

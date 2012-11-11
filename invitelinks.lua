@@ -38,11 +38,7 @@ BCM.modules[#BCM.modules+1] = function()
 	hooksecurefunc("HandleModifiedItemClick", function(link)
 		if IsAltKeyDown() then
 			local player = link:match("BCMinvite:(.-):")
-			if InviteToGroup then
-				InviteToGroup(player)
-			else
-				InviteUnit(player)
-			end
+			InviteToGroup(player)
 		end
 	end)
 end
