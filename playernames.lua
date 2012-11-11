@@ -4,8 +4,6 @@
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	local bcmDB = bcmDB
-	bcmDB.playerNameLBrack = nil --temp
-	bcmDB.playerNameRBrack = nil --temp
 	if bcmDB.BCM_PlayerNames then --Cleanup vars for disabled modules
 		bcmDB.nolevel, bcmDB.nogroup, bcmDB.noMiscColor = nil, nil, nil
 		if bcmDB.BCM_BNet then bcmDB.playerLBrack, bcmDB.playerRBrack, bcmDB.playerSeparator = nil, nil, nil end
