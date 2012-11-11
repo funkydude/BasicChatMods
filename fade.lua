@@ -20,7 +20,7 @@ BCM.modules[#BCM.modules+1] = function()
 			local object = _G[frameName..value]
 			if object:IsShown() then
 				UIFrameFadeRemoveFrame(object)
-				object:SetAlpha(0)
+				object:SetAlpha(chatFrame.oldAlpha)
 			end
 		end
 		if chatFrame == FCFDock_GetSelectedWindow(GENERAL_CHAT_DOCK) then
