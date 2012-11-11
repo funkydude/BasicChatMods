@@ -10,12 +10,15 @@ BCM.modules[#BCM.modules+1] = function()
 		local f, tbl = _G[k], {}
 
 		--Save all chat before changing MaxLines.
-		for regions = f:GetNumRegions(),1,-1 do
-			local region = select(regions, f:GetRegions())
+		local _, size = f:GetFont()
+		FCF_SetChatWindowFontSize(f, f, 0.01)
+		for i = select("#", f:GetRegions()), 1, -1 do
+			local region = select(i, f:GetRegions())
 			if region:GetObjectType() == "FontString" then
 				tinsert(tbl, {region:GetText(), region:GetTextColor()})
 			end
 		end
+		FCF_SetChatWindowFontSize(f, f, size)
 
 		f:SetMaxLines(v) --Set the max lines (Also clears the Chat Frame).
 
