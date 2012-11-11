@@ -85,7 +85,9 @@ BCM.modules[#BCM.modules+1] = function()
 
 		if IsInGuild() then
 			BCM.Events.GUILD_ROSTER_UPDATE = function()
-				for i=1, GetNumGuildMembers() do
+				local num = GetNumGuildMembers()
+				if num == 0 then return end -- Can fire with 0 at login, wait for a valid update
+				for i=1, num do
 					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
 					if nameLevels and online and n and l and l > 0 then
 						nameLevels[n] = tostring(l)
@@ -99,7 +101,6 @@ BCM.modules[#BCM.modules+1] = function()
 				BCM.Events.GUILD_ROSTER_UPDATE = nil
 			end
 			BCM.Events:RegisterEvent("GUILD_ROSTER_UPDATE")
-			GuildRoster()
 		end
 	end
 	--[[ End Harvest Data ]]--
