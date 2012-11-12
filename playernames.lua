@@ -82,7 +82,7 @@ BCM.modules[#BCM.modules+1] = function()
 		ShowFriends()
 
 		if IsInGuild() then
-			BCM.Events.GUILD_ROSTER_UPDATE = function()
+			BCM.Events.GUILD_ROSTER_UPDATE = function(frame)
 				local num = GetNumGuildMembers()
 				if num == 0 then return end -- Can fire with 0 at login, wait for a valid update
 				for i=1, num do
@@ -95,8 +95,8 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 				-- Cache all names at login
-				BCM.Events:UnregisterEvent("GUILD_ROSTER_UPDATE")
-				BCM.Events.GUILD_ROSTER_UPDATE = nil
+				frame:UnregisterEvent("GUILD_ROSTER_UPDATE")
+				frame.GUILD_ROSTER_UPDATE = nil
 			end
 			BCM.Events:RegisterEvent("GUILD_ROSTER_UPDATE")
 		end

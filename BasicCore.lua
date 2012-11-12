@@ -4,7 +4,7 @@
 local _, BCM = ...
 BCM.chatFrames = 10
 BCM.modules, BCM.chatFuncs, BCM.Events = {}, {}, CreateFrame("Frame")
-BCM.Events:SetScript("OnEvent", function(frame, event) frame[event](frame) end)
+BCM.Events:SetScript("OnEvent", function(frame, event) if frame[event] then frame[event](frame) end end)
 
 --[[ Common Functions ]]--
 function BCM:GetColor(className, isLocal)
