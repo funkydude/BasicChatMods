@@ -69,8 +69,8 @@ BCM.modules[#BCM.modules+1] = function()
 	local close = CreateFrame("Button", "BCMCloseButton", frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 25)
 
-	for i=1, BCM.chatFrames do
-		local tab = _G[format("%s%d%s", "ChatFrame", i, "Tab")]
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+		local tab = _G[n.."Tab"]
 		tab:HookScript("OnClick", copyFunc)
 		tab:HookScript("OnEnter", hintFunc)
 	end

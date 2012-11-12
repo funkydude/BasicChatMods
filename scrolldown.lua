@@ -34,10 +34,10 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local clickFunc = function(frame) frame:GetParent():ScrollToBottom() frame:Hide() end
-	for i=1, BCM.chatFrames do
-		local btn = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrameBottomButton")]
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+		local btn = _G[n.."ButtonFrameBottomButton"]
 		btn:ClearAllPoints()
-		local cf = btn:GetParent():GetParent()
+		local cf = _G[n]
 		cf:HookScript("OnMouseWheel", scrollFunc)
 		cf:HookScript("OnShow", scrollFunc)
 		btn:SetParent(cf)

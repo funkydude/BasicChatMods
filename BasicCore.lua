@@ -3,7 +3,7 @@
 
 local _, BCM = ...
 BCM.chatFrames = 10
-BCM.modules, BCM.chatFuncs, BCM.Events = {}, {}, CreateFrame("Frame")
+BCM.modules, BCM.chatFuncs, BCM.chatFuncsPerFrame, BCM.Events = {}, {}, {}, CreateFrame("Frame")
 BCM.Events:SetScript("OnEvent", function(frame, event) if frame[event] then frame[event](frame) end end)
 
 --[[ Common Functions ]]--
@@ -61,7 +61,37 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 			oldAddMsg[n] = cF.AddMessage
 			cF.AddMessage = AddMessage
 		end
+
+		for j=1, #BCM.chatFuncsPerFrame do
+			BCM.chatFuncsPerFrame[j](n)
+		end
 	end
+
+	--[[ Hook On-Demand Chat Frames ]]--
+	hooksecurefunc("FCF_OpenTemporaryWindow", function()
+		for i=11, 20 do
+			local n = ("%s%d"):format("ChatFrame", i)
+			local cF = _G[n]
+			if not cF or oldAddMsg[n] then return end
+
+			BCM.chatFrames = i -- Update the chat frame count for config options
+
+			--Allow the chat frame to move to the end of the screen
+			cF:SetClampRectInsets(0,0,0,0)
+
+			--Allow arrow keys editing in the edit box
+			local eB =  _G[n.."EditBox"]
+			eB:SetAltArrowKeyMode(false)
+
+			oldAddMsg[n] = cF.AddMessage
+			cF.AddMessage = AddMessage
+
+			--Fire functions to apply to various frames
+			for j=1, #BCM.chatFuncsPerFrame do
+				BCM.chatFuncsPerFrame[j](n)
+			end
+		end
+	end)
 
 	--[[ Self-Cleanup ]]--
 	BCM.modules = nil

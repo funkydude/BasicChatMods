@@ -5,11 +5,11 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Font then bcmDB.fontname, bcmDB.fontsize, bcmDB.fontflag = nil, nil, nil return end
 
-	for i=1, BCM.chatFrames do
-		local cF = _G[format("%s%d", "ChatFrame", i)]
-		local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+		local cF = _G[n]
+		local cFE = _G[n.."EditBox"]
 		local name, size = cF:GetFont()
-		if i == 1 then
+		if n == "ChatFrame1" then
 			--remove defaults
 			if name == bcmDB.fontname then bcmDB.fontname = nil end
 			if bcmDB.fontsize and (tostring(size)):find(bcmDB.fontsize..".", nil, true) then bcmDB.fontsize = nil end

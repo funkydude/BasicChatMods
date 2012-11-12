@@ -11,8 +11,8 @@ BCM.modules[#BCM.modules+1] = function()
 	FriendsMicroButton:HookScript("OnShow", hideFunc) --Hide the "Friends Online" count button
 	FriendsMicroButton:Hide() --Hide the "Friends Online" count button
 
-	for i=1, BCM.chatFrames do
-		local btnFrame = _G[format("%s%d%s", "ChatFrame", i, "ButtonFrame")]
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+		local btnFrame = _G[n.."ButtonFrame"]
 		btnFrame:HookScript("OnShow", hideFunc) --Hide the up/down arrows
 		btnFrame:Hide() --Hide the up/down arrows
 	end
