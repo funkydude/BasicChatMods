@@ -6,6 +6,7 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ Color codes ---> http://www.december.com/html/spec/colorcodes.html ]]--
 
 	local bcmDB = bcmDB
+	if bcmDB.BCM_Timestamp then bcmDB.stampcolor = nil bcmDB.stampformat = nil return end
 
 	if GetCVar("showTimestamps") ~= "none" then
 		SetCVar("showTimestamps", "none")
