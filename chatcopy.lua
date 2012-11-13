@@ -20,7 +20,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 		FCF_SetChatWindowFontSize(cf, cf, size)
 		BCMCopyFrame:Show()
-		BCMCopyBox:SetText(text)
+		BCMCopyBox:SetText(text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}")) -- I like being able to copy raid icons
 		BCMCopyBox:HighlightText(0)
 	end
 	local hintFunc = function(frame)
