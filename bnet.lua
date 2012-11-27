@@ -30,7 +30,7 @@ BCM.modules[#BCM.modules+1] = function()
 				storedName[id] = nil
 			end
 		end
-		if englishClass ~= "" then --Friend logging off/Starcraft 2
+		if englishClass and englishClass ~= "" then --Friend logging off/Starcraft 2
 			fakeName = bcmDB.noBNetColor and fakeName or "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r" --Color name if enabled
 		end
 		return misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
