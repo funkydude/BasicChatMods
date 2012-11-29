@@ -13,8 +13,8 @@ BCM.modules[#BCM.modules+1] = function()
 			"[LD]", --LocalDefense
 			"[LFG]", --LookingForGroup
 			"[GR]", --GuildRecruitment
-			"[BG]", --Battleground
-			"[BGL]", --Battleground Leader
+			"[I]", --Instance
+			"[IL]", --Instance Leader
 			"[G]", --Guild
 			"[P]", --Party
 			"[PL]", --Party Leader
@@ -26,7 +26,11 @@ BCM.modules[#BCM.modules+1] = function()
 			"[%1]", --Custom Channels
 		}
 	end
-	if not bcmDB.replacements[17] then bcmDB.replacements[17] = "[%1]" end --Temp
+	if bcmDB.v == 1 then --Temp
+		bcmDB.v = 2
+		bcmDB.replacements[7] = "[I]"
+		bcmDB.replacements[8] = "[IL]"
+	end
 
 	local rplc = bcmDB.replacements
 	local gsub = gsub
@@ -37,12 +41,12 @@ BCM.modules[#BCM.modules+1] = function()
 		"%[%d0?%. LocalDefense.-%]",
 		"%[%d0?%. LookingForGroup%]",
 		"%[%d0?%. GuildRecruitment.-%]",
-		gsub((CHAT_BATTLEGROUND_GET or "[battleground]"), ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub((CHAT_BATTLEGROUND_LEADER_GET or "[battleground leader]"), ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_INSTANCE_CHAT_GET, ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_INSTANCE_CHAT_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_PARTY_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_PARTY_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		gsub((CHAT_PARTY_GUIDE_GET or "[party guide]"), ".*%[(.*)%].*", "%%[%1%%]"),
+		gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_OFFICER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
