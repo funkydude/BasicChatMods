@@ -31,15 +31,14 @@ do
 		tile = true, tileSize = 16, edgeSize = 16,
 		insets = {left = 1, right = 1, top = 1, bottom = 1}}
 	)
-	frame:SetBackdropColor(0,0,0,1)
-	frame:SetSize(650, 50)
+	frame:SetSize(650, 40)
 	frame:SetPoint("CENTER", UIParent, "CENTER")
 	frame:SetFrameStrata("DIALOG")
 	frame:Hide()
 
 	local editBox = CreateFrame("EditBox", nil, frame)
 	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetSize(620, 40)
+	editBox:SetSize(610, 40)
 	editBox:SetPoint("LEFT", frame, "LEFT", 10, 0)
 	local hide = function(f) f:GetParent():Hide() end
 	editBox:SetScript("OnEscapePressed", hide)
