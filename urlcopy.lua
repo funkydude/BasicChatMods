@@ -45,6 +45,7 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_INLINE_TOAST_BROADCAST", filterFunc)
 
 	local SetHyperlink = ItemRefTooltip.SetHyperlink
 	function ItemRefTooltip:SetHyperlink(data, ...)
