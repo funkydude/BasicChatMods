@@ -17,6 +17,8 @@ Locales\ruRU.lua
 Locales\zhCN.lua
 Locales\esES.lua
 Locales\zhTW.lua
+Locales\itIT.lua
+Locales\ptBR.lua
 
 BasicCore.lua
 BasicConfig.lua
