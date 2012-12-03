@@ -24,6 +24,40 @@ function BCM:GetColor(className, isLocal)
 	return color
 end
 
+do
+	local frame = CreateFrame("Frame", nil, UIParent)
+	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+		tile = true, tileSize = 16, edgeSize = 16,
+		insets = {left = 1, right = 1, top = 1, bottom = 1}}
+	)
+	frame:SetBackdropColor(0,0,0,1)
+	frame:SetSize(650, 50)
+	frame:SetPoint("CENTER", UIParent, "CENTER")
+	frame:SetFrameStrata("DIALOG")
+	frame:Hide()
+
+	local editBox = CreateFrame("EditBox", nil, frame)
+	editBox:SetFontObject(ChatFontNormal)
+	editBox:SetSize(620, 40)
+	editBox:SetPoint("LEFT", frame, "LEFT", 10, 0)
+	local hide = function(f) f:GetParent():Hide() end
+	editBox:SetScript("OnEscapePressed", hide)
+
+	local close = CreateFrame("Button", nil, frame)
+	close:SetNormalTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Up")
+	close:SetPushedTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Down")
+	close:SetHighlightTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Highlight", "ADD")
+	close:SetSize(32, 32)
+	close:SetPoint("RIGHT", frame, "RIGHT")
+	close:SetScript("OnClick", hide)
+	function BCM:Popup(text)
+		editBox:SetText(text)
+		editBox:HighlightText(0)
+		editBox:GetParent():Show()
+	end
+end
+
 local oldAddMsg = {}
 local AddMessage = function(frame, text, ...)
 	if not text or text == "" then return end

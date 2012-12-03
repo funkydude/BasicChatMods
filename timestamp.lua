@@ -27,32 +27,10 @@ BCM.modules[#BCM.modules+1] = function()
 	function ItemRefTooltip:SetHyperlink(link, ...)
 		local msg = link:match("BCMlinecopy:(.+):BCMlinecopy")
 		if msg then
-			BCM.popup = msg
-			StaticPopup_Show("BCM_CopyBox")
+			BCM:Popup(msg:gsub("#%^V%^V#", "|"))
 		else
 			SetHyperlink(self, link, ...)
 		end
-	end
-
-	--[[ Popup Box ]]--
-	if not StaticPopupDialogs.BCM_CopyBox then
-		StaticPopupDialogs.BCM_CopyBox = {
-			preferredIndex = 4,
-			text = "BasicChatMods",
-			button1 = CLOSE,
-			hasEditBox = 1,
-			editBoxWidth = 600,
-			OnShow = function(frame)
-				frame.editBox:SetText(BCM.popup:gsub("#%^V%^V#", "|"))
-				frame.editBox:SetFocus()
-				frame.editBox:HighlightText(0)
-				BCM.popup = nil
-			end,
-			EditBoxOnEscapePressed = function(frame) frame:GetParent():Hide() end,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1,
-		}
 	end
 end
 

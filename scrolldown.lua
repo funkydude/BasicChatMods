@@ -34,7 +34,7 @@ BCM.modules[#BCM.modules+1] = function()
 		scrollFunc(frame)
 	end)
 
-	-- Force our scroll hook to apply
+	-- Force our scroll hook to apply by making WoW re-apply the scrolling functionality
 	InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("0")
 	InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("1")
 

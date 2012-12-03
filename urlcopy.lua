@@ -37,6 +37,8 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", filterFunc)
@@ -48,32 +50,10 @@ BCM.modules[#BCM.modules+1] = function()
 	function ItemRefTooltip:SetHyperlink(data, ...)
 		local isURL, link = strsplit("~", data)
 		if isURL and isURL == "bcmurl" then
-			BCM.popup = link
-			StaticPopup_Show("BCM_CopyBox")
+			BCM:Popup(link)
 		else
 			SetHyperlink(self, data, ...)
 		end
-	end
-
-	--[[ Popup Box ]]--
-	if not StaticPopupDialogs.BCM_CopyBox then
-		StaticPopupDialogs.BCM_CopyBox = {
-			preferredIndex = 4,
-			text = "BasicChatMods",
-			button1 = CLOSE,
-			hasEditBox = 1,
-			editBoxWidth = 600,
-			OnShow = function(frame)
-				frame.editBox:SetText(BCM.popup)
-				frame.editBox:SetFocus()
-				frame.editBox:HighlightText(0)
-				BCM.popup = nil
-			end,
-			EditBoxOnEscapePressed = function(frame) frame:GetParent():Hide() end,
-			timeout = 0,
-			whileDead = 1,
-			hideOnEscape = 1,
-		}
 	end
 end
 
