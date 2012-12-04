@@ -26,7 +26,7 @@ end
 
 do
 	local frame = CreateFrame("Frame", nil, UIParent)
-	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 		tile = true, tileSize = 16, edgeSize = 16,
 		insets = {left = 1, right = 1, top = 1, bottom = 1}}
@@ -48,7 +48,7 @@ do
 	close:SetPushedTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Down")
 	close:SetHighlightTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Highlight", "ADD")
 	close:SetSize(32, 32)
-	close:SetPoint("RIGHT", frame, "RIGHT")
+	close:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	close:SetScript("OnClick", hide)
 	function BCM:Popup(text)
 		editBox:SetText(text)
