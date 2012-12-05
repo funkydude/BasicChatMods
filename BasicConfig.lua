@@ -747,7 +747,7 @@ BCM.modules[#BCM.modules+1] = function()
 					bcmDB.sticky[v.value] = 1
 				end
 			end
-			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "BN_WHISPER", "BN_CONVERSATION", "EMOTE", "RAID_WARNING", "BATTLEGROUND", "CHANNEL"}
+			local tbl = {"SAY", "PARTY", "RAID", "GUILD", "OFFICER", "YELL", "WHISPER", "BN_WHISPER", "BN_CONVERSATION", "EMOTE", "RAID_WARNING", "INSTANCE_CHAT", "CHANNEL"}
 			for i=1, #tbl do
 				info.text = _G[tbl[i]]
 				info.value = tbl[i]
