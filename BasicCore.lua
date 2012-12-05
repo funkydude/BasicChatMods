@@ -88,7 +88,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		local n = ("%s%d"):format("ChatFrame", i)
 
 		--Allow arrow keys editing in the edit box
-		local eB =  _G[n.."EditBox"]
+		local eB = _G[n.."EditBox"]
 		eB:SetAltArrowKeyMode(false)
 
 		if i ~= 2 then --skip combatlog
@@ -115,7 +115,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 			cF:SetClampRectInsets(0,0,0,0)
 
 			--Allow arrow keys editing in the edit box
-			local eB =  _G[n.."EditBox"]
+			local eB = _G[n.."EditBox"]
 			eB:SetAltArrowKeyMode(false)
 
 			oldAddMsg[n] = cF.AddMessage

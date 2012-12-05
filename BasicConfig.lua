@@ -381,6 +381,44 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM_EditBoxScale_SliderLow:SetText(0.5)
 		BCM_EditBoxScale_SliderText:SetFormattedText("%s %.1f", BCM.SIZE, bcmDB.editBoxScale or 1)
 		editBoxSlider:SetPoint("TOPLEFT", 20, -200)
+
+		local editBoxPosition = CreateFrame("Frame", "BCM_EditBoxPosition", BCM_EditBox, "UIDropDownMenuTemplate")
+		editBoxPosition:SetPoint("TOPLEFT", -5, -250)
+		BCM_EditBoxPositionMiddle:SetWidth(100)
+		BCM_EditBoxPositionText:SetText(bcmDB.editBoxOnBottom and "BOTTOM" or "TOP")
+		editBoxPosition.initialize = function()
+			local selected, info = BCM_EditBoxPositionText:GetText(), wipe(BCM.info)
+			info.func = function(v) BCM_EditBoxPositionText:SetText(v:GetText())
+				if v.value == "BOTTOM" then
+					bcmDB.editBoxOnBottom = true
+					for i=1, BCM.chatFrames do
+						local cf = _G[("ChatFrame%d"):format(i)]
+						local eb = _G[("ChatFrame%dEditBox"):format(i)]
+						eb:ClearAllPoints()
+						eb:SetPoint("TOPLEFT", cf, "BOTTOMLEFT", -5, -2.0000002384186)
+						eb:SetPoint("TOPRIGHT", cf, "BOTTOMRIGHT", 5, -2.0000002384186)
+					end
+				else
+					bcmDB.editBoxOnBottom = nil
+					for i=1, BCM.chatFrames do
+						local cf = _G[("ChatFrame%d"):format(i)]
+						local eb = _G[("ChatFrame%dEditBox"):format(i)]
+						eb:ClearAllPoints()
+						eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT", -5, -2.0000002384186)
+						eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, -2.0000002384186)
+					end
+				end
+			end
+			info.text = "TOP"
+			info.value = "TOP"
+			info.checked = info.text == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = "BOTTOM"
+			info.value = "BOTTOM"
+			info.checked = info.text == selected
+			UIDropDownMenu_AddButton(info)
+		end
 	end
 
 	--[[ Fade ]]--

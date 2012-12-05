@@ -11,9 +11,11 @@ BCM.modules[#BCM.modules+1] = function()
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
 		local eb_text = n.."EditBox"
 		local cf, eb = _G[n], _G[eb_text]
-		eb:ClearAllPoints()
-		eb:SetPoint("BOTTOMLEFT",  cf, "TOPLEFT",  -5, 0)
-		eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, 0)
+		if not bcmDB.editBoxOnBottom then
+			eb:ClearAllPoints()
+			eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT", -5, -2.0000002384186)
+			eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, -2.0000002384186)
+		end
 		eb:Hide() --call this incase we're just changing to classic mode for the first time
 
 		if bcmDB.noEditBoxBG then
