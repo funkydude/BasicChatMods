@@ -32,6 +32,9 @@ BCM.SIZE = "Size"
 BCM.CHATLOG = "Always log chat."
 BCM.COMBATLOG = "Log combat in a raid instance."
 
+BCM.TOP = "Top"
+BCM.BOTTOM = "Bottom"
+
 BCM.LEFT = "Left"
 BCM.RIGHT = "Right"
 BCM.CENTER = "Center"

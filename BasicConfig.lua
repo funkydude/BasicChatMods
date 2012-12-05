@@ -385,7 +385,7 @@ BCM.modules[#BCM.modules+1] = function()
 		local editBoxPosition = CreateFrame("Frame", "BCM_EditBoxPosition", BCM_EditBox, "UIDropDownMenuTemplate")
 		editBoxPosition:SetPoint("TOPLEFT", -5, -250)
 		BCM_EditBoxPositionMiddle:SetWidth(100)
-		BCM_EditBoxPositionText:SetText(bcmDB.editBoxOnBottom and "BOTTOM" or "TOP")
+		BCM_EditBoxPositionText:SetText(bcmDB.editBoxOnBottom and BCM.BOTTOM or BCM.TOP)
 		editBoxPosition.initialize = function()
 			local selected, info = BCM_EditBoxPositionText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_EditBoxPositionText:SetText(v:GetText())
@@ -409,12 +409,12 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 			end
-			info.text = "TOP"
+			info.text = BCM.TOP
 			info.value = "TOP"
 			info.checked = info.text == selected
 			UIDropDownMenu_AddButton(info)
 
-			info.text = "BOTTOM"
+			info.text = BCM.BOTTOM
 			info.value = "BOTTOM"
 			info.checked = info.text == selected
 			UIDropDownMenu_AddButton(info)
