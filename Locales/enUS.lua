@@ -4,6 +4,7 @@ BCM.CORE = "Welcome to BasicChatMods, a basic and modular approach to chat custo
 BCM.WARNING = "<<The changes you've made require a /reload to take effect>>"
 BCM.OPTIONS = "<<More options may be available after enabling this module>>"
 
+BCM.BCM_AltInvite = "Makes all player names in chat ALT-clickable, which invites that person to your group."
 BCM.BCM_AutoLog = "Automatically log chat after logging on and automatically log the combat log when in a raid instance."
 BCM.BCM_BNet = "Customize the brackets or add color to the various Real Id events such as whispers, conversations, and friends logging on."
 BCM.BCM_ButtonHide = "Completely hides the chat frame side buttons from view for the people that have no use for them."
@@ -15,7 +16,6 @@ BCM.BCM_Font = "Change the font name, size, and style of your chat frames & edit
 BCM.BCM_GMOTD = "Re-display the guild MOTD in the main chat frame after 10 seconds."
 BCM.BCM_Highlight = "Play a sound if your name is mentioned in chat, also class color it. You can enter the short version of your name in the box below."
 BCM.BCM_History = "Choose how many lines of chat history your chat frames remember."
-BCM.BCM_InviteLinks = "Scan for the word 'invite' and convert it into an ALT-clickable link that invites that person. E.g. |cFFFF7256[invite]|r"
 BCM.BCM_PlayerNames = "Customize the player name in chat with player level/group (if known) or remove/change brackets. E.g. [85:|cFFFFFFFFCoolPriest|r:5]"
 BCM.BCM_Justify = "Justify the text of the various chat frames to the right, left, or center of the chat frame."
 BCM.BCM_Resize = "Allows you to change the size of the chat frame to sizes smaller/bigger than what Blizz allows."

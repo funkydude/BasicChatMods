@@ -145,6 +145,9 @@ BCM.modules[#BCM.modules+1] = function()
 	-- Module Panel Creation
 	-------------------------------]]--
 
+	--[[ Alt invite ]]--
+	makePanel("BCM_AltInvite", bcm, "Alt Invite")
+
 	--[[ Auto Log ]]--
 	makePanel("BCM_AutoLog", bcm, "Auto Log")
 
@@ -556,9 +559,6 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, bcmDB.lines and bcmDB.lines.ChatFrame1 or 1000)
 		linesSetSlider:SetPoint("TOPLEFT", 190, -160)
 	end
-
-	--[[ Invite Links ]]--
-	makePanel("BCM_InviteLinks", bcm, "Invite Links")
 
 	--[[ Justify ]]--
 	makePanel("BCM_Justify", bcm, "Justify")

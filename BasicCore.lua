@@ -75,6 +75,8 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		bcmDB.BCM_PlayerNames = true
 	end
 
+	bcmDB.BCM_InviteLinks = nil -- XXX temp
+
 	--[[ Run Modules ]]--
 	for i=1, #BCM.modules do
 		BCM.modules[i]()

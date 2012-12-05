@@ -25,6 +25,7 @@ BasicConfig.lua
 
 history.lua
 
+AltInvite.lua
 autolog.lua
 bnet.lua
 buttons.lua
@@ -35,7 +36,6 @@ fade.lua
 font.lua
 gmotd.lua
 highlight.lua
-invitelinks.lua
 justify.lua
 playernames.lua
 resize.lua
