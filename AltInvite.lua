@@ -7,7 +7,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	hooksecurefunc("SetItemRef", function(link)
 		if IsAltKeyDown() then
-			local player = link:match("player:(.-):")
+			local player = link:match("^player:([^:]+)")
 			InviteToGroup(player)
 			-- We use a secure hook to stay clean (avoid taint), but this means a whisper window will open, so we close it.
 			ChatEdit_OnEscapePressed(ChatFrame1EditBox)

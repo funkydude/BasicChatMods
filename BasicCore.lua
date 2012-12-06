@@ -50,6 +50,7 @@ do
 	close:SetSize(32, 32)
 	close:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	close:SetScript("OnClick", hide)
+	-- Avoiding StaticPopup taint by making our own
 	function BCM:Popup(text)
 		editBox:SetText(text)
 		editBox:HighlightText(0)
