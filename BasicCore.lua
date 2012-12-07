@@ -8,6 +8,7 @@ BCM.Events:SetScript("OnEvent", function(frame, event) if frame[event] then fram
 
 --[[ Common Functions ]]--
 function BCM:GetColor(className, isLocal)
+	-- For modules that need to class color things
 	if isLocal then
 		local found
 		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
@@ -25,6 +26,7 @@ function BCM:GetColor(className, isLocal)
 end
 
 do
+	--[[ Start popup creation ]]--
 	local frame = CreateFrame("Frame", nil, UIParent)
 	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -50,7 +52,8 @@ do
 	close:SetSize(32, 32)
 	close:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	close:SetScript("OnClick", hide)
-	-- Avoiding StaticPopup taint by making our own
+	--[[ End popup creation ]]--
+	-- Avoiding StaticPopup taints by making our own popup, rather that adding to the StaticPopup list
 	function BCM:Popup(text)
 		editBox:SetText(text)
 		editBox:HighlightText(0)
@@ -60,6 +63,8 @@ end
 
 local oldAddMsg = {}
 local AddMessage = function(frame, text, ...)
+	-- We only hook add message once and run all our module functions in that hook,
+	-- rather than hooking it for every module that needs it
 	if not text or text == "" then return end
 	for i=1, #BCM.chatFuncs do
 		text = BCM.chatFuncs[i](text)
@@ -75,8 +80,6 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		bcmDB.BCM_AutoLog = true
 		bcmDB.BCM_PlayerNames = true
 	end
-
-	bcmDB.BCM_InviteLinks = nil -- XXX temp
 
 	--[[ Run Modules ]]--
 	for i=1, #BCM.modules do
@@ -103,7 +106,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		end
 	end
 
-	--[[ Hook On-Demand Chat Frames ]]--
+	--[[ Hook On-Demand Chat Frames: BattlePet Log, Whispers, Etc ]]--
 	hooksecurefunc("FCF_OpenTemporaryWindow", function()
 		for i=11, 20 do
 			local n = ("%s%d"):format("ChatFrame", i)
