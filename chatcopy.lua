@@ -9,16 +9,10 @@ BCM.modules[#BCM.modules+1] = function()
 	local copyFunc = function(frame, btn)
 		if not IsShiftKeyDown() then return end
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
-		local _, size = cf:GetFont()
-		FCF_SetChatWindowFontSize(cf, cf, 0.01)
 		local text = ""
-		for i = select("#", cf:GetRegions()), 1, -1 do
-			local region = select(i, cf:GetRegions())
-			if region:GetObjectType() == "FontString" then
-				text = text..region:GetText().."\n"
-			end
+		for i = 1, cf:GetNumMessages() do
+			text = text .. cf:GetMessageInfo(i) .. "\n"
 		end
-		FCF_SetChatWindowFontSize(cf, cf, size)
 		BCMCopyFrame:Show()
 		BCMCopyBox:SetText(text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}")) -- I like being able to copy raid icons
 		BCMCopyBox:HighlightText(0)
