@@ -6,7 +6,7 @@ BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ChatCopy then return end
 
 	--Copying Functions
-	local copyFunc = function(frame, btn)
+	local copyFunc = function(frame)
 		if not IsShiftKeyDown() then return end
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local text = ""
@@ -14,7 +14,9 @@ BCM.modules[#BCM.modules+1] = function()
 			text = text .. cf:GetMessageInfo(i) .. "\n"
 		end
 		BCMCopyFrame:Show()
-		BCMCopyBox:SetText(text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}")) -- I like being able to copy raid icons
+		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+		text = text:gsub("|[Tt]([^|]+)|[Tt]", "") -- Remove any other icons to prevent copying issues
+		BCMCopyBox:SetText(text)
 		BCMCopyBox:HighlightText(0)
 	end
 	local hintFunc = function(frame)
