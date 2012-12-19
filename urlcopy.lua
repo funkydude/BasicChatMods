@@ -6,7 +6,16 @@ BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
 	local filterFunc = function(_, _, msg, ...)
-		local newMsg, found = gsub(msg, "[^ ,]+%.[^ ,]+", "|cffffffff|Hbcmurl~%1|h[%1]|h|r")
+		local newMsg, found = gsub(msg,
+			-- Easily readable, right? :D
+			-- We're converting anything in the form of "word.word" to a URL,
+			-- but we're adding a list of excluded symbols such as {}[]` that aren't a valid
+			-- address, to prevent possible false positives.
+			-- Also note that the only difference between the 1st and 2nd section of the pattern is that the
+			-- 2nd has a period "." to prevent words like "lol..." becoming a URL.
+			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %.\"£%^`¬{}%[%]\\|<>]%.[^ %.\"£%^`¬{}%[%]\\|<>][^ \"£%^`¬{}%[%]\\|<>]*",
+			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+		)
 		if found > 0 then return false, newMsg, ... end
 	end
 
