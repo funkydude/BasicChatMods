@@ -5,6 +5,10 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
+	-- This functionality used to be stricter and more complex, but with the introduction
+	-- of gTLDs of any form or language, we can now simplify it down into 1 pattern.
+	-- Sentences like "I wish.For someone" will become URLs now "[wish.For]", and although they seem
+	-- like false positives, they can be genuine.
 	local filterFunc = function(_, _, msg, ...)
 		local newMsg, found = gsub(msg,
 			-- Easily readable, right? :D
