@@ -17,7 +17,21 @@ BCM.modules[#BCM.modules+1] = function()
 			-- address, to prevent possible false positives.
 			-- Also note that the only difference between the 1st and 2nd section of the pattern is that the
 			-- 2nd has a period "." to prevent words like "lol..." becoming a URL.
-			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %.\"£%^`¬{}%[%]\\|<>]%.[^ %.\"£%^`¬{}%[%]\\|<>][^ \"£%^`¬{}%[%]\\|<>]*",
+			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %.\"£%^`¬{}%[%]\\|<>%d]%.[^ %.\"£%^`¬{}%[%]\\|<>%d][^ \"£%^`¬{}%[%]\\|<>]*",
+			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+		)
+		if found > 0 then return false, newMsg, ... end
+		newMsg, found = gsub(msg,
+			-- Numbers are banned from the first pattern to prevent false positives like "5.5k" etc.
+			-- This is our IPv4/v6 pattern at the beggining of a sentence.
+			"^%x+[%.:]%x+[%.:]%x+[%.:]%x+[^ \"£%^`¬{}%[%]\\|<>]*",
+			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+		)
+		if found > 0 then return false, newMsg, ... end
+		newMsg, found = gsub(msg,
+			-- This is our mid-sentence IPv4/v6 pattern, we separate the IP patterns into 2 to prevent
+			-- false positives with linking items, spells, etc.
+			" %x+[%.:]%x+[%.:]%x+[%.:]%x+[^ \"£%^`¬{}%[%]\\|<>]*",
 			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
 		)
 		if found > 0 then return false, newMsg, ... end
