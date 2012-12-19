@@ -5,28 +5,9 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
-	local repTbl = {
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/%S+",
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?/",
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
-		"%a-://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?$",
-		"(%a-://[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
-		"(%a-://[%a%-%d]*%.?[%a%-%d]+%.[%a%-%d]+%.%a%a%a?) ",
-		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/%S+",
-		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?/",
-		"[%a%-%d]*%.?[%a%-%d]+%.%a%a%a?$",
-		"([%a%-%d]*%.?[%a%-%d]+%.%a%a%a?) ",
-		"%d+%.%d+%.%d+%.%d+:?%d*/?%S*",
-	}
-
-	local gsub = gsub
 	local filterFunc = function(_, _, msg, ...)
-		for i=1, #repTbl do
-			local newMsg, found = gsub(msg, repTbl[i], "|cffffffff|Hbcmurl~%1|h[%1]|h|r")
-			if found > 0 then return false, newMsg, ... end
-		end
+		local newMsg, found = gsub(msg, "[^ ,]+%.[^ ,]+", "|cffffffff|Hbcmurl~%1|h[%1]|h|r")
+		if found > 0 then return false, newMsg, ... end
 	end
 
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
