@@ -6,7 +6,7 @@ BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
 	-- This functionality used to be stricter and more complex, but with the introduction
-	-- of gTLDs of any form or language, we can now simplify it down into 1 pattern.
+	-- of gTLDs of any form or language, we can now simplify it down to a few patterns.
 	-- Sentences like "I wish.For someone" will become URLs now "[wish.For]", and although they seem
 	-- like false positives, they can be genuine.
 	local filterFunc = function(_, _, msg, ...)
@@ -15,9 +15,9 @@ BCM.modules[#BCM.modules+1] = function()
 			-- We're converting anything in the form of "word.word" to a URL,
 			-- but we're adding a list of excluded symbols such as {}[]` that aren't a valid
 			-- address, to prevent possible false positives.
-			-- Also note that the only difference between the 1st and 2nd section of the pattern is that the
-			-- 2nd has a period "." to prevent words like "lol..." becoming a URL.
-			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %.\"£%^`¬{}%[%]\\|<>%d]%.[^ %.\"£%^`¬{}%[%]\\|<>%d][^ \"£%^`¬{}%[%]\\|<>]*",
+			-- Also note that the only difference between the 1st and 2nd section of the pattern is that the 2nd has a few extra
+			-- valid (but invalid in their location) things ".", "/", "," to prevent words like "lol...", "true./" and "yes.," becoming a URL.
+			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %./,\"£%^`¬{}%[%]\\|<>%d]%.[^ %./,\"£%^`¬{}%[%]\\|<>%d][^ \"£%^`¬{}%[%]\\|<>]*",
 			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
 		)
 		if found > 0 then return false, newMsg, ... end
