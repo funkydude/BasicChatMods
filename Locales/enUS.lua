@@ -25,6 +25,7 @@ BCM.BCM_TellTarget = "Allows you to whisper/tell your current target with the co
 BCM.BCM_Timestamp = "Customize the timestamps you want your chat to use. Choose a color or no color at all, then choose the exact format of the timestamp."
 BCM.BCM_URLCopy = "Turn websites in your chat frame into clickable links for you to easily copy. E.g. |cFFFFFFFF[www.battle.net]|r"
 
+BCM.BNETICON = "Remove %s icon."
 BCM.FAKENAMES = "Replace real names with character names."
 
 BCM.SIZE = "Size"

@@ -20,7 +20,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		local data = gsub(text, "|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-		data = gsub(data, "|[Tt]([^|]+)|[Tt]", "") -- Remove any other icons to prevent copying issues
+		data = gsub(data, "|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
 		local stamp = BetterDate(bcmDB.stampformat, time())
 		text = bcmDB.stampcolor.."|HBCMlinecopy:"..stamp.." "..gsub(data, "|", "#^V^V#")..":BCMlinecopy|h".. stamp .. "|h|r "..text
 		return text

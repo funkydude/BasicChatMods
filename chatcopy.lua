@@ -15,7 +15,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 		BCMCopyFrame:Show()
 		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-		text = text:gsub("|[Tt]([^|]+)|[Tt]", "") -- Remove any other icons to prevent copying issues
+		text = text:gsub("|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
 		BCMCopyBox:SetText(text)
 		BCMCopyBox:HighlightText(0)
 	end

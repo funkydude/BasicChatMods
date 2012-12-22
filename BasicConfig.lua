@@ -40,13 +40,13 @@ BCM.modules[#BCM.modules+1] = function()
 		--[[ Modules ]]--
 		if panel == "BCM_BNet" and BCM_BNetColor_Button then
 			BCM_PlayerBrackDesc:SetParent(frame)
-			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -210)
+			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -240)
 			BCM_PlayerLBrack:SetParent(frame)
-			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -230)
+			BCM_PlayerLBrack:SetPoint("TOPLEFT", 32, -260)
 			BCM_PlayerRBrack:SetParent(frame)
-			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -230)
+			BCM_PlayerRBrack:SetPoint("TOPLEFT", 64, -260)
 			BCM_PlayerSeparator:SetParent(frame)
-			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -230)
+			BCM_PlayerSeparator:SetPoint("TOPLEFT", 96, -260)
 			BCM_PlayerLBrack:SetText("1234567890")
 			BCM_PlayerLBrack:SetText(bcmDB.playerLBrack)
 			BCM_PlayerRBrack:SetText("1234567890")
@@ -202,6 +202,8 @@ BCM.modules[#BCM.modules+1] = function()
 				PlaySound("igMainMenuOptionCheckBoxOn")
 				if frame:GetName() == "BCM_BNetFakeName_Button" then
 					bcmDB.noRealName = true
+				elseif frame:GetName() == "BCM_BNetNoIcon_Button" then
+					bcmDB.noBNetIcon = true
 				else
 					bcmDB.noBNetColor = nil
 				end
@@ -209,6 +211,8 @@ BCM.modules[#BCM.modules+1] = function()
 				PlaySound("igMainMenuOptionCheckBoxOff")
 				if frame:GetName() == "BCM_BNetFakeName_Button" then
 					bcmDB.noRealName = nil
+				elseif frame:GetName() == "BCM_BNetNoIcon_Button" then
+					bcmDB.noBNetIcon = nil
 				else
 					bcmDB.noBNetColor = true
 				end
@@ -229,12 +233,19 @@ BCM.modules[#BCM.modules+1] = function()
 		local fakeNameBtnText = fakeNameBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		fakeNameBtnText:SetPoint("LEFT", fakeNameBtn, "RIGHT")
 		fakeNameBtnText:SetText(BCM.FAKENAMES)
+		local removeIconBtn = CreateFrame("CheckButton", "BCM_BNetNoIcon_Button", BCM_BNet, "OptionsBaseCheckButtonTemplate")
+		removeIconBtn:SetScript("OnClick", OnClick)
+		removeIconBtn:SetPoint("TOPLEFT", 16, -200)
+		removeIconBtn:SetChecked(bcmDB.noBNetIcon)
+		local removeIconBtnText = removeIconBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		removeIconBtnText:SetPoint("LEFT", removeIconBtn, "RIGHT")
+		removeIconBtnText:SetText(BCM.BNETICON:format("|TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61|t"))
 
 		local brackInputText = BCM_BNet:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
-		brackInputText:SetPoint("TOPLEFT", 16, -210)
+		brackInputText:SetPoint("TOPLEFT", 16, -240)
 		brackInputText:SetText(BCM.PLAYERBRACKETS)
 		local brackLInput = CreateFrame("EditBox", "BCM_PlayerLBrack", BCM_BNet, "InputBoxTemplate")
-		brackLInput:SetPoint("TOPLEFT", 32, -230)
+		brackLInput:SetPoint("TOPLEFT", 32, -260)
 		brackLInput:SetAutoFocus(false)
 		brackLInput:SetWidth(20)
 		brackLInput:SetHeight(20)
@@ -244,7 +255,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end)
 		brackLInput:SetScript("OnEnterPressed", brackLInput:GetScript("OnEscapePressed"))
 		local brackRInput = CreateFrame("EditBox", "BCM_PlayerRBrack", BCM_BNet, "InputBoxTemplate")
-		brackRInput:SetPoint("TOPLEFT", 64, -230)
+		brackRInput:SetPoint("TOPLEFT", 64, -260)
 		brackRInput:SetAutoFocus(false)
 		brackRInput:SetWidth(20)
 		brackRInput:SetHeight(20)
@@ -254,7 +265,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end)
 		brackRInput:SetScript("OnEnterPressed", brackRInput:GetScript("OnEscapePressed"))
 		local separatorInput = CreateFrame("EditBox", "BCM_PlayerSeparator", BCM_BNet, "InputBoxTemplate")
-		separatorInput:SetPoint("TOPLEFT", 96, -230)
+		separatorInput:SetPoint("TOPLEFT", 96, -260)
 		separatorInput:SetAutoFocus(false)
 		separatorInput:SetWidth(20)
 		separatorInput:SetHeight(20)

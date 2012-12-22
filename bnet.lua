@@ -17,7 +17,7 @@ BCM.modules[#BCM.modules+1] = function()
 			storedName[id] = toon
 		end
 	end
-	local changeBNetName = function(misc, id, moreMisc, fakeName, tag, colon)
+	local changeBNetName = function(icon, misc, id, moreMisc, fakeName, tag, colon)
 		local _, charName, _, _, _, _, _, englishClass = BNGetToonInfo(id)
 		if charName ~= "" then
 			if storedName then storedName[id] = charName end --Store name for logoff events, if enabled
@@ -33,10 +33,13 @@ BCM.modules[#BCM.modules+1] = function()
 		if englishClass and englishClass ~= "" then --Friend logging off/Starcraft 2
 			fakeName = bcmDB.noBNetColor and fakeName or "|cFF"..BCM:GetColor(englishClass, true)..fakeName.."|r" --Color name if enabled
 		end
-		return misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
+		if bcmDB.noBNetIcon then --Remove "person" icon if enabled
+			icon = icon:gsub("|[Tt][^|]+|[Tt]", "")
+		end
+		return icon..misc..id..moreMisc..bcmDB.playerLBrack..fakeName..bcmDB.playerRBrack..tag..(colon == ":" and bcmDB.playerSeparator or colon)
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
-		text = text:gsub("(|HBNplayer:%S-|k:)(%d-)(:%S-|h)%[(%S-)%](|?h?)(:?)", changeBNetName)
+		text = text:gsub("^(.*)(|HBNplayer:%S-|k:)(%d-)(:%S-|h)%[(%S-)%](|?h?)(:?)", changeBNetName)
 		return text
 	end
 end
