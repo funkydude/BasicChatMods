@@ -65,9 +65,10 @@ local oldAddMsg = {}
 local AddMessage = function(frame, text, ...)
 	-- We only hook add message once and run all our module functions in that hook,
 	-- rather than hooking it for every module that needs it
-	if not text or text == "" then return end
-	for i=1, #BCM.chatFuncs do
-		text = BCM.chatFuncs[i](text)
+	if text and text ~= "" then
+		for i=1, #BCM.chatFuncs do
+			text = BCM.chatFuncs[i](text)
+		end
 	end
 	return oldAddMsg[frame:GetName()](frame, text, ...)
 end
