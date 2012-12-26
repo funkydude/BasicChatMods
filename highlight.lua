@@ -76,6 +76,8 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", filterFunc)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", filterFunc)
 end
