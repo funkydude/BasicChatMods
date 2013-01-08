@@ -17,7 +17,7 @@ BCM.modules[#BCM.modules+1] = function()
 			-- address, to prevent possible false positives.
 			-- Also note that the only difference between the 1st and 2nd section of the pattern is that the 2nd has a few extra
 			-- valid (but invalid in their location) things ".", "/", "," to prevent words like "lol...", "true./" and "yes.," becoming a URL.
-			"[^ \"£%^`¬{}%[%]\\|<>]*[^ %-=%./,\"£%^`¬{}%[%]\\|<>%d]%.[^ %-=%./,\"£%^`¬{}%[%]\\|<>%d][^ \"£%^`¬{}%[%]\\|<>]*",
+			"[^ \"£%^`¬{}%[%]\\|<>]+[^ '%-=%./,\"£%^`¬{}%[%]\\|<>%d]%.[^ '%-=%./,\"£%^`¬{}%[%]\\|<>%d][^ \"£%^`¬{}%[%]\\|<>]+",
 			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
 		)
 		if found > 0 then return false, newMsg, ... end
