@@ -1,1 +1,4 @@
 package-as: BasicChatMods
+
+externals:
+    Libs/LibChatAnims: svn://svn.wowace.com/wow/libchatanims/mainline/trunk/LibChatAnims
