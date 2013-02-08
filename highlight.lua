@@ -58,12 +58,14 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ End one-time table creation ]]--
 
 	local gsub = gsub
-	local filterFunc = function(self, event, msg, ...)
-		for i=1, #myNames do
-			local newMsg, found = gsub(msg, myNames[i], color)
-			if found > 0 then
-				PlaySoundFile("Sound\\interface\\iTellMessage.wav", "Master")
-				return false, newMsg, ...
+	local filterFunc = function(_, _, msg, player, ...)
+		if not UnitIsUnit("player", player) then
+			for i=1, #myNames do
+				local newMsg, found = gsub(msg, myNames[i], color)
+				if found > 0 then
+					PlaySoundFile("Sound\\interface\\iTellMessage.wav", "Master")
+					return false, newMsg, player, ...
+				end
 			end
 		end
 	end
