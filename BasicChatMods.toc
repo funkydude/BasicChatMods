@@ -8,6 +8,9 @@
 ## X-Category: Chat/Communication
 ## X-License: All Rights Reserved
 
+## OptionalDeps: LibChatAnims
+## X-Embeds: LibChatAnims
+
 embeds.xml
 
 Locales\enUS.lua
