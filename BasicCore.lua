@@ -21,6 +21,12 @@ function BCM:GetColor(className, isLocal)
 		end
 	end
 	local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[className] or RAID_CLASS_COLORS[className]
+	if not tbl then
+		for i = 1, 2 do
+			print("|cFF33FF99BasicChatMods|r:", "Couldn't find class", className, isLocal, "using gray instead. Notify the authors!")
+		end
+		return ("%02x%02x%02x"):format(GRAY_FONT_COLOR.r*255, GRAY_FONT_COLOR.g*255, GRAY_FONT_COLOR.b*255)
+	end
 	local color = ("%02x%02x%02x"):format(tbl.r*255, tbl.g*255, tbl.b*255)
 	return color
 end

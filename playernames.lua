@@ -113,7 +113,7 @@ BCM.modules[#BCM.modules+1] = function()
 					local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
 					if n == name and l and l > 0 then
 						if nameLevels then nameLevels[n] = tostring(l) end
-						if nameColor then nameColor[n] = BCM:GetColor(c) end
+						if nameColor and c then nameColor[n] = BCM:GetColor(c) end
 						break
 					end
 				end
@@ -126,7 +126,7 @@ BCM.modules[#BCM.modules+1] = function()
 						local n, _, l, _, _, _, c = GetWhoInfo(i)
 						if n == name and l and l > 0 then
 							if nameLevels then nameLevels[n] = tostring(l) end
-							if nameColor then nameColor[n] = BCM:GetColor(c) end
+							if nameColor and c then nameColor[n] = BCM:GetColor(c) end
 							break
 						end
 					end
