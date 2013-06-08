@@ -11,20 +11,18 @@ function BCM:GetColor(className, isLocal)
 	-- For modules that need to class color things
 	if isLocal then
 		local found
-		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
+		for k,v in next, LOCALIZED_CLASS_NAMES_FEMALE do
 			if v == className then className = k found = true break end
 		end
 		if not found then
-			for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
+			for k,v in next, LOCALIZED_CLASS_NAMES_MALE do
 				if v == className then className = k break end
 			end
 		end
 	end
 	local tbl = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[className] or RAID_CLASS_COLORS[className]
 	if not tbl then
-		for i = 1, 2 do
-			print("|cFF33FF99BasicChatMods|r:", "Couldn't find class", className, isLocal, "using gray instead. Notify the authors!")
-		end
+		-- Seems to be a bug since 5.3 where the friends list is randomly empty and fires friendlist updates with an "Unknown" class.
 		return ("%02x%02x%02x"):format(GRAY_FONT_COLOR.r*255, GRAY_FONT_COLOR.g*255, GRAY_FONT_COLOR.b*255)
 	end
 	local color = ("%02x%02x%02x"):format(tbl.r*255, tbl.g*255, tbl.b*255)
