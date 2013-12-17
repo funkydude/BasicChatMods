@@ -108,7 +108,7 @@ BCM.modules[#BCM.modules+1] = function()
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
 			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
-			if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) and UnitIsInMyGuild(name) then
+			if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) then
 				for i=1, GetNumGuildMembers() do
 					local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
 					if n == name and l and l > 0 then
