@@ -97,7 +97,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	--[[ Slash handler ]]--
-	SlashCmdList[name] = function() InterfaceOptionsFrame_OpenToCategory(name) end
+	SlashCmdList[name] = function() InterfaceOptionsFrame_OpenToCategory(name) InterfaceOptionsFrame_OpenToCategory(name) end
 	SLASH_BasicChatMods1 = "/bcm"
 
 	--[[ Main Panel ]]--
