@@ -104,8 +104,8 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ End Harvest Data ]]--
 
 	local changeName = function(name, misc, nameToChange, colon)
-		nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
 		if misc:len() < 5 then
+			nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
 			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
