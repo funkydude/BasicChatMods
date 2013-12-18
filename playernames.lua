@@ -104,7 +104,7 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ End Harvest Data ]]--
 
 	local changeName = function(name, misc, nameToChange, colon)
-		nameToChange = strsplit("-", nameToChange, 2) -- XXX add an option and enable it for logouts
+		nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
 		if misc:len() < 5 then
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
@@ -147,6 +147,16 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h(:?)", changeName)
+		return text
+	end
+
+	local changeLogoutName = function(nameToChange)
+		nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
+		return ERR_FRIEND_OFFLINE_S:format(nameToChange)
+	end
+	local logoutFind = ERR_FRIEND_OFFLINE_S:gsub("%%s", "(%.-)")
+	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
+		text = text:gsub(logoutFind, changeLogoutName)
 		return text
 	end
 end
