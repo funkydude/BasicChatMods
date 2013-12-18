@@ -151,6 +151,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local changeLogoutName = function(nameToChange)
+		if nameToChange:find("|h", nil, true) then return end -- BNET offline message, don't touch it
 		nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
 		return ERR_FRIEND_OFFLINE_S:format(nameToChange)
 	end
