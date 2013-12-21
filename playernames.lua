@@ -17,7 +17,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if not bcmDB.nolevel then
 		nameLevels = {}
-		nameLevels[UnitName("player")] = tostring(UnitLevel("player"))
+		nameLevels[UnitName("player")] = tostring((UnitLevel("player")))
 
 		BCM.Events.PLAYER_TARGET_CHANGED = function()
 			if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
@@ -47,7 +47,11 @@ BCM.modules[#BCM.modules+1] = function()
 			nameGroup = {}
 		end
 		BCM.Events.GROUP_ROSTER_UPDATE = function()
-			if nameGroup then wipe(nameGroup) end
+			if not IsInGroup() then
+				if nameGroup then wipe(nameGroup) end
+				return
+			end
+
 			for i = 1, GetNumGroupMembers() do
 				local name, _, subgroup, level = GetRaidRosterInfo(i)
 				if nameLevels and name and level and level > 0 then
@@ -103,9 +107,12 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	--[[ End Harvest Data ]]--
 
+	local realm = GetRealmName()
 	local changeName = function(name, misc, nameToChange, colon)
-		if misc:len() < 5 then
-			nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
+		if misc:len() < 5 and not nameToChange:find("|c", nil, true) then
+			local n, s = strsplit("-", nameToChange, 2) -- XXX add a toggle option
+			if s == realm then nameToChange = n end
+
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
 			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
@@ -140,7 +147,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if nameLevels and nameLevels[name] then
 			nameToChange = (nameLevels[name])..":"..nameToChange
 		end
-		if nameGroup and nameGroup[name] then
+		if nameGroup and nameGroup[name] and IsInRaid() then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
 		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
@@ -151,9 +158,10 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local changeLogoutName = function(nameToChange)
-		if nameToChange:find("|h", nil, true) then return end -- BNET offline message, don't touch it
-		nameToChange = strsplit("-", nameToChange, 2) -- XXX add a toggle option
-		return ERR_FRIEND_OFFLINE_S:format(nameToChange)
+		local n, s = strsplit("-", nameToChange, 2) -- XXX add a toggle option
+		if s == realm then
+			return ERR_FRIEND_OFFLINE_S:format(n)
+		end
 	end
 	local logoutFind = ERR_FRIEND_OFFLINE_S:gsub("%%s", "(%.-)")
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
