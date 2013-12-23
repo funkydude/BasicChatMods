@@ -107,11 +107,9 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	--[[ End Harvest Data ]]--
 
-	local realm = GetRealmName()
 	local changeName = function(name, misc, nameToChange, colon)
 		if misc:len() < 5 and not nameToChange:find("|c", nil, true) then
-			local n, s = strsplit("-", nameToChange, 2) -- XXX add a toggle option
-			if s == realm then nameToChange = n end
+			nameToChange = Ambiguate(nameToChange, "guild") -- XXX add a toggle option
 
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
@@ -158,8 +156,8 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local changeLogoutName = function(nameToChange)
-		local n, s = strsplit("-", nameToChange, 2) -- XXX add a toggle option
-		if s == realm then
+		local n = Ambiguate(nameToChange, "guild") -- XXX add a toggle option
+		if n ~= nameToChange then
 			return ERR_FRIEND_OFFLINE_S:format(n)
 		end
 	end
