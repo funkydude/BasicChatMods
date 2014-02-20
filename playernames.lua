@@ -12,19 +12,23 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
+	local GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo = GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo
+	local tostring = tostring
+
 	--[[ Start Harvest Data ]]--
 	local nameLevels, nameGroup, nameColor = nil, nil, nil
 
 	if not bcmDB.nolevel then
 		nameLevels = {}
-		nameLevels[UnitName("player")] = tostring((UnitLevel("player")))
+		nameLevels[(UnitName("player"))] = tostring((UnitLevel("player")))
 
 		BCM.Events.PLAYER_TARGET_CHANGED = function()
 			if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
 				local n, s = UnitName("target")
 				local l = UnitLevel("target")
 				if n and l and l > 0 then
-					nameLevels[n..(s and "-"..s or "")] = tostring(l)
+					if s and s ~= "" then n = n.."-"..s end
+					nameLevels[n] = tostring(l)
 				end
 			end
 		end
@@ -35,7 +39,8 @@ BCM.modules[#BCM.modules+1] = function()
 				local n, s = UnitName("mouseover")
 				local l = UnitLevel("mouseover")
 				if n and l and l > 0 then
-					nameLevels[n..(s and "-"..s or "")] = tostring(l)
+					if s and s ~= "" then n = n.."-"..s end
+					nameLevels[n] = tostring(l)
 				end
 			end
 		end
@@ -91,11 +96,14 @@ BCM.modules[#BCM.modules+1] = function()
 				if num == 0 then return end -- Can fire with 0 at login, wait for a valid update
 				for i=1, num do
 					local n, _, _, l, _, _, _, _, online, _, c = GetGuildRosterInfo(i)
-					if nameLevels and online and n and l and l > 0 then
-						nameLevels[n] = tostring(l)
-					end
-					if nameColor and online and n and c then
-						nameColor[n] = BCM:GetColor(c)
+					if n and online then
+						n = Ambiguate(n, "none")
+						if nameLevels and l and l > 0 then
+							nameLevels[n] = tostring(l)
+						end
+						if nameColor and c then
+							nameColor[n] = BCM:GetColor(c)
+						end
 					end
 				end
 				-- Cache all names at login
@@ -109,18 +117,19 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local changeName = function(name, misc, nameToChange, colon)
 		if misc:len() < 5 and not nameToChange:find("|c", nil, true) then
-			nameToChange = Ambiguate(nameToChange, "none") -- XXX add a toggle option
-
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
 			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
 			if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) then
 				for i=1, GetNumGuildMembers() do
 					local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
-					if n == name and l and l > 0 then
-						if nameLevels then nameLevels[n] = tostring(l) end
-						if nameColor and c then nameColor[n] = BCM:GetColor(c) end
-						break
+					if n then
+						n = Ambiguate(n, "none")
+						if n == name then
+							if nameLevels and l and l > 0 then nameLevels[n] = tostring(l) end
+							if nameColor and c then nameColor[n] = BCM:GetColor(c) end
+							break
+						end
 					end
 				end
 			end
@@ -152,18 +161,6 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h(:?)", changeName)
-		return text
-	end
-
-	local changeLogoutName = function(nameToChange)
-		local n = Ambiguate(nameToChange, "none") -- XXX add a toggle option
-		if n ~= nameToChange then
-			return ERR_FRIEND_OFFLINE_S:format(n)
-		end
-	end
-	local logoutFind = ERR_FRIEND_OFFLINE_S:gsub("%%s", "(%.-)")
-	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
-		text = text:gsub(logoutFind, changeLogoutName)
 		return text
 	end
 end

@@ -80,7 +80,7 @@ end
 BCM.Events.PLAYER_LOGIN = function(frame)
 	--[[ Check Database ]]--
 	if type(bcmDB) ~= "table" then bcmDB = {} end
-	if bcmDB.v == 1 then
+	if bcmDB.v then
 		bcmDB.BCM_AutoLog = nil
 		bcmDB.BCM_PlayerNames = nil
 		bcmDB.v = nil
