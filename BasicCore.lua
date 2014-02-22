@@ -86,20 +86,6 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		bcmDB.v = nil
 	end
 
-	--[[ Filter oQueue nonsense ]]--
-	local filter = function(_, _, msg)
-		if msg:find("^OQ[,S]") then -- "OQ," -- "OQSK"
-			return true
-		end
-	end
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", filter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_INLINE_TOAST_BROADCAST", function(_, _, msg)
-		if msg == "(OQ) " then
-			return true
-		end
-	end)
-
 	--[[ Run Modules ]]--
 	for i=1, #BCM.modules do
 		BCM.modules[i]()
