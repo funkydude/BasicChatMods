@@ -57,6 +57,7 @@ do
 	close:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	close:SetScript("OnClick", hide)
 	--[[ End popup creation ]]--
+
 	-- Avoiding StaticPopup taints by making our own popup, rather that adding to the StaticPopup list
 	function BCM:Popup(text)
 		editBox:SetText(text)
