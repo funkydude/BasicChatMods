@@ -117,23 +117,27 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		for i=11, 20 do
 			local n = ("%s%d"):format("ChatFrame", i)
 			local cF = _G[n]
-			if not cF or oldAddMsg[n] then return end
+			if cF then
+				if not oldAddMsg[n] then
+					BCM.chatFrames = i -- Update the chat frame count for config options
 
-			BCM.chatFrames = i -- Update the chat frame count for config options
+					--Allow the chat frame to move to the end of the screen
+					cF:SetClampRectInsets(0,0,0,0)
 
-			--Allow the chat frame to move to the end of the screen
-			cF:SetClampRectInsets(0,0,0,0)
+					--Allow arrow keys editing in the edit box
+					local eB = _G[n.."EditBox"]
+					eB:SetAltArrowKeyMode(false)
 
-			--Allow arrow keys editing in the edit box
-			local eB = _G[n.."EditBox"]
-			eB:SetAltArrowKeyMode(false)
+					oldAddMsg[n] = cF.AddMessage
+					cF.AddMessage = AddMessage
 
-			oldAddMsg[n] = cF.AddMessage
-			cF.AddMessage = AddMessage
-
-			--Fire functions to apply to various frames
-			for j=1, #BCM.chatFuncsPerFrame do
-				BCM.chatFuncsPerFrame[j](n)
+					--Fire functions to apply to various frames
+					for j=1, #BCM.chatFuncsPerFrame do
+						BCM.chatFuncsPerFrame[j](n)
+					end
+				end
+			else
+				return -- No frame found, stop looping and back out.
 			end
 		end
 	end)
