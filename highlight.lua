@@ -57,9 +57,10 @@ BCM.modules[#BCM.modules+1] = function()
 	utf8sub = nil
 	--[[ End one-time table creation ]]--
 
-	local gsub = gsub
+	local gsub, UnitIsUnit, Ambiguate = gsub, UnitIsUnit, Ambiguate
 	local filterFunc = function(_, _, msg, player, ...)
-		if not UnitIsUnit("player", player) then
+		local trimmedPlayer = Ambiguate(player, "none")
+		if not UnitIsUnit("player", trimmedPlayer) then
 			for i=1, #myNames do
 				local newMsg, found = gsub(msg, myNames[i], color)
 				if found > 0 then
