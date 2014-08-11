@@ -18,7 +18,7 @@ BCM.modules[#BCM.modules+1] = function()
 		BCMCopyBox:SetText(text)
 		BCMCopyBox:HighlightText(0)
 		BCMCopyFrame:Show()
-		BCMCopyScroll.ScrollToBottom:Play() -- Scroll to the bottom
+		BCMCopyScroll.ScrollToBottom:Play() -- Scroll to the bottom, we have to delay it unfortunately
 	end
 	local hintFunc = function(frame)
 		if bcmDB.noChatCopyTip then return end
