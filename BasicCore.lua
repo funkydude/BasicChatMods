@@ -88,9 +88,16 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 	end
 
 	--[[ Filter oQueue nonsense ]]--
+	local t = 0
 	local filter = function(_, _, msg)
 		if msg:find("^OQ[,S]") then -- "OQ," -- "OQSK"
 			return true
+		end
+		local cur = GetTime()
+		if cur-t < 1.5 then
+			print("BasicChatMods Debug:", msg)
+		else
+			t=cur
 		end
 	end
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filter)
