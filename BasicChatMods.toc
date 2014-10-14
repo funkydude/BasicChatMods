@@ -1,8 +1,8 @@
-## Interface: 50400
+## Interface: 60000
 ## Author: Funkydude
 ## X-Credits: Rabbit & Ammo (SCM)
 ## Notes: Basic Chat Mods!
-## Version: 7.47
+## Version: 7.48
 ## Title: BasicChatMods
 ## SavedVariables: bcmDB
 ## X-Category: Chat/Communication
