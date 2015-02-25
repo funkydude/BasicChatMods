@@ -26,11 +26,6 @@ BCM.modules[#BCM.modules+1] = function()
 			"[%1]", --Custom Channels
 		}
 	end
-	if bcmDB.v == 1 then -- XXX Temp, convert [BG] & [BGL] to the new [I] & [IL]
-		bcmDB.v = 2
-		bcmDB.replacements[7] = "[I]"
-		bcmDB.replacements[8] = "[IL]"
-	end
 
 	local rplc = bcmDB.replacements
 	local gsub = gsub
