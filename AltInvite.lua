@@ -3,8 +3,6 @@
 
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
-	bcmDB.BCM_InviteLinks = nil -- XXX temp, old invite links module was removed so lets remove the DB entry
-
 	if bcmDB.BCM_AltInvite then return end
 
 	hooksecurefunc("SetItemRef", function(link)

@@ -3,7 +3,9 @@
 
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
-	bcmDB.BCM_BNetColor = nil --temp
+	-- XXX temp for patch 6.2.4
+	local BNGetGameAccountInfo = BNGetToonInfo or BNGetGameAccountInfo
+
 	if bcmDB.BCM_BNet then bcmDB.noBNetColor = nil return end
 
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
@@ -18,7 +20,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end
 	local changeBNetName = function(icon, misc, id, moreMisc, fakeName, tag, colon)
-		local _, charName, _, _, _, _, _, englishClass = BNGetToonInfo(id)
+		local _, charName, _, _, _, _, _, englishClass = BNGetGameAccountInfo(id)
 		if charName ~= "" then
 			if storedName then storedName[id] = charName end --Store name for logoff events, if enabled
 			--Replace real name with charname if enabled
