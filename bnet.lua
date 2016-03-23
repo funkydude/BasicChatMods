@@ -15,8 +15,8 @@ BCM.modules[#BCM.modules+1] = function()
 		storedName = {}
 		local _, n = BNGetNumFriends()
 		for i=1, n do
-			local _, _, _, toon, id = BNGetFriendInfo(i)
-			storedName[id] = toon
+			local _, _, _, _, charName, id = BNGetFriendInfo(i)
+			storedName[id] = charName
 		end
 	end
 	local changeBNetName = function(icon, misc, id, moreMisc, fakeName, tag, colon)
