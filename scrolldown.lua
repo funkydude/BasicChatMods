@@ -9,7 +9,8 @@ BCM.modules[#BCM.modules+1] = function()
 		frame:GetParent():ScrollToBottom()
 		frame:Hide()
 	end
-	local scrollFunc = function(frame)
+
+	local showFunc = function(frame)
 		local n = frame:GetName()
 		if frame:AtBottom() then
 			_G[n.."ButtonFrameBottomButton"]:Hide()
@@ -17,32 +18,36 @@ BCM.modules[#BCM.modules+1] = function()
 			_G[n.."ButtonFrameBottomButton"]:Show()
 		end
 	end
-	hooksecurefunc("FloatingChatFrame_OnMouseScroll", function(frame, d)
-		if d == 1 then
+
+	local scrollFunc = function(frame, d)
+		if d > 0 then
 			if IsShiftKeyDown() then
 				frame:ScrollToTop()
 			elseif IsControlKeyDown() then
 				frame:PageUp()
+			--else -- Blizz function does this
+			--	frame:ScrollUp()
 			end
-		else
+		elseif d < 0 then
 			if IsShiftKeyDown() then
 				frame:ScrollToBottom()
 			elseif IsControlKeyDown() then
 				frame:PageDown()
+			--else -- Blizz function does this
+			--	frame:ScrollDown()
 			end
 		end
-		scrollFunc(frame)
-	end)
+		showFunc(frame)
+	end
 
-	-- Force our scroll hook to apply by making WoW re-apply the scrolling functionality
-	--InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("0")
-	--InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("1") -- XXX FIXME
+
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
 		local btn = _G[n.."ButtonFrameBottomButton"]
 		btn:ClearAllPoints()
 		local cf = _G[n]
-		cf:HookScript("OnShow", scrollFunc)
+		cf:HookScript("OnMouseWheel", scrollFunc)
+		cf:HookScript("OnShow", showFunc)
 		btn:SetParent(cf)
 		btn:SetPoint("TOPRIGHT")
 		btn:SetScript("OnClick", clickFunc)
