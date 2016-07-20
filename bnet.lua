@@ -3,9 +3,6 @@
 
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
-	-- XXX temp for patch 6.2.4
-	local BNGetGameAccountInfo = BNGetToonInfo or BNGetGameAccountInfo
-
 	if bcmDB.BCM_BNet then bcmDB.noBNetColor = nil return end
 
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end

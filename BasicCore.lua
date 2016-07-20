@@ -67,10 +67,12 @@ do
 end
 
 local oldAddMsg = {}
+local tostring = tostring
 local AddMessage = function(frame, text, ...)
 	-- We only hook add message once and run all our module functions in that hook,
 	-- rather than hooking it for every module that needs it
 	if text and text ~= "" then
+		text = tostring(text)
 		for i=1, #BCM.chatFuncs do
 			text = BCM.chatFuncs[i](text)
 		end
