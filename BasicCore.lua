@@ -50,9 +50,9 @@ do
 	editBox:SetScript("OnEscapePressed", hide)
 
 	local close = CreateFrame("Button", nil, frame)
-	close:SetNormalTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Up")
-	close:SetPushedTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Down")
-	close:SetHighlightTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Highlight", "ADD")
+	close:SetNormalTexture(130832) --"Interface\\Buttons\\UI-Panel-MinimizeButton-Up"
+	close:SetPushedTexture(130830) --"Interface\\Buttons\\UI-Panel-MinimizeButton-Down"
+	close:SetHighlightTexture(130831) --"Interface\\Buttons\\UI-Panel-MinimizeButton-Highlight"
 	close:SetSize(32, 32)
 	close:SetPoint("RIGHT", frame, "RIGHT", -5, 0)
 	close:SetScript("OnClick", hide)
