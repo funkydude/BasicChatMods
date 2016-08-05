@@ -18,8 +18,10 @@ BCM.modules[#BCM.modules+1] = function()
 			text = text .. cf:GetMessageInfo(i) .. "\n"
 		end
 		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+		text = text:gsub("|[Tt]13700(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
-		BCMCopyBox:SetText(text)
+		BCMCopyFrame.font:SetText(text) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
+		BCMCopyFrame.box:SetText(BCMCopyFrame.font:GetText())
 		BCMCopyFrame:Show()
 		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
 	end
@@ -54,7 +56,7 @@ BCM.modules[#BCM.modules+1] = function()
 	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -5)
 	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 5)
 
-	local editBox = CreateFrame("EditBox", "BCMCopyBox", frame)
+	local editBox = CreateFrame("EditBox", nil, frame)
 	editBox:SetMultiLine(true)
 	editBox:SetMaxLetters(99999)
 	editBox:EnableMouse(true)
@@ -68,6 +70,12 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local close = CreateFrame("Button", "BCMCloseButton", frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 25)
+
+	local font = frame:CreateFontString(nil, nil, "GameFontNormal")
+	font:Hide()
+
+	BCMCopyFrame.font = font
+	BCMCopyFrame.box = editBox
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
 		local tab = _G[n.."Tab"]

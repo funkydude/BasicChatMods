@@ -49,6 +49,9 @@ do
 	local hide = function(f) f:GetParent():Hide() end
 	editBox:SetScript("OnEscapePressed", hide)
 
+	local font = frame:CreateFontString(nil, nil, "GameFontNormal")
+	font:Hide()
+
 	local close = CreateFrame("Button", nil, frame)
 	close:SetNormalTexture(130832) --"Interface\\Buttons\\UI-Panel-MinimizeButton-Up"
 	close:SetPushedTexture(130830) --"Interface\\Buttons\\UI-Panel-MinimizeButton-Down"
@@ -60,7 +63,8 @@ do
 
 	-- Avoiding StaticPopup taints by making our own popup, rather that adding to the StaticPopup list
 	function BCM:Popup(text)
-		editBox:SetText(text)
+		font:SetText(text) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
+		editBox:SetText(font:GetText())
 		editBox:HighlightText(0)
 		editBox:GetParent():Show()
 	end
