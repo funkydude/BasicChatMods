@@ -600,6 +600,7 @@ BCM.modules[#BCM.modules+1] = function()
 		linesSetSlider:SetScript("OnValueChanged", function(_, v)
 			BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, v)
 			local cF = ("ChatFrame%d"):format(BCM_History_Get:GetValue())
+			if v == _G[cF]:GetMaxLines() then return end -- No value changed, don't save anything
 			bcmDB.lines[cF] = v
 			_G[cF]:SetMaxLines(v)
 			if cF == "ChatFrame2" then
