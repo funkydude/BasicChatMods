@@ -602,6 +602,9 @@ BCM.modules[#BCM.modules+1] = function()
 			local cF = ("ChatFrame%d"):format(BCM_History_Get:GetValue())
 			bcmDB.lines[cF] = v
 			_G[cF]:SetMaxLines(v)
+			if cF == "ChatFrame2" then
+				COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not taint.
+			end
 		end)
 		BCM_History_SetHigh:SetText(2500)
 		BCM_History_SetLow:SetText(10)
