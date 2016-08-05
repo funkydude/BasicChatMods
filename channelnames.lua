@@ -30,12 +30,12 @@ BCM.modules[#BCM.modules+1] = function()
 	local rplc = bcmDB.replacements
 	local gsub = gsub
 	local chn = {
-		"%[%d0?%. General.-%]",
-		"%[%d0?%. Trade.-%]",
+		"%[%d0?%. General%]",
+		"%[%d0?%. Trade%]",
 		"%[%d0?%. WorldDefense%]",
-		"%[%d0?%. LocalDefense.-%]",
+		"%[%d0?%. LocalDefense%]",
 		"%[%d0?%. LookingForGroup%]",
-		"%[%d0?%. GuildRecruitment.-%]",
+		"%[%d0?%. GuildRecruitment%]",
 		gsub(CHAT_INSTANCE_CHAT_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_INSTANCE_CHAT_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_GUILD_GET, ".*%[(.*)%].*", "%%[%1%%]"),
@@ -46,7 +46,7 @@ BCM.modules[#BCM.modules+1] = function()
 		gsub(CHAT_RAID_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_LEADER_GET, ".*%[(.*)%].*", "%%[%1%%]"),
 		gsub(CHAT_RAID_WARNING_GET, ".*%[(.*)%].*", "%%[%1%%]"),
-		"%[(%d0?)%. (.-)%]", --Custom Channels
+		"%[(%d0?)%. ([^ ]-)%]", --Custom Channels
 	}
 
 	local L = GetLocale()
