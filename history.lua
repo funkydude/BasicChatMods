@@ -24,7 +24,7 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 				if not info then -- Don't think this is needed, but better safe than sorry. If we didn't find the message, print it white.
-					tbl[#tbl+1] = {text, 0, 0, 0, lineID, false, accessID, extraData}
+					tbl[#tbl+1] = {text, 1, 1, 1, lineID, false, accessID, extraData}
 				end
 			else -- Normal chat message
 				tbl[#tbl+1] = {text, info.r, info.g, info.b, lineID, false, accessID, extraData}
@@ -87,7 +87,7 @@ BCM.modules[#BCM.modules+1] = function()
 								end
 							end
 							if not info then -- Don't think this is needed, but better safe than sorry. If we didn't find the message, print it white.
-								tbl[#tbl+1] = {text, 0, 0, 0, lineID, false, accessID, extraData}
+								tbl[#tbl+1] = {text, 1, 1, 1, lineID, false, accessID, extraData}
 							end
 						else -- Normal chat message
 							tbl[#tbl+1] = {text, info.r, info.g, info.b, lineID, false, accessID, extraData}
