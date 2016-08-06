@@ -44,6 +44,7 @@ justify.lua
 playernames.lua
 resize.lua
 scrolldown.lua
+smartgroup.lua
 sticky.lua
 telltarget.lua
 timestamp.lua
