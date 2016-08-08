@@ -77,15 +77,15 @@ BCM.modules[#BCM.modules+1] = function()
 		elseif panel == "BCM_Timestamp" and BCM_Timestamp_InputCol then
 			BCM_Timestamp_InputCol:SetText("123456")
 			BCM_Timestamp_Format:SetText("1234567890")
-			BCM_Timestamp_Format:SetText(bcmDB.stampformat)
-			if bcmDB.stampcolor == "" then
+			BCM_Timestamp_Format:SetText(bcmDB.stampfmt)
+			if bcmDB.stampcol == "" then
 				BCM_TimestampColor_Button:SetChecked(false)
 				BCM_Timestamp_InputCol:EnableMouse(false)
 				BCM_Timestamp_InputCol:SetText("")
 				BCM_Timestamp_InputCol:ClearFocus()
 			else
 				BCM_TimestampColor_Button:SetChecked(true)
-				BCM_Timestamp_InputCol:SetText((bcmDB.stampcolor):sub(5))
+				BCM_Timestamp_InputCol:SetText(bcmDB.stampcol)
 			end
 		end
 	end
@@ -788,13 +788,13 @@ BCM.modules[#BCM.modules+1] = function()
 			local input = BCM_Timestamp_InputCol
 			if frame:GetChecked() then
 				PlaySound("igMainMenuOptionCheckBoxOn")
-				bcmDB.stampcolor = "|cff777777"
-				input:SetText("777777")
+				bcmDB.stampcol = "777777"
+				input:SetText(bcmDB.stampcol)
 				input:EnableMouse(true)
 			else
 				PlaySound("igMainMenuOptionCheckBoxOff")
-				bcmDB.stampcolor = ""
-				input:SetText("")
+				bcmDB.stampcol = ""
+				input:SetText(stampcol)
 				input:EnableMouse(false)
 				input:ClearFocus()
 			end
@@ -814,8 +814,8 @@ BCM.modules[#BCM.modules+1] = function()
 		stampColInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then
 				local txt = frame:GetText()
-				if txt:find("%X") then frame:SetText((bcmDB.stampcolor):sub(5)) return end
-				bcmDB.stampcolor = "|cff"..txt
+				if txt:find("%X") then frame:SetText(bcmDB.stampcol) return end
+				bcmDB.stampcol = txt
 			end
 		end)
 		stampColInput:SetScript("OnEnterPressed", stampColInput:GetScript("OnEscapePressed"))
@@ -836,7 +836,7 @@ BCM.modules[#BCM.modules+1] = function()
 		stampBrackInput:SetHeight(20)
 		stampBrackInput:SetScript("OnTextChanged", function(frame, changed)
 			if changed then
-				bcmDB.stampformat = frame:GetText()
+				bcmDB.stampfmt = frame:GetText()
 			end
 		end)
 		stampBrackInput:SetScript("OnEnterPressed", stampBrackInput:GetScript("OnEscapePressed"))
