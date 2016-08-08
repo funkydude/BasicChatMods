@@ -794,7 +794,7 @@ BCM.modules[#BCM.modules+1] = function()
 			else
 				PlaySound("igMainMenuOptionCheckBoxOff")
 				bcmDB.stampcol = ""
-				input:SetText(stampcol)
+				input:SetText(bcmDB.stampcol)
 				input:EnableMouse(false)
 				input:ClearFocus()
 			end

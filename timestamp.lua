@@ -35,7 +35,11 @@ BCM.modules[#BCM.modules+1] = function()
 		text = gsub(text, "|[Tt]13700(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 		text = gsub(text, "|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
 		local stamp = BetterDate(bcmDB.stampfmt, time())
-		text = "|cff".. bcmDB.stampcol .."|HBCMlinecopy:".. gsub(stamp..text, "|", "#^V^V#") ..":BCMlinecopy|h".. stamp .. "|h|r"..text
+		if bcmDB.stampcol == "" then
+			text = "|HBCMlinecopy:".. gsub(stamp..text, "|", "#^V^V#") ..":BCMlinecopy|h".. stamp .. "|h"..text
+		else
+			text = "|cff".. bcmDB.stampcol .."|HBCMlinecopy:".. gsub(stamp..text, "|", "#^V^V#") ..":BCMlinecopy|h".. stamp .. "|h|r"..text
+		end
 		return text
 	end
 
