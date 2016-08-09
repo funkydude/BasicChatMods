@@ -51,7 +51,7 @@ BCM.modules[#BCM.modules+1] = function()
 	if true and bcmDB.savedChat and next(bcmDB.savedChat) then
 		for k, v in next, bcmDB.savedChat do
 			for i = 1, #v do
-				_G[k]:AddMessage(unpack(v))
+				_G[k]:AddMessage(unpack(v[i]))
 			end
 		end
 	end
