@@ -24,7 +24,7 @@ BCM.modules[#BCM.modules+1] = function()
 		SetCVar("showTimestamps", "none")
 		CHAT_TIMESTAMP_FORMAT = nil -- Disable Blizz stamping as it doesn't stamp everything
 	end
-	if not bcmDB.stampcol or (bcmDB.stampcol ~= "" and strlen(bcmDB.stampcol) ~= 10) then bcmDB.stampcol = "777777" end -- Add a color if we lack one or the the current is invalid
+	if not bcmDB.stampcol or (bcmDB.stampcol ~= "" and strlen(bcmDB.stampcol) ~= 6) then bcmDB.stampcol = "777777" end -- Add a color if we lack one or the the current is invalid
 	if not bcmDB.stampfmt then bcmDB.stampfmt = "[%I:%M:%S] " end --add a format if we lack one
 
 	local time = time
