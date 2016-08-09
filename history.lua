@@ -34,24 +34,20 @@ BCM.modules[#BCM.modules+1] = function()
 		if k == "ChatFrame2" then
 			COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not taint.
 		end
-
-		--Restore all chat.
-		if bcmDB.savedChat and bcmDB.savedChat[k] then
-			for i = 1, #bcmDB.savedChat[k] do
-				f:AddMessage(unpack(bcmDB.savedChat[k][i]))
-			end
-			bcmDB.savedChat[k] = nil
-		end
 		for i = 1, #tbl do
 			f:AddMessage(unpack(tbl[i]))
 		end
 		tbl=nil
 	end
 
-	if true and bcmDB.savedChat and next(bcmDB.savedChat) then
+	if true and bcmDB.savedChat then
 		for k, v in next, bcmDB.savedChat do
 			for i = 1, #v do
-				_G[k]:AddMessage(unpack(v[i]))
+				local cF = _G[k]
+				local text, r, g, b, lineID, backFill, accessID, extraData = unpack(v[i])
+				local id = cF:GetNumMessages() + 1
+				-- Text gsub is to fix timestamp copying after a reload :X
+				cF:AddMessage(text:gsub("(BCMt:)%d+", "%1"..id), r, g, b, lineID, backFill, accessID, extraData)
 			end
 		end
 	end
