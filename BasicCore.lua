@@ -78,7 +78,7 @@ local AddMessage = function(frame, text, ...)
 	if text and text ~= "" then
 		text = tostring(text)
 		for i=1, #BCM.chatFuncs do
-			text = BCM.chatFuncs[i](text)
+			text = BCM.chatFuncs[i](text, frame)
 		end
 	end
 	return oldAddMsg[frame:GetName()](frame, text, ...)
