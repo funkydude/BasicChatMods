@@ -18,7 +18,7 @@ BCM.modules[#BCM.modules+1] = function()
 			text = text .. cf:GetMessageInfo(i) .. "\n"
 		end
 		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-		text = text:gsub("|[Tt]13700(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+		text = text:gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
 		BCMCopyFrame.font:SetText(text) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
 		BCMCopyFrame.box:SetText(BCMCopyFrame.font:GetText())

@@ -151,6 +151,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 	--[[ Self-Cleanup ]]--
 	BCM.modules = nil
 	frame.PLAYER_LOGIN = nil
+	BCM.Events:UnregisterEvent("PLAYER_LOGIN")
 end
 BCM.Events:RegisterEvent("PLAYER_LOGIN")
 

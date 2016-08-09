@@ -48,7 +48,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if num then
 			local text = _G[format("ChatFrame%d", id)]:GetMessageInfo(num)
 			text = (text):gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-			text = (text):gsub("|[Tt]13700(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+			text = (text):gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 			BCM:Popup(text)
 		else
 			SetHyperlink(self, link, ...)
