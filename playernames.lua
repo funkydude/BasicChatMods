@@ -71,9 +71,18 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM.Events.GROUP_ROSTER_UPDATE()
 	end
 
+	if bcmDB.nolevel then
+		for k in next, getmetatable(ChatTypeInfo).__index do
+			SetChatColorNameByClass(k, false)
+		end
+	end
+
 	if not bcmDB.nolevel or not bcmDB.noMiscColor then
 		if not bcmDB.noMiscColor then
 			nameColor = {}
+			for k in next, getmetatable(ChatTypeInfo).__index do
+				SetChatColorNameByClass(k, true)
+			end
 		end
 		BCM.Events.FRIENDLIST_UPDATE = function()
 			local _, num = GetNumFriends()
@@ -115,8 +124,9 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	--[[ End Harvest Data ]]--
 
-	local changeName = function(name, misc, nameToChange, colon)
-		if misc:len() < 5 and not nameToChange:find("|c", nil, true) then
+	local changeName = function(fullName, misc, nameToChange, colon)
+		local name = Ambiguate(fullName, "none")
+		if not nameToChange:find("|c", nil, true) then
 			--Do this here instead of listening to the guild event, as the event is slower than a player login
 			--leading to player logins lacking color/level, unless we held a database of the entire guild.
 			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
@@ -147,7 +157,7 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				end
 				if nameColor[name] then
-					nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r"
+					nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r" -- All this code just to color player log in events, worth it?
 				end
 			end
 		end
@@ -157,7 +167,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if nameGroup and nameGroup[name] and IsInRaid() then
 			nameToChange = nameToChange..":"..nameGroup[name]
 		end
-		return "|Hplayer:"..name..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
+		return "|Hplayer:"..fullName..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h(:?)", changeName)

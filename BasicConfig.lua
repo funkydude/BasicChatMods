@@ -699,7 +699,7 @@ BCM.modules[#BCM.modules+1] = function()
 		colorBtn:SetChecked(not bcmDB.noMiscColor and true)
 		local colorBtnText = colorBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		colorBtnText:SetPoint("LEFT", colorBtn, "RIGHT")
-		colorBtnText:SetText(BCM.COLORMISC)
+		colorBtnText:SetText(_G.CLASS_COLORS)
 
 		if not BCM_PlayerBrackDesc then
 			local brackInputText = BCM_PlayerNames:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
