@@ -126,39 +126,38 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local changeName = function(fullName, misc, nameToChange, colon)
 		local name = Ambiguate(fullName, "none")
-		if not nameToChange:find("|c", nil, true) then
-			--Do this here instead of listening to the guild event, as the event is slower than a player login
-			--leading to player logins lacking color/level, unless we held a database of the entire guild.
-			--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
-			if ((nameColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) then
-				for i=1, GetNumGuildMembers() do
-					local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
-					if n then
-						n = Ambiguate(n, "none")
-						if n == name then
-							if nameLevels and l and l > 0 then nameLevels[n] = tostring(l) end
-							if nameColor and c then nameColor[n] = BCM:GetColor(c) end
-							break
-						end
+		--Do this here instead of listening to the guild event, as the event is slower than a player login
+		--leading to player logins lacking color/level, unless we held a database of the entire guild.
+		--Since the event usually fires when a player logs in, doing it this way should be virtually the same.
+		local hasColor = nameToChange:find("|c", nil, true)
+		if ((nameColor and not hasColor and not nameColor[name]) or (nameLevels and not nameLevels[name])) then
+			for i=1, GetNumGuildMembers() do
+				local n, _, _, l, _, _, _, _, _, _, c = GetGuildRosterInfo(i)
+				if n then
+					n = Ambiguate(n, "none")
+					if n == name then
+						if nameLevels and l and l > 0 then nameLevels[n] = tostring(l) end
+						if nameColor and c and not hasColor then nameColor[n] = BCM:GetColor(c) end
+						break
 					end
 				end
 			end
-			if nameColor then
-				--If the displayed name was an in-chat who result, take the data and color it.
-				if not nameColor[name] then
-					local num = GetNumWhoResults()
-					for i=1, num do
-						local n, _, l, _, _, _, c = GetWhoInfo(i)
-						if n == name and l and l > 0 then
-							if nameLevels then nameLevels[n] = tostring(l) end
-							if nameColor and c then nameColor[n] = BCM:GetColor(c) end
-							break
-						end
+		end
+		if nameColor and not hasColor then
+			--If the displayed name was an in-chat who result, take the data and color it.
+			if not nameColor[name] then
+				local num = GetNumWhoResults()
+				for i=1, num do
+					local n, _, l, _, _, _, c = GetWhoInfo(i)
+					if n == name and l and l > 0 then
+						if nameLevels then nameLevels[n] = tostring(l) end
+						if nameColor and c then nameColor[n] = BCM:GetColor(c) end
+						break
 					end
 				end
-				if nameColor[name] then
-					nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r" -- All this code just to color player log in events, worth it?
-				end
+			end
+			if nameColor[name] then
+				nameToChange = "|cFF"..nameColor[name]..nameToChange.."|r" -- All this code just to color player log in events, worth it?
 			end
 		end
 		if nameLevels and nameLevels[name] then
