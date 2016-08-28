@@ -2,7 +2,7 @@
 --[[     History Module     ]]--
 
 local _, BCM = ...
-BCM.modules[#BCM.modules+1] = function()
+BCM.earlyModules[#BCM.earlyModules+1] = function()
 	if bcmDB.BCM_History then bcmDB.lines, bcmDB.savedChat = nil, nil end
 
 	if not bcmDB.lines then bcmDB.lines = {["ChatFrame1"] = 1000} end
@@ -44,12 +44,15 @@ BCM.modules[#BCM.modules+1] = function()
 		for k, v in next, bcmDB.savedChat do
 			for i = 1, #v do
 				local cF = _G[k]
-				local text, r, g, b, lineID, backFill, accessID, extraData = unpack(v[i])
-				local id = cF:GetNumMessages() + 1
-				-- Text gsub is to fix timestamp copying after a reload :X
-				cF:AddMessage(text:gsub("(BCMt:)%d+", "%1"..id), r, g, b, lineID, backFill, accessID, extraData)
+				if cF then
+					local text, r, g, b, lineID, backFill, accessID, extraData = unpack(v[i])
+					local id = cF:GetNumMessages() + 1
+					-- Text gsub is to fix timestamp copying after a reload :X
+					cF:AddMessage(text:gsub("(BCMt:)%d+", "%1"..id), r, g, b, lineID, backFill, accessID, extraData)
+				end
 			end
 		end
+		print("|cFF33FF99BasicChatMods|r: ", "Chat restored from reload.")
 	end
 	bcmDB.savedChat = nil
 

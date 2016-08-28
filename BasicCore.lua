@@ -1,10 +1,10 @@
 
 --[[     BCM Core     ]]--
 
-local _, BCM = ...
+local addonName, BCM = ...
 BCM.chatFrames = 10
-BCM.modules, BCM.chatFuncs, BCM.chatFuncsPerFrame, BCM.Events = {}, {}, {}, CreateFrame("Frame")
-BCM.Events:SetScript("OnEvent", function(frame, event) if frame[event] then frame[event](frame) end end)
+BCM.earlyModules, BCM.modules, BCM.chatFuncs, BCM.chatFuncsPerFrame, BCM.Events = {}, {}, {}, {}, CreateFrame("Frame")
+BCM.Events:SetScript("OnEvent", function(frame, event, ...) if frame[event] then frame[event](frame, ...) end end)
 
 --[[ Common Functions ]]--
 function BCM:GetColor(className, isLocal)
@@ -84,15 +84,28 @@ local AddMessage = function(frame, text, ...)
 	return oldAddMsg[frame:GetName()](frame, text, ...)
 end
 
-BCM.Events.PLAYER_LOGIN = function(frame)
-	--[[ Check Database ]]--
-	if type(bcmDB) ~= "table" then bcmDB = {} end
-	if bcmDB.v then
-		bcmDB.BCM_AutoLog = nil
-		bcmDB.BCM_PlayerNames = nil
-		bcmDB.v = nil
-	end
+BCM.Events.ADDON_LOADED = function(frame, addon)
+	if addon == addonName then
+		--[[ Check Database ]]--
+		if type(bcmDB) ~= "table" then
+			bcmDB = {}
+		end
 
+		--[[ Run Modules ]]--
+		for i=1, #BCM.earlyModules do
+			BCM.earlyModules[i]()
+			BCM.earlyModules[i] = nil
+		end
+
+		--[[ Self-Cleanup ]]--
+		BCM.earlyModules = nil
+		frame.ADDON_LOADED = nil
+		BCM.Events:UnregisterEvent("ADDON_LOADED")
+	end
+end
+BCM.Events:RegisterEvent("ADDON_LOADED")
+
+BCM.Events.PLAYER_LOGIN = function(frame)
 	--[[ Run Modules ]]--
 	for i=1, #BCM.modules do
 		BCM.modules[i]()
