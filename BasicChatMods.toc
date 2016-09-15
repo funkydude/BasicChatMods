@@ -1,6 +1,7 @@
 ## Interface: 70000
 ## Title: BasicChatMods
 ## Author: Funkydude
+## Version: @project-version@
 ## Notes: Basic Chat Mods
 ## Notes-zhCN: Basic Chat Mods
 ## Notes-zhTW: Basic Chat Mods
