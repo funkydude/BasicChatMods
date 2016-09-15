@@ -1,11 +1,24 @@
 ## Interface: 70000
-## Author: Funkydude
-## X-Credits: Rabbit & Ammo (SCM)
-## Notes: Basic Chat Mods!
 ## Title: BasicChatMods
+## Author: Funkydude
+## Notes: Basic Chat Mods
+## Notes-zhCN: Basic Chat Mods
+## Notes-zhTW: Basic Chat Mods
+## Notes-deDE: Basic Chat Mods
+## Notes-frFR: Basic Chat Mods
+## Notes-itIT: Basic Chat Mods
+## Notes-koKR: Basic Chat Mods
+## Notes-ruRU: Basic Chat Mods
+## Notes-ptBR: Basic Chat Mods
+## Notes-esES: Basic Chat Mods
+## Notes-esMX: Basic Chat Mods
 ## SavedVariables: bcmDB
+
+## X-Credits: Rabbit & Ammo (SimpleChatMods)
 ## X-Category: Chat/Communication
-## X-License: All Rights Reserved
+## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.
+## X-Curse-Project-ID: basic-chat-mods
+## X-WoWI-ID: 11290
 
 ## OptionalDeps: LibChatAnims
 ## X-Embeds: LibChatAnims
