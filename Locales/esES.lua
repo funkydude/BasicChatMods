@@ -1,5 +1,5 @@
 
-if GetLocale() ~= "esES" or GetLocale() ~= "esMX" then return end
+if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local _, L = ...
 L["BCM_AltInvite"] = "Hacer que sea posible hacer Alt-clic sobre el nombre de un jugador en las ventanas de chat para invitarlo a su grupo."
 L["BCM_AutoLog"] = "Automáticamente activar el registro de chat al conectar, y el registro de combate mientras que está en una estancia de banda."
