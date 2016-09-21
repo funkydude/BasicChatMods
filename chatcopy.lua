@@ -15,13 +15,15 @@ BCM.modules[#BCM.modules+1] = function()
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local text = ""
 		for i = 1, cf:GetNumMessages() do
-			text = text .. cf:GetMessageInfo(i) .. "\n"
+			local line = cf:GetMessageInfo(i)
+			BCMCopyFrame.font:SetFormattedText("%s\n", line) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
+			local cleanLine = BCMCopyFrame.font:GetText() or ""
+			text = text .. cleanLine
 		end
 		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
-		BCMCopyFrame.font:SetText(text) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
-		BCMCopyFrame.box:SetText(BCMCopyFrame.font:GetText())
+		BCMCopyFrame.box:SetText(text)
 		BCMCopyFrame:Show()
 		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
 	end
