@@ -29,11 +29,12 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local time = time
 	local format = format
+	local num = 0
 
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text, frame)
 		local stamp = BetterDate(bcmDB.stampfmt, time())
-		local num = frame:GetNumMessages() + 1
 		local id = frame:GetID()
+		num = num + 1
 		if bcmDB.stampcol == "" then
 			text = format("|HBCMt:%d:%d|h%s|h%s", num, id, stamp, text)
 		else
@@ -44,12 +45,18 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local SetHyperlink = ItemRefTooltip.SetHyperlink
 	function ItemRefTooltip:SetHyperlink(link, ...)
-		local num, id = link:match("BCMt:(%d+):(%d+)")
-		if num then
-			local text = _G[format("ChatFrame%d", id)]:GetMessageInfo(num)
-			text = (text):gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-			text = (text):gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-			BCM:Popup(text)
+		local prefix, id = link:match("(BCMt:%d+:)(%d+)")
+		if prefix then
+			local cf = _G[format("ChatFrame%d", id)]
+			for i = cf:GetNumMessages(), 1, -1 do
+				local text = cf:GetMessageInfo(i)
+				if text:find(prefix, nil, true) then
+					text = (text):gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+					text = (text):gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
+					BCM:Popup(text)
+					break
+				end
+			end
 		else
 			SetHyperlink(self, link, ...)
 		end
