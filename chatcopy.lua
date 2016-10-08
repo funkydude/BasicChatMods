@@ -20,9 +20,9 @@ BCM.modules[#BCM.modules+1] = function()
 			local cleanLine = BCMCopyFrame.font:GetText() or ""
 			text = text .. cleanLine
 		end
-		text = text:gsub("|[Tt]Interface\\TargetingFrame\\UI%-RaidTargetingIcon_(%d):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-		text = text:gsub("|[Tt]13700([1-8]):0|[Tt]", "{rt%1}") -- I like being able to copy raid icons
-		text = text:gsub("|[Tt][^|]+|[Tt]", "") -- Remove any other icons to prevent copying issues
+		text = text:gsub("|T[Ii][Nn][Tt][Ee][Rr][Ff][Aa][Cc][Ee]\\[Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ff][Rr][Aa][Mm][Ee]\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+		text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+		text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
 		BCMCopyFrame.box:SetText(text)
 		BCMCopyFrame:Show()
 		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
