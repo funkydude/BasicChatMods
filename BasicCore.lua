@@ -40,11 +40,12 @@ do
 	frame:SetSize(650, 40)
 	frame:SetPoint("CENTER", UIParent, "CENTER")
 	frame:SetFrameStrata("DIALOG")
+	frame:SetClipsChildren(true)
 	frame:Hide()
 
 	local editBox = CreateFrame("EditBox", nil, frame)
 	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetSize(610, 40)
+	editBox:SetSize(600, 40)
 	editBox:SetPoint("LEFT", frame, "LEFT", 10, 0)
 	local hide = function(f) f:GetParent():Hide() end
 	editBox:SetScript("OnEscapePressed", hide)
