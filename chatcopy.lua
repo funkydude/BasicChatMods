@@ -31,11 +31,11 @@ BCM.modules[#BCM.modules+1] = function()
 		if bcmDB.noChatCopyTip then return end
 
 		if SHOW_NEWBIE_TIPS == "1" then
-			GameTooltip:AddLine("\n|TInterface\\Icons\\Spell_ChargePositive:20|t"..BCM.CLICKTOCOPY, 1, 0, 0)
+			GameTooltip:AddLine("\n|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
 			GameTooltip:Show()
 		else
 			GameTooltip:SetOwner(frame, "ANCHOR_TOP")
-			GameTooltip:AddLine("|TInterface\\Icons\\Spell_ChargePositive:20|t"..BCM.CLICKTOCOPY, 1, 0, 0)
+			GameTooltip:AddLine("|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
 			GameTooltip:Show()
 		end
 	end

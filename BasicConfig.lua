@@ -239,7 +239,7 @@ BCM.modules[#BCM.modules+1] = function()
 		removeIconBtn:SetChecked(bcmDB.noBNetIcon)
 		local removeIconBtnText = removeIconBtn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		removeIconBtnText:SetPoint("LEFT", removeIconBtn, "RIGHT")
-		removeIconBtnText:SetText(BCM.BNETICON:format("|TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61|t"))
+		removeIconBtnText:SetText(BCM.BNETICON:format("|T386865:16:16:0:0:128:64:2:29:34:61|t")) --Interface\\FriendsFrame\\UI-Toast-ToastIcons
 
 		local brackInputText = BCM_BNet:CreateFontString("BCM_PlayerBrackDesc", "ARTWORK", "GameFontNormal")
 		brackInputText:SetPoint("TOPLEFT", 16, -240)
