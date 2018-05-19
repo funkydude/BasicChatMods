@@ -43,16 +43,20 @@ BCM.modules[#BCM.modules+1] = function()
 
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
-		local btn = _G[n.."ButtonFrameBottomButton"]
-		btn:ClearAllPoints()
 		local cf = _G[n]
 		cf:HookScript("OnMouseWheel", scrollFunc)
-		cf:HookScript("OnShow", showFunc)
-		btn:SetParent(cf)
-		btn:SetPoint("TOPRIGHT")
-		btn:SetScript("OnClick", clickFunc)
-		btn:SetSize(20, 20)
-		btn:Hide()
+		local btn = _G[n.."ButtonFrameBottomButton"]
+		if btn then -- XXX 8.0
+			btn:ClearAllPoints()
+			cf:HookScript("OnShow", showFunc)
+			btn:SetParent(cf)
+			btn:SetPoint("TOPRIGHT")
+			btn:SetScript("OnClick", clickFunc)
+			btn:SetSize(20, 20)
+			btn:Hide()
+		else
+			showFunc = function() end
+		end
 	end
 end
 
