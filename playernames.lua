@@ -7,6 +7,10 @@ BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_PlayerNames then --Cleanup vars for disabled modules
 		bcmDB.nolevel, bcmDB.nogroup, bcmDB.noMiscColor = nil, nil, nil
 		if bcmDB.BCM_BNet then bcmDB.playerLBrack, bcmDB.playerRBrack, bcmDB.playerSeparator = nil, nil, nil end
+		-- Turn colors back on if disabling this module (default Blizzard state)
+		if GetCVar("chatClassColorOverride") ~= "0" then
+			SetCVar("chatClassColorOverride", "0")
+		end
 		return
 	end
 
@@ -71,19 +75,18 @@ BCM.modules[#BCM.modules+1] = function()
 		BCM.Events.GROUP_ROSTER_UPDATE()
 	end
 
-	if bcmDB.nolevel then
-		for k in next, getmetatable(ChatTypeInfo).__index do
-			SetChatColorNameByClass(k, false)
+	if bcmDB.noMiscColor then
+		if GetCVar("chatClassColorOverride") ~= "1" then
+			SetCVar("chatClassColorOverride", "1")
+		end
+	else
+		nameColor = {}
+		if GetCVar("chatClassColorOverride") ~= "0" then
+			SetCVar("chatClassColorOverride", "0")
 		end
 	end
 
 	if not bcmDB.nolevel or not bcmDB.noMiscColor then
-		if not bcmDB.noMiscColor then
-			nameColor = {}
-			for k in next, getmetatable(ChatTypeInfo).__index do
-				SetChatColorNameByClass(k, true)
-			end
-		end
 		BCM.Events.FRIENDLIST_UPDATE = function()
 			local _, num = GetNumFriends()
 			for i = 1, num do
