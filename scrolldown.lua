@@ -3,21 +3,7 @@
 
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
-	if bcmDB.BCM_ScrollDown or bcmDB.BCM_ButtonHide or not GetCVarBool("chatMouseScroll") then return end
-
-	local clickFunc = function(frame)
-		frame:GetParent():ScrollToBottom()
-		frame:Hide()
-	end
-
-	local showFunc = function(frame)
-		local n = frame:GetName()
-		if frame:AtBottom() then
-			_G[n.."ButtonFrameBottomButton"]:Hide()
-		else
-			_G[n.."ButtonFrameBottomButton"]:Show()
-		end
-	end
+	if bcmDB.BCM_ScrollDown or not GetCVarBool("chatMouseScroll") then return end
 
 	local scrollFunc = function(frame, d)
 		if d > 0 then
@@ -37,26 +23,11 @@ BCM.modules[#BCM.modules+1] = function()
 			--	frame:ScrollDown()
 			end
 		end
-		showFunc(frame)
 	end
-
-
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
 		local cf = _G[n]
 		cf:HookScript("OnMouseWheel", scrollFunc)
-		local btn = _G[n.."ButtonFrameBottomButton"]
-		if btn then -- XXX 8.0
-			btn:ClearAllPoints()
-			cf:HookScript("OnShow", showFunc)
-			btn:SetParent(cf)
-			btn:SetPoint("TOPRIGHT")
-			btn:SetScript("OnClick", clickFunc)
-			btn:SetSize(20, 20)
-			btn:Hide()
-		else
-			showFunc = function() end
-		end
 	end
 end
 

@@ -7,17 +7,6 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local bcmDB = bcmDB
 
-	-- XXX temp since 7.0.3
-	if bcmDB.stampcolor then
-		bcmDB.stampcol = bcmDB.stampcolor:sub(5)
-	end
-	bcmDB.stampcolor = nil
-	if bcmDB.stampformat then
-		bcmDB.stampfmt = bcmDB.stampformat.. " "
-	end
-	bcmDB.stampformat = nil
-	-- XXX end temp
-
 	if bcmDB.BCM_Timestamp then bcmDB.stampcol = nil bcmDB.stampfmt = nil return end
 
 	if GetCVar("showTimestamps") ~= "none" then
