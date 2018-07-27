@@ -84,6 +84,9 @@ local AddMessage = function(frame, text, ...)
 	end
 	return oldAddMsg[frame:GetName()](frame, text, ...)
 end
+local function ReApplyClamp(self)
+	BCM.Events.SetClampRectInsets(self, 0,0,0,0)
+end
 
 BCM.Events.ADDON_LOADED = function(frame, addon)
 	if addon == addonName then
@@ -143,6 +146,8 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 
 					--Allow the chat frame to move to the end of the screen
 					cF:SetClampRectInsets(0,0,0,0)
+					--Need to re-apply it if the base UI changes it
+					hooksecurefunc(cF, "SetClampRectInsets", ReApplyClamp)
 
 					--Allow arrow keys editing in the edit box
 					local eB = _G[n.."EditBox"]
@@ -174,6 +179,8 @@ for i=1, BCM.chatFrames do
 	local cF = _G[("%s%d"):format("ChatFrame", i)]
 	--Allow the chat frame to move to the end of the screen
 	cF:SetClampRectInsets(0,0,0,0)
+	--Need to re-apply it if the base UI changes it
+	hooksecurefunc(cF, "SetClampRectInsets", ReApplyClamp)
 end
 --Clamp the toast frame to screen to prevent it cutting out
 BNToastFrame:SetClampedToScreen(true)
