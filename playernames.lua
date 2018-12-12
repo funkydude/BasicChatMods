@@ -87,10 +87,12 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	if not bcmDB.nolevel or not bcmDB.noMiscColor then
+		local GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
 		BCM.Events.FRIENDLIST_UPDATE = function()
-			local _, num = GetNumFriends()
+			local num = C_FriendList.GetNumOnlineFriends()
 			for i = 1, num do
-				local n, l, c = GetFriendInfo(i)
+				local tbl = GetFriendInfoByIndex(i)
+				local n, l, c = tbl.name, tbl.level, tbl.className
 				if nameLevels and n and l and l > 0 then
 					nameLevels[n] = tostring(l)
 				end
@@ -100,7 +102,7 @@ BCM.modules[#BCM.modules+1] = function()
 			end
 		end
 		BCM.Events:RegisterEvent("FRIENDLIST_UPDATE")
-		ShowFriends()
+		C_FriendList.ShowFriends()
 
 		if IsInGuild() then
 			BCM.Events.GUILD_ROSTER_UPDATE = function(frame)
@@ -127,6 +129,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	--[[ End Harvest Data ]]--
 
+	local GetNumWhoResults, GetWhoInfo = C_FriendList.GetNumWhoResults, C_FriendList.GetWhoInfo
 	local changeName = function(fullName, misc, nameToChange, colon)
 		local name = Ambiguate(fullName, "none")
 		--Do this here instead of listening to the guild event, as the event is slower than a player login
@@ -151,7 +154,8 @@ BCM.modules[#BCM.modules+1] = function()
 			if not nameColor[name] then
 				local num = GetNumWhoResults()
 				for i=1, num do
-					local n, _, l, _, _, _, c = GetWhoInfo(i)
+					local tbl = GetWhoInfo(i)
+					local n, l, c = tbl.fullName, tbl.level, tbl.filename
 					if n == name and l and l > 0 then
 						if nameLevels then nameLevels[n] = tostring(l) end
 						if nameColor and c then nameColor[n] = BCM:GetColor(c) end
