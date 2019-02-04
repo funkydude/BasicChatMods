@@ -50,3 +50,4 @@ L["TRADE"] = "Торговля"
 -- L["WARNING"] = ""
 L["WORLDDEFENSE"] = "Оборона: глобальный"
 
+--BCM.protectedText = "<Protected Text>"

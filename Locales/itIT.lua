@@ -50,3 +50,4 @@ local _, L = ...
 -- L["WARNING"] = ""
 -- L["WORLDDEFENSE"] = ""
 
+--BCM.protectedText = "<Protected Text>"

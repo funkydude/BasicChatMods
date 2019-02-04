@@ -57,3 +57,4 @@ BCM.PLAYERBRACKETS = "Player Brackets:"
 
 BCM.CLICKTOCOPY = "Shift-click to copy chat."
 
+BCM.protectedText = "<Protected Text>"

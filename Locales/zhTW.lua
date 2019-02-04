@@ -50,3 +50,4 @@ L["TRADE"] = "交易"
 L["WARNING"] = "<<你改變的設置需要/重載才能生效>>"
 L["WORLDDEFENSE"] = "世界防務"
 
+--BCM.protectedText = "<Protected Text>"

@@ -57,3 +57,5 @@ L["COLORMISC"] = "친구/길드원 접속 메시지에 직업 색상을 사용�
 L["PLAYERBRACKETS"] = "플레이어 괄호:"
 
 L["CLICKTOCOPY"] = "Shift-클릭으로 대화를 복사합니다."
+
+--BCM.protectedText = "<Protected Text>"

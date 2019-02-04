@@ -23,6 +23,7 @@ BCM.modules[#BCM.modules+1] = function()
 		text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
+		text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
 		BCMCopyFrame.box:SetText(text)
 		BCMCopyFrame:Show()
 		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately

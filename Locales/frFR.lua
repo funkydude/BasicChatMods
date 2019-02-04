@@ -50,3 +50,4 @@ L["TRADE"] = "Commerce"
 L["WARNING"] = "<<Les changements effectués nécessite un /reload pour prendre effet>>"
 L["WORLDDEFENSE"] = "DéfenseUniverselle"
 
+--BCM.protectedText = "<Protected Text>"

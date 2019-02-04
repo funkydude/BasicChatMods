@@ -50,3 +50,4 @@ L["TRADE"] = "交易"
 L["WARNING"] = "<<你改变的设置需要/relaod才能生效>>"
 L["WORLDDEFENSE"] = "世界防御"
 
+--BCM.protectedText = "<Protected Text>"

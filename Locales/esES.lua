@@ -50,3 +50,4 @@ L["TRADE"] = "Comercio"
 L["WARNING"] = "<<Los cambios realizados requieren a volver a cargar la interfaz para se aplicará>>"
 L["WORLDDEFENSE"] = "DefensaGeneral"
 
+--BCM.protectedText = "<Protected Text>"
