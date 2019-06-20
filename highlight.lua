@@ -64,7 +64,7 @@ BCM.modules[#BCM.modules+1] = function()
 			for i=1, #myNames do
 				local newMsg, found = gsub(msg, myNames[i], color)
 				if found > 0 then
-					PlaySoundFile("Sound\\interface\\iTellMessage.ogg", "Master")
+					PlaySound(3081, "Master", false) -- SOUNDKIT.TELL_MESSAGE
 					return false, newMsg, player, ...
 				end
 			end
