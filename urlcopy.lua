@@ -5,6 +5,19 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_URLCopy then return end
 
+	local gsub, format = string.gsub, string.format
+	local num = 0
+	local storedURLs = {}
+	local function replaceOnePart(url)
+		num = num + 1
+		storedURLs[num] = url
+		return format("|cffffffff|HbattlePetAbil:-010102:%d|h[%s]|h|r", num, url)
+	end
+	local function replaceTwoParts(blank, url)
+		num = num + 1
+		storedURLs[num] = url
+		return format("%s|cffffffff|HbattlePetAbil:-010102:%d|h[%s]|h|r", blank, num, url)
+	end
 	-- This functionality used to be stricter and more complex, but with the introduction
 	-- of gTLDs of any form or language, we can now reduce the amount of patterns.
 
@@ -16,83 +29,83 @@ BCM.modules[#BCM.modules+1] = function()
 	-- but we're adding a list of excluded symbols such as {}[]` that aren't a valid address, to prevent possible false positives.
 	-- Also note that the only difference between the 1st and 2nd section of the pattern is that the 2nd has a few extra
 	-- valid (but invalid in their location) things ".", "/", "," to prevent words like "lol...", "true./" and "yes.," becoming a URL.
-	-- As of the introduction of the S.E.L.F.I.E camera we now require at least 2 valid letters e.g. yo.hi
+	-- As of the introduction of the S.E.L.F.I.E camera we now require at least 2 valid letters for example: yo.hi
 	local filterFunc = function(_, _, msg, ...)
 		-- [ ]url://a.b.cc.dd/e
 		local newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://a.b.cc.dd/e
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- [ ]url://a.bb.cc/d
 		newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://a.bb.cc/d
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- [ ]url://aa.bb/c
 		newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://aa.bb/c
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+/[^ \"%^`{}%[%]\\|<>]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- [ ]url://a.b.cc.dd
 		newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://a.b.cc.dd
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		-- [ ]url://a.bb.cc
 		newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://a.bb.cc
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+%.[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		-- [ ]url://aa.bb
 		newMsg, found = gsub(msg,
 			"( )([^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 		-- ^url://aa.bb
 		newMsg, found = gsub(msg,
 			"^[^ %%'=%.,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~]+[^ %%'=%./,\"%^`{}%[%]\\|<>%(%)%*!%?_%+#&;~:]%.[^ %p%c%d][^ %p%c%d]+",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		if found > 0 then return false, newMsg, ... end
 		newMsg, found = gsub(msg,
 			-- Numbers are banned from the first pattern to prevent false positives like "5.5k" etc.
 			-- This is our IPv4/v6 pattern at the beggining of a sentence.
 			"^%x+[%.:]%x+[%.:]%x+[%.:]%x+[^ \"%^`{}%[%]\\|<>]*",
-			"|cffffffff|Hbcmurl~%1|h[%1]|h|r"
+			replaceOnePart
 		)
 		
 		if found > 0 then return false, newMsg, ... end
@@ -100,7 +113,7 @@ BCM.modules[#BCM.modules+1] = function()
 			-- This is our mid-sentence IPv4/v6 pattern, we separate the IP patterns into 2 to prevent
 			-- false positives with linking items, spells, etc.
 			"( )(%x+[%.:]%x+[%.:]%x+[%.:]%x+[^ \"%^`{}%[%]\\|<>]*)",
-			"%1|cffffffff|Hbcmurl~%2|h[%2]|h|r"
+			replaceTwoParts
 		)
 		if found > 0 then return false, newMsg, ... end
 	end
@@ -122,14 +135,13 @@ BCM.modules[#BCM.modules+1] = function()
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_INLINE_TOAST_BROADCAST", filterFunc)
 
-	local SetHyperlink = ItemRefTooltip.SetHyperlink
-	function ItemRefTooltip:SetHyperlink(data, ...)
-		local isURL, link = strsplit("~", data)
-		if isURL and isURL == "bcmurl" then
-			BCM:Popup(link)
-		else
-			SetHyperlink(self, data, ...)
+	-- This may seem weird, because it is.
+	-- This is an "interesting" way to avoid doing an insecure hook of `ItemRefTooltip.SetHyperlink`
+	-- It works, and avoiding insecure hooks is what matters!
+	hooksecurefunc("FloatingPetBattleAbility_Show", function(signature, id)
+		if signature == -010102 then -- Unique signature, CHANGE THIS IF YOU ARE COPYING THIS CODE. Blizz checks for > 0 so using < 0 means Blizz won't run it
+			BCM:Popup(storedURLs[id] or "")
 		end
-	end
+	end)
 end
 

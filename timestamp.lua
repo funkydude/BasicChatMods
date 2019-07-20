@@ -20,37 +20,42 @@ BCM.modules[#BCM.modules+1] = function()
 	local format = format
 	local num = 0
 
-	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text, frame)
+	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
 		local stamp = BetterDate(bcmDB.stampfmt, time())
-		local id = frame:GetID()
 		num = num + 1
 		if bcmDB.stampcol == "" then
-			text = format("|HBCMt:%d:%d|h%s|h%s", num, id, stamp, text)
+			text = format("|HbattlePetAbil:-010101:%d:|h%s|h%s", num, stamp, text)
 		else
-			text = format("|cFF%s|HBCMt:%d:%d|h%s|h|r%s", bcmDB.stampcol, num, id, stamp, text)
+			text = format("|cFF%s|HbattlePetAbil:-010101:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
 		end
 		return text
 	end
 
-	local SetHyperlink = ItemRefTooltip.SetHyperlink
-	function ItemRefTooltip:SetHyperlink(link, ...)
-		local prefix, id = link:match("(BCMt:%d+:)(%d+)")
-		if prefix then
-			local cf = _G[format("ChatFrame%d", id)]
-			for i = cf:GetNumMessages(), 1, -1 do
-				local text = cf:GetMessageInfo(i)
-				if text:find(prefix, nil, true) then
-					text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
-					text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
-					text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
-					text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
-					BCM:Popup(text)
-					break
+	-- This may seem weird, because it is.
+	-- This is an "interesting" way to avoid doing an insecure hook of `ItemRefTooltip.SetHyperlink`
+	-- It works, and avoiding insecure hooks is what matters!
+	hooksecurefunc("FloatingPetBattleAbility_Show", function(signature, id)
+		if signature == -010101 then -- Unique signature, CHANGE THIS IF YOU ARE COPYING THIS CODE. Blizz checks for > 0 so using < 0 means Blizz won't run it
+			local prefix = ("battlePetAbil:-010101:%d:"):format(id)
+			for num = 1, 20 do
+				if num ~= 2 then
+					local cf = _G[format("ChatFrame%d", num)]
+					if cf then
+						for i = cf:GetNumMessages(), 1, -1 do
+							local text = cf:GetMessageInfo(i)
+							if text:find(prefix, nil, true) then
+								text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+								text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+								text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
+								text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
+								BCM:Popup(text)
+								return
+							end
+						end
+					end
 				end
 			end
-		else
-			SetHyperlink(self, link, ...)
 		end
-	end
+	end)
 end
 
