@@ -24,35 +24,25 @@ BCM.modules[#BCM.modules+1] = function()
 		local stamp = BetterDate(bcmDB.stampfmt, time())
 		num = num + 1
 		if bcmDB.stampcol == "" then
-			text = format("|HbattlePetAbil:-010101:%d:|h%s|h%s", num, stamp, text)
+			text = format("|Hgarrmission:BCMts:%d:|h%s|h%s", num, stamp, text)
 		else
-			text = format("|cFF%s|HbattlePetAbil:-010101:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
+			text = format("|cFF%s|Hgarrmission:BCMts:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
 		end
 		return text
 	end
 
-	-- This may seem weird, because it is.
-	-- This is an "interesting" way to avoid doing an insecure hook of `ItemRefTooltip.SetHyperlink`
-	-- It works, and avoiding insecure hooks is what matters!
-	hooksecurefunc("FloatingPetBattleAbility_Show", function(signature, id)
-		if signature == -010101 then -- Unique signature, CHANGE THIS IF YOU ARE COPYING THIS CODE. Blizz checks for > 0 so using < 0 means Blizz won't run it
-			local prefix = ("battlePetAbil:-010101:%d:"):format(id)
-			for num = 1, 20 do
-				if num ~= 2 then
-					local cf = _G[format("ChatFrame%d", num)]
-					if cf then
-						for i = cf:GetNumMessages(), 1, -1 do
-							local text = cf:GetMessageInfo(i)
-							if text:find(prefix, nil, true) then
-								text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
-								text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
-								text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
-								text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
-								BCM:Popup(text)
-								return
-							end
-						end
-					end
+	hooksecurefunc("SetItemRef", function(link, _, _, frame)
+		local _, bcm = strsplit(":", link)
+		if bcm == "BCMts" then
+			for i = frame:GetNumMessages(), 1, -1 do
+				local text = frame:GetMessageInfo(i)
+				if text and text:find(link, nil, true) then
+					text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+					text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
+					text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
+					text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
+					BCM:Popup(text)
+					return
 				end
 			end
 		end
