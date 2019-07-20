@@ -128,7 +128,7 @@ BCM.modules[#BCM.modules+1] = function()
 	hooksecurefunc("SetItemRef", function(link, text)
 		local _, bcm = strsplit(":", link)
 		if bcm == "BCMuc" then
-			text = gsub(text, "^[^%[]+%[([^%]]+)%]", "%1")
+			text = gsub(text, "^[^%[]+%[(.+)%]|h|r$", "%1")
 			BCM:Popup(text)
 		end
 	end)
