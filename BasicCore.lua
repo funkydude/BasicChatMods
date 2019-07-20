@@ -73,16 +73,17 @@ end
 
 local oldAddMsg = {}
 local tostring = tostring
-local AddMessage = function(frame, text, ...)
-	-- We only hook add message once and run all our module functions in that hook,
-	-- rather than hooking it for every module that needs it
+local EditMessage = function(self)
+	local num = #self.elements
+	local tbl = self.elements[num]
+	local text = tbl.message
 	if text and text ~= "" then
 		text = tostring(text)
 		for i=1, #BCM.chatFuncs do
-			text = BCM.chatFuncs[i](text, frame)
+			text = BCM.chatFuncs[i](text)
 		end
+		self.elements[num].message = text
 	end
-	return oldAddMsg[frame:GetName()](frame, text, ...)
 end
 local function ReApplyClamp(self)
 	BCM.Events.SetClampRectInsets(self, 0,0,0,0)
@@ -126,8 +127,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 
 		if i ~= 2 then --skip combatlog
 			local cF = _G[n]
-			oldAddMsg[n] = cF.AddMessage
-			cF.AddMessage = AddMessage
+			hooksecurefunc(cF.historyBuffer, "PushFront", EditMessage)
 		end
 
 		for j=1, #BCM.chatFuncsPerFrame do
@@ -153,8 +153,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 					local eB = _G[n.."EditBox"]
 					eB:SetAltArrowKeyMode(false)
 
-					oldAddMsg[n] = cF.AddMessage
-					cF.AddMessage = AddMessage
+					hooksecurefunc(cF.historyBuffer, "PushFront", EditMessage)
 
 					--Fire functions to apply to various frames
 					for j=1, #BCM.chatFuncsPerFrame do
