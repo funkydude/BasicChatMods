@@ -74,7 +74,8 @@ end
 local oldAddMsg = {}
 local tostring = tostring
 local EditMessage = function(self)
-	local num = #self.elements
+	-- We can't use #self.elements, for some reason a nil get's added to the table at some point which breaks counting
+	local num = self.headIndex
 	local tbl = self.elements[num]
 	local text = tbl.message
 	if text and text ~= "" then
@@ -127,6 +128,20 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 
 		if i ~= 2 then --skip combatlog
 			local cF = _G[n]
+			local num = cF.historyBuffer.headIndex
+			if num > 0 then -- Catch up on any lines we missed during the log in process
+				for i = 1, num do
+					local tbl = cF.historyBuffer.elements[i]
+					local text = tbl.message
+					if text and text ~= "" then
+						text = tostring(text)
+						for i=1, #BCM.chatFuncs do
+							text = BCM.chatFuncs[i](text)
+						end
+						cF.historyBuffer.elements[i].message = text
+					end
+				end
+			end
 			hooksecurefunc(cF.historyBuffer, "PushFront", EditMessage)
 		end
 
