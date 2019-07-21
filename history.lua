@@ -16,14 +16,21 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 
 	if true and bcmDB.savedChat then
 		for k, v in next, bcmDB.savedChat do
-			for i = 1, #v do
-				local cF = _G[k]
-				if cF then
-					cF:AddMessage(unpack(v[i]))
+			local cF = _G[k]
+			if cF then
+				local buffer = cF.historyBuffer
+				local num = buffer.headIndex
+				local prevElements = buffer.elements
+				buffer:ReplaceElements(v) -- We want the chat history to show first, so replace all current chat
+				-- Add our little notifications
+				buffer:PushBack({message = "|cFF33FF99BasicChatMods|r: ---Begin chat restore---", timestamp = GetTime()})
+				buffer:PushFront({message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = GetTime()})
+				for i = 1, num do -- Restore any early chat we removed (usually addon prints)
+					local element = prevElements[i]
+					buffer:PushFront(element)
 				end
 			end
 		end
-		print("|cFF33FF99BasicChatMods|r: ", "Chat restored from reload.")
 	end
 	bcmDB.savedChat = nil
 
@@ -34,20 +41,35 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 			if (GetTime() - isReloadingUI) > 2 then return end
 
 			bcmDB.savedChat = {}
-			for i = 1, BCM.chatFrames do
-				local name = ("ChatFrame%d"):format(i)
-				local cf = _G[name]
-				if cf:IsVisible() then
-					local tbl = {}
-					bcmDB.savedChat[name] = tbl
-					local num = cf:GetNumMessages()
-					local count = num > 5 and num - 5 or 1
-					local timestampNum = 1
-					for i = count, num do
-						tbl[#tbl+1] = {cf:GetMessageInfo(i)}
-						-- Fix timestamp module (if enabled)
-						tbl[#tbl][1]:gsub("(BCMt:)%d+", "%1"..timestampNum)
-						timestampNum = timestampNum + 1
+			for cfNum = 1, BCM.chatFrames do
+				if i ~= 2 then -- No combat log
+					local name = ("ChatFrame%d"):format(cfNum)
+					local cf = _G[name]
+					if cf then
+						local tbl = {1, 2, 3, 4, 5}
+						local num = cf.historyBuffer.headIndex
+						local tblCount = 5
+						for i = num, -10, -1 do
+							if i > 0 then
+								if cf.historyBuffer.elements[i] then -- Compensate for nil entries
+									tbl[tblCount] = cf.historyBuffer.elements[i]
+									tblCount = tblCount - 1
+									if tblCount == 0 then
+										break
+									end
+								end
+							else -- Compensate for less than 5 lines of history
+								if tblCount > 0 then
+									tremove(tbl, tblCount)
+									tblCount = tblCount - 1
+								else
+									break
+								end
+							end
+						end
+						if #tbl > 0 then
+							bcmDB.savedChat[name] = tbl
+						end
 					end
 				end
 			end
