@@ -21,10 +21,15 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 				local buffer = cF.historyBuffer
 				local num = buffer.headIndex
 				local prevElements = buffer.elements
+				local curTime = GetTime()
+				for i = 1, #v do
+					local tbl = v[i]
+					tbl.timestamp = curTime -- Update timestamp on restored chat. If it's really old, it will show as hidden after the reload.
+				end
 				buffer:ReplaceElements(v) -- We want the chat history to show first, so replace all current chat
 				-- Add our little notifications
-				buffer:PushBack({message = "|cFF33FF99BasicChatMods|r: ---Begin chat restore---", timestamp = GetTime()})
-				buffer:PushFront({message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = GetTime()})
+				buffer:PushBack({message = "|cFF33FF99BasicChatMods|r: ---Begin chat restore---", timestamp = curTime})
+				buffer:PushFront({message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = curTime})
 				for i = 1, num do -- Restore any early chat we removed (usually addon prints)
 					local element = prevElements[i]
 					buffer:PushFront(element)
@@ -51,7 +56,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 						local tblCount = 5
 						for i = num, -10, -1 do
 							if i > 0 then
-								if cf.historyBuffer.elements[i] then -- Compensate for nil entries
+								if type(cf.historyBuffer.elements[i]) == "table" and cf.historyBuffer.elements[i].message then -- Compensate for nil entries
 									tbl[tblCount] = cf.historyBuffer.elements[i]
 									tblCount = tblCount - 1
 									if tblCount == 0 then
