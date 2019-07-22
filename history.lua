@@ -32,7 +32,10 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 				buffer:PushFront({message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = curTime})
 				for i = 1, num do -- Restore any early chat we removed (usually addon prints)
 					local element = prevElements[i]
-					buffer:PushFront(element)
+					if element then -- Safety
+						element.timestamp = curTime
+						buffer:PushFront(element)
+					end
 				end
 			end
 		end
