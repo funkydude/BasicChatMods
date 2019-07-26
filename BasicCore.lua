@@ -76,9 +76,12 @@ local tostring = tostring
 local EditMessage = function(self)
 	-- We can't use #self.elements, for some reason a nil get's added to the table at some point which breaks counting
 	local num = self.headIndex
+	if num == 0 then
+		num = self.maxElements
+	end
 	local tbl = self.elements[num]
 	local text = tbl and tbl.message
-	if text and text ~= "" then
+	if text then
 		text = tostring(text)
 		for i=1, #BCM.chatFuncs do
 			text = BCM.chatFuncs[i](text)
