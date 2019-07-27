@@ -25,9 +25,8 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end
 
-	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
-		local cf = _G[n]
-		cf:HookScript("OnMouseWheel", scrollFunc)
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(cF)
+		cF:HookScript("OnMouseWheel", scrollFunc)
 	end
 end
 

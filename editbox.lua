@@ -8,13 +8,13 @@ BCM.modules[#BCM.modules+1] = function()
 	--Classic mode hides the editbox when not in use, IM mode fades it out
 	--since we move the editbox above the chat tabs, we don't want it always showing
 	SetCVar("chatStyle", "classic")
-	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(cF, n)
 		local eb_text = n.."EditBox"
-		local cf, eb = _G[n], _G[eb_text]
+		local eb = _G[eb_text]
 		if not bcmDB.editBoxOnBottom then
 			eb:ClearAllPoints()
-			eb:SetPoint("BOTTOMLEFT", cf, "TOPLEFT", -5, -2.0000002384186)
-			eb:SetPoint("BOTTOMRIGHT", cf, "TOPRIGHT", 5, -2.0000002384186)
+			eb:SetPoint("BOTTOMLEFT", cF, "TOPLEFT", -5, -2.0000002384186)
+			eb:SetPoint("BOTTOMRIGHT", cF, "TOPRIGHT", 5, -2.0000002384186)
 		end
 		eb:Hide() --call this incase we're just changing to classic mode for the first time
 

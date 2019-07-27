@@ -81,7 +81,7 @@ BCM.modules[#BCM.modules+1] = function()
 	BCMCopyFrame.font = font
 	BCMCopyFrame.box = editBox
 
-	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(_, n)
 		local tab = _G[n.."Tab"]
 		tab:HookScript("OnClick", copyFunc)
 		tab:HookScript("OnEnter", hintFuncEnter)
