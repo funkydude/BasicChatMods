@@ -61,6 +61,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local GENERAL_CHAT_DOCK = GENERAL_CHAT_DOCK
+	local CHAT_FRAME_TEXTURES = CHAT_FRAME_TEXTURES
 	local object = GENERAL_CHAT_DOCK.overflowButton
 	if object then
 		storedFuncs[object] = object.SetAlpha
@@ -101,7 +102,6 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local function FadeFunc(chatFrame)
 		local frameName = chatFrame:GetName()
-		chatFrame.hasBeenFaded = true
 		for i = 1, #CHAT_FRAME_TEXTURES do
 			local object = _G[frameName..CHAT_FRAME_TEXTURES[i]]
 			if object:IsShown() then
