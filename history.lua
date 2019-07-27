@@ -50,7 +50,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 
 			bcmDB.savedChat = {}
 			for cfNum = 1, BCM.chatFrames do
-				if i ~= 2 then -- No combat log
+				if cfNum ~= 2 then -- No combat log
 					local name = ("ChatFrame%d"):format(cfNum)
 					local cf = _G[name]
 					if cf then

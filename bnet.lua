@@ -7,7 +7,6 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
-	local storedName = nil
 	local changeBNetName = function(icon, misc, id, moreMisc, fakeName, tag, colon)
 		local _, _, battleTag, _, _, bnetIDGameAccount = BNGetFriendInfoByID(id)
 		local englishClass

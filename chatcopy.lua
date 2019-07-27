@@ -28,17 +28,18 @@ BCM.modules[#BCM.modules+1] = function()
 		BCMCopyFrame:Show()
 		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
 	end
-	local hintFunc = function(frame)
+	local tt = CreateFrame("GameTooltip", "BCMtooltip", UIParent, "GameTooltipTemplate")
+	local hintFuncEnter = function(frame)
 		if bcmDB.noChatCopyTip then return end
 
-		if SHOW_NEWBIE_TIPS == "1" then
-			GameTooltip:AddLine("\n|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
-			GameTooltip:Show()
-		else
-			GameTooltip:SetOwner(frame, "ANCHOR_TOP")
-			GameTooltip:AddLine("|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
-			GameTooltip:Show()
-		end
+		tt:SetOwner(frame, "ANCHOR_TOP")
+		tt:AddLine("|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
+		tt:Show()
+	end
+	local hintFuncLeave = function(frame)
+		if bcmDB.noChatCopyTip then return end
+
+		tt:Hide()
 	end
 
 	--Create Frames/Objects
@@ -83,7 +84,8 @@ BCM.modules[#BCM.modules+1] = function()
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(n)
 		local tab = _G[n.."Tab"]
 		tab:HookScript("OnClick", copyFunc)
-		tab:HookScript("OnEnter", hintFunc)
+		tab:HookScript("OnEnter", hintFuncEnter)
+		tab:HookScript("OnLeave", hintFuncLeave)
 	end
 end
 
