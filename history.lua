@@ -8,7 +8,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 	if not bcmDB.lines then bcmDB.lines = {["ChatFrame1"] = 1000} end
 	for k, v in next, bcmDB.lines do
 		local f = _G[k]
-		f:SetMaxLines(v)
+		f.historyBuffer.maxElements = v
 		if k == "ChatFrame2" then
 			COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not taint.
 		end
@@ -22,20 +22,28 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 				local num = buffer.headIndex
 				local prevElements = buffer.elements
 				local curTime = GetTime()
+				local restore = {
+					{message = "|cFF33FF99BasicChatMods|r: ---Begin chat restore---", timestamp = curTime},
+				}
 				for i = 1, #v do
 					local tbl = v[i]
 					tbl.timestamp = curTime -- Update timestamp on restored chat. If it's really old, it will show as hidden after the reload.
+					restore[#restore+1] = tbl
 				end
-				buffer:ReplaceElements(v) -- We want the chat history to show first, so replace all current chat
-				-- Add our little notifications
-				buffer:PushBack({message = "|cFF33FF99BasicChatMods|r: ---Begin chat restore---", timestamp = curTime})
-				buffer:PushFront({message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = curTime})
+				restore[#restore+1] = {message = "|cFF33FF99BasicChatMods|r: ---Chat restored from reload---", timestamp = curTime}
+
 				for i = 1, num do -- Restore any early chat we removed (usually addon prints)
 					local element = prevElements[i]
 					if element then -- Safety
 						element.timestamp = curTime
-						buffer:PushFront(element)
+						restore[#restore+1] = tbl
 					end
+				end
+
+				buffer.headIndex = #restore
+				for i = 1, #restore do
+					prevElements[i] = restore[i]
+					restore[i] = nil
 				end
 			end
 		end
