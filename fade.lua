@@ -5,8 +5,9 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Fade then return end
 
+	local LCA = LibStub("LibChatAnims")
 	local storedFuncs = {}
-	local master = 0
+	local values = {1}
 	-- Instead of just changing the global fading variables like we previously did,
 	-- we now cleanly securehook and do the fading ourself. This should prevent
 	-- any taints involved in passing those previously modified global variables to the UIFade functions,
@@ -15,11 +16,11 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local function CorrectAlphaValuesTextures(self)
 		if self:IsShown() then
-			local SetAlpha = storedFuncs[self]
+			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
 				local parent = self:GetParent()
 				local alpha = parent.oldAlpha or parent:GetParent().oldAlpha
-				if master == 0 then
+				if values[frameValue] == 0 then
 					SetAlpha(self, alpha)
 				else
 					SetAlpha(self, max(alpha, 0.25))
@@ -29,32 +30,32 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	local function CorrectAlphaValues(self)
 		if self:IsShown() then
-			local SetAlpha = storedFuncs[self]
+			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
-				SetAlpha(self, master)
+				SetAlpha(self, values[frameValue])
 			end
 		end
 	end
 	local function CorrectAlphaValuesScroll(self)
 		if self:IsShown() then
-			local SetAlpha = storedFuncs[self]
+			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
-				if master == 1 then
-					SetAlpha(self, master)
+				if values[frameValue] == 1 then
+					SetAlpha(self, 1)
 				elseif self:GetParent().AtBottom and self:GetParent():AtBottom() then
-					SetAlpha(self, master)
+					SetAlpha(self, values[frameValue])
 				end
 			end
 		end
 	end
 	local function CorrectAlphaValuesTab(self)
 		if self:IsShown() then
-			local SetAlpha = storedFuncs[self]
+			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
-				if master == 1 or self.alerting then
+				if values[frameValue] == 1 or self.alerting or LCA:IsAlerting(self) then
 					SetAlpha(self, 1)
 				else
-					SetAlpha(self, master)
+					SetAlpha(self, values[frameValue])
 				end
 			end
 		end
@@ -62,40 +63,43 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local GENERAL_CHAT_DOCK = GENERAL_CHAT_DOCK
 	local CHAT_FRAME_TEXTURES = CHAT_FRAME_TEXTURES
-	local object = GENERAL_CHAT_DOCK.overflowButton
-	if object then
-		storedFuncs[object] = object.SetAlpha
-		hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
+	do
+		local object = GENERAL_CHAT_DOCK.overflowButton
+		if object then
+			storedFuncs[object] = {object.SetAlpha, 1}
+			hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
+		end
 	end
 
-	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(chatFrame)
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(chatFrame, _, n)
+		values[n] = 1
 		local frameName = chatFrame:GetName()
 		for i = 1, #CHAT_FRAME_TEXTURES do
 			local value = CHAT_FRAME_TEXTURES[i]
 			local object = _G[frameName..value]
-			storedFuncs[object] = object.SetAlpha
+			storedFuncs[object] = {object.SetAlpha, n}
 			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesTextures)
 		end
 
 		local chatTab = _G[frameName.."Tab"]
-		storedFuncs[chatTab] = chatTab.SetAlpha
+		storedFuncs[chatTab] = {chatTab.SetAlpha, n}
 		hooksecurefunc(chatTab, "SetAlpha", CorrectAlphaValuesTab)
 
 		object = chatFrame.buttonFrame
 		if object then
-			storedFuncs[object] = object.SetAlpha
+			storedFuncs[object] = {object.SetAlpha, n}
 			hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
 		end
 
 		object = chatFrame.ScrollBar
 		if object then
-			storedFuncs[object] = object.SetAlpha
+			storedFuncs[object] = {object.SetAlpha, n}
 			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
 		end
 
 		object = chatFrame.ScrollToBottomButton
 		if object then
-			storedFuncs[object] = object.SetAlpha
+			storedFuncs[object] = {object.SetAlpha, n}
 			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
 		end
 	end
@@ -109,12 +113,16 @@ BCM.modules[#BCM.modules+1] = function()
 			end
 		end
 		if chatFrame == GENERAL_CHAT_DOCK.selected then
+			local id = chatFrame:GetID()
 			for i = 1, #GENERAL_CHAT_DOCK.DOCKED_CHAT_FRAMES do
 				local frame = GENERAL_CHAT_DOCK.DOCKED_CHAT_FRAMES[i]
 				if frame ~= chatFrame then
+					local frameId = frame:GetID()
+					values[frameId] = values[id]
 					FadeFunc(frame)
 				end
 			end
+			storedFuncs[GENERAL_CHAT_DOCK.overflowButton][2] = id
 			CorrectAlphaValues(GENERAL_CHAT_DOCK.overflowButton)
 		end
 
@@ -154,8 +162,8 @@ BCM.modules[#BCM.modules+1] = function()
 				if ( MOVING_CHATFRAME or chatFrame.ResizeButton:GetButtonState() == "PUSHED" or
 					(chatFrame.isDocked and GENERAL_CHAT_DOCK.overflowButton.list:IsShown()) or
 					(chatFrame.ScrollBar and chatFrame.ScrollBar:IsDraggingThumb())) then
-					if master == 0 then
-						master = 1
+					if values[i] == 0 then
+						values[i] = 1
 						FadeFunc(chatFrame)
 					end
 				--Things that will cause the frame to fade in if the mouse is stationary.
@@ -164,12 +172,12 @@ BCM.modules[#BCM.modules+1] = function()
 					(chatFrame.ScrollBar and (chatFrame.ScrollBar:IsDraggingThumb() or chatFrame.ScrollBar:IsMouseOver())) or
 					(chatFrame.ScrollToBottomButton and chatFrame.ScrollToBottomButton:IsMouseOver()) or
 					(chatFrame.buttonFrame:IsMouseOver())) then
-					if master == 0 then
-						master = 1
+					if values[i] == 0 then
+						values[i] = 1
 						FadeFunc(chatFrame)
 					end
-				elseif chatFrame:IsShown() and master == 1 then
-					master = 0
+				elseif values[i] ~= 0 then
+					values[i] = 0
 					FadeFunc(chatFrame)
 				end
 			end
