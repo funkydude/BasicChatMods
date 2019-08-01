@@ -133,15 +133,15 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		if i ~= 2 then --skip combatlog
 			local num = cF.historyBuffer.headIndex
 			if num > 0 then -- Catch up on any lines we missed during the log in process
-				for i = 1, num do
-					local tbl = cF.historyBuffer.elements[i]
+				for l = 1, num do
+					local tbl = cF.historyBuffer.elements[l]
 					local text = tbl.message
 					if text and text ~= "" then
 						text = tostring(text)
-						for i=1, #BCM.chatFuncs do
-							text = BCM.chatFuncs[i](text)
+						for f=1, #BCM.chatFuncs do
+							text = BCM.chatFuncs[f](text)
 						end
-						cF.historyBuffer.elements[i].message = text
+						cF.historyBuffer.elements[l].message = text
 					end
 				end
 			end
@@ -149,7 +149,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		end
 
 		for j=1, #BCM.chatFuncsPerFrame do
-			BCM.chatFuncsPerFrame[j](cF, n)
+			BCM.chatFuncsPerFrame[j](cF, n, i)
 		end
 	end
 
@@ -175,7 +175,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 
 				--Fire functions to apply to various frames
 				for j=1, #BCM.chatFuncsPerFrame do
-					BCM.chatFuncsPerFrame[j](cF, n)
+					BCM.chatFuncsPerFrame[j](cF, n, i)
 				end
 			else
 				return -- No frame found, stop looping and back out.
