@@ -7,7 +7,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local LCA = LibStub("LibChatAnims")
 	local storedFuncs = {}
-	local values = {1}
+	local values = {0}
 	-- Instead of just changing the global fading variables like we previously did,
 	-- we now cleanly securehook and do the fading ourself. This should prevent
 	-- any taints involved in passing those previously modified global variables to the UIFade functions,
@@ -72,7 +72,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(chatFrame, _, n)
-		values[n] = 1
+		values[n] = 0
 		local frameName = chatFrame:GetName()
 		for i = 1, #CHAT_FRAME_TEXTURES do
 			local value = CHAT_FRAME_TEXTURES[i]
