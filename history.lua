@@ -10,7 +10,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 		local f = _G[k]
 		f.historyBuffer.maxElements = v
 		if k == "ChatFrame2" then
-			COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not taint.
+			COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not cause taint issues.
 		end
 	end
 
@@ -36,7 +36,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 					local element = prevElements[i]
 					if element then -- Safety
 						element.timestamp = curTime
-						restore[#restore+1] = tbl
+						restore[#restore+1] = element
 					end
 				end
 
@@ -98,4 +98,3 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 		BCM.Events:RegisterEvent("LOADING_SCREEN_ENABLED")
 	end
 end
-
