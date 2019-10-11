@@ -19,7 +19,7 @@ BCM.modules[#BCM.modules+1] = function()
 			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
 				local parent = self:GetParent()
-				local alpha = parent.oldAlpha or parent:GetParent().oldAlpha
+				local alpha = parent.oldAlpha or parent:GetParent().oldAlpha or 0.25
 				if values[frameValue] == 0 then
 					SetAlpha(self, alpha)
 				else
@@ -71,39 +71,6 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end
 
-	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(chatFrame, _, n)
-		values[n] = 0
-		local frameName = chatFrame:GetName()
-		for i = 1, #CHAT_FRAME_TEXTURES do
-			local value = CHAT_FRAME_TEXTURES[i]
-			local object = _G[frameName..value]
-			storedFuncs[object] = {object.SetAlpha, n}
-			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesTextures)
-		end
-
-		local chatTab = _G[frameName.."Tab"]
-		storedFuncs[chatTab] = {chatTab.SetAlpha, n}
-		hooksecurefunc(chatTab, "SetAlpha", CorrectAlphaValuesTab)
-
-		object = chatFrame.buttonFrame
-		if object then
-			storedFuncs[object] = {object.SetAlpha, n}
-			hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
-		end
-
-		object = chatFrame.ScrollBar
-		if object then
-			storedFuncs[object] = {object.SetAlpha, n}
-			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
-		end
-
-		object = chatFrame.ScrollToBottomButton
-		if object then
-			storedFuncs[object] = {object.SetAlpha, n}
-			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
-		end
-	end
-
 	local function FadeFunc(chatFrame)
 		local frameName = chatFrame:GetName()
 		for i = 1, #CHAT_FRAME_TEXTURES do
@@ -145,10 +112,54 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end
 
-	local refs = BCM.chatFrameRefs
-	local CombatLogQuickButtonFrame_Custom = CombatLogQuickButtonFrame_Custom
 	local f = CreateFrame("Frame")
-	f:Show()
+	local refs = BCM.chatFrameRefs
+	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(chatFrame, _, n)
+		values[n] = 0
+		local frameName = chatFrame:GetName()
+		for i = 1, #CHAT_FRAME_TEXTURES do
+			local value = CHAT_FRAME_TEXTURES[i]
+			local object = _G[frameName..value]
+			storedFuncs[object] = {object.SetAlpha, n}
+			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesTextures)
+		end
+
+		local chatTab = _G[frameName.."Tab"]
+		storedFuncs[chatTab] = {chatTab.SetAlpha, n}
+		hooksecurefunc(chatTab, "SetAlpha", CorrectAlphaValuesTab)
+
+		object = chatFrame.buttonFrame
+		if object then
+			storedFuncs[object] = {object.SetAlpha, n}
+			hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
+		end
+
+		object = chatFrame.ScrollBar
+		if object then
+			storedFuncs[object] = {object.SetAlpha, n}
+			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
+		end
+
+		object = chatFrame.ScrollToBottomButton
+		if object then
+			storedFuncs[object] = {object.SetAlpha, n}
+			hooksecurefunc(object, "SetAlpha", CorrectAlphaValuesScroll)
+		end
+
+		if n == 10 then
+			for i = 1, 9 do
+				local frame = refs[i]
+				FadeFunc(frame)
+			end
+			FadeFunc(chatFrame)
+			f:Show()
+		elseif n > 10 then
+			FadeFunc(chatFrame)
+		end
+	end
+
+	local CombatLogQuickButtonFrame_Custom = CombatLogQuickButtonFrame_Custom
+	f:Hide()
 	-- We are competing with FCF_OnUpdate (from where this code is copied)
 	f:SetScript("OnUpdate", function()
 		for i=1, BCM.chatFrames do
