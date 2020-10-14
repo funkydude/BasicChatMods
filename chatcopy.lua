@@ -43,7 +43,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	--Create Frames/Objects
-	local frame = CreateFrame("Frame", "BCMCopyFrame", UIParent)
+	local frame = CreateFrame("Frame", "BCMCopyFrame", UIParent, "BackdropTemplate")
 	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 		tile = true, tileSize = 16, edgeSize = 16,
