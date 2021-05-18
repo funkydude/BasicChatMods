@@ -7,10 +7,12 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if not bcmDB.playerLBrack then bcmDB.playerLBrack = "[" bcmDB.playerRBrack = "]" bcmDB.playerSeparator = ":" end
 
-	local GetAccountInfoByID = C_BattleNet.GetAccountInfoByID
 	local changeBNetName = function(icon, misc, id, moreMisc, fakeName, tag, colon)
-		local accountInfoTbl = GetAccountInfoByID(id)
-		local battleTag, englishClass = accountInfoTbl.battleTag, accountInfoTbl.gameAccountInfo.className
+		local _, _, battleTag, _, _, bnetIDGameAccount = BNGetFriendInfoByID(id)
+		local englishClass
+		if bnetIDGameAccount then
+			_, _, _, _, _, _, _, englishClass = BNGetGameAccountInfo(bnetIDGameAccount)
+		end
 
 		if bcmDB.noRealName then -- Replace real name with battle tag if enabled
 			fakeName = battleTag:gsub("^(.+)#%d+$", "%1")
