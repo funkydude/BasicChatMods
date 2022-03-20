@@ -179,7 +179,7 @@ BCM.modules[#BCM.modules+1] = function()
 					end
 				--Things that will cause the frame to fade in if the mouse is stationary.
 				elseif (chatFrame:IsMouseOver(topOffset, -2, -2, 2) or --This should be slightly larger than the hit rect insets to give us some wiggle room.
-					(chatFrame.isDocked and QuickJoinToastButton:IsMouseOver()) or
+					--(chatFrame.isDocked and QuickJoinToastButton:IsMouseOver()) or
 					(chatFrame.ScrollBar and (chatFrame.ScrollBar:IsDraggingThumb() or chatFrame.ScrollBar:IsMouseOver())) or
 					(chatFrame.ScrollToBottomButton and chatFrame.ScrollToBottomButton:IsMouseOver()) or
 					(chatFrame.buttonFrame:IsMouseOver())) then
