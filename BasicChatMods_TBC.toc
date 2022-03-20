@@ -42,14 +42,14 @@ BasicConfig.lua
 
 history.lua
 
-AltInvite.lua
+AltInvite_Classic.lua
 autolog.lua
-bnet.lua
-buttons.lua
+bnet_Classic.lua
+buttons_Classic.lua
 channelnames.lua
 chatcopy.lua
 editbox.lua
-fade.lua
+fade_Classic.lua
 font.lua
 gmotd.lua
 highlight.lua
