@@ -1,0 +1,65 @@
+## Interface: 20503
+## Title: BasicChatMods
+## Author: Funkydude
+## Version: @project-version@
+## Notes: Basic Chat Mods
+## Notes-zhCN: Basic Chat Mods
+## Notes-zhTW: Basic Chat Mods
+## Notes-deDE: Basic Chat Mods
+## Notes-frFR: Basic Chat Mods
+## Notes-itIT: Basic Chat Mods
+## Notes-koKR: Basic Chat Mods
+## Notes-ruRU: Basic Chat Mods
+## Notes-ptBR: Basic Chat Mods
+## Notes-esES: Basic Chat Mods
+## Notes-esMX: Basic Chat Mods
+## SavedVariables: bcmDB
+
+## X-Credits: Rabbit & Ammo (SimpleChatMods)
+## X-Category: Chat/Communication
+## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.
+## X-Curse-Project-ID: 13504
+## X-WoWI-ID: 11290
+
+## OptionalDeps: LibChatAnims
+## X-Embeds: LibChatAnims
+
+embeds.xml
+
+Locales\enUS.lua
+Locales\deDE.lua
+Locales\koKR.lua
+Locales\frFR.lua
+Locales\ruRU.lua
+Locales\zhCN.lua
+Locales\esES.lua
+Locales\zhTW.lua
+Locales\itIT.lua
+Locales\ptBR.lua
+
+BasicCore.lua
+BasicConfig.lua
+
+history.lua
+
+AltInvite.lua
+autolog.lua
+bnet.lua
+buttons.lua
+channelnames.lua
+chatcopy.lua
+editbox.lua
+fade.lua
+font.lua
+gmotd.lua
+highlight.lua
+justify.lua
+playernames.lua
+resize.lua
+scrolldown.lua
+smartgroup.lua
+sticky.lua
+telltarget.lua
+timestamp.lua
+urlcopy.lua
+
