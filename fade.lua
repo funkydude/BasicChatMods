@@ -128,7 +128,7 @@ BCM.modules[#BCM.modules+1] = function()
 		storedFuncs[chatTab] = {chatTab.SetAlpha, n}
 		hooksecurefunc(chatTab, "SetAlpha", CorrectAlphaValuesTab)
 
-		object = chatFrame.buttonFrame
+		local object = chatFrame.buttonFrame
 		if object then
 			storedFuncs[object] = {object.SetAlpha, n}
 			hooksecurefunc(object, "SetAlpha", CorrectAlphaValues)
