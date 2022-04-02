@@ -12,7 +12,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	if bcmDB.logcombat then
 		local isLoggingCombat = nil
-		BCM.Events.ZONE_CHANGED_NEW_AREA = function()
+		BCM.Events.PLAYER_ENTERING_WORLD = function()
 			local _, type = GetInstanceInfo()
 			if type == "raid" then
 				if not isLoggingCombat then
@@ -28,8 +28,8 @@ BCM.modules[#BCM.modules+1] = function()
 				end
 			end
 		end
-		BCM.Events:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		BCM.Events.ZONE_CHANGED_NEW_AREA()
+		BCM.Events:RegisterEvent("PLAYER_ENTERING_WORLD")
+		BCM.Events.PLAYER_ENTERING_WORLD()
 	end
 end
 
