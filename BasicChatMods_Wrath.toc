@@ -20,6 +20,7 @@
 ## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.
 ## X-Curse-Project-ID: 13504
 ## X-WoWI-ID: 11290
+## X-Wago-ID: 9rN4PrND
 
 ## OptionalDeps: LibChatAnims
 ## X-Embeds: LibChatAnims
