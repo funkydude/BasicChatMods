@@ -13,7 +13,6 @@ L["BCM_Font"] = "Change le style, la taille et le nom de la police d'écriture d
 L["BCM_GMOTD"] = "Affiche à nouveau le message de guilde du jour dans la fenêtre de discussion principale après 10 secondes."
 L["BCM_Highlight"] = "Joue un son quand votre nom est mentionné dans une discussion et le colorie selon votre classe. Vous pouvez entrer la version courte de votre nom dans la saisie ci-dessous."
 -- L["BCM_History"] = ""
-L["BCM_InviteLinks"] = "Reste à l'affût du mot 'invite' et convertit ce dernier en un lien ALT-cliquable qui invite cette personne. Exemple : |cFFFF7256[invite]|r"
 L["BCM_Justify"] = "Justifie le texte des diverses fenêtres de discussion à droite, à gauche ou au centre de la fenêtre."
 -- L["BCM_PlayerNames"] = ""
 L["BCM_Resize"] = "Vous permet de changer la taille du cadre de discussion dans des dimensions plus petites/plus grandes que celles autorisées par Blizzard."
@@ -50,4 +49,4 @@ L["TRADE"] = "Commerce"
 L["WARNING"] = "<<Les changements effectués nécessite un /reload pour prendre effet>>"
 L["WORLDDEFENSE"] = "DéfenseUniverselle"
 
---BCM.protectedText = "<Protected Text>"
+--L.protectedText = "<Protected Text>"

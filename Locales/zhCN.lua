@@ -13,7 +13,6 @@ L["BCM_EditBox"] = "自定义输入框（就是你输入文字的地方），例
 -- L["BCM_GMOTD"] = ""
 -- L["BCM_Highlight"] = ""
 L["BCM_History"] = "选择聊天框体记忆多少行聊天记录。"
--- L["BCM_InviteLinks"] = ""
 -- L["BCM_Justify"] = ""
 L["BCM_PlayerNames"] = "用玩家等级/队伍（如果可知）或者移除/改变括号在聊天框中自定义玩家名字.例如[85:|cFFFFFFFFCoolPriest|r:5]"
 L["BCM_Resize"] = "允许改变聊天框，使它比暴雪允许的更小/更大。"
@@ -50,4 +49,4 @@ L["TRADE"] = "交易"
 L["WARNING"] = "<<你改变的设置需要/relaod才能生效>>"
 L["WORLDDEFENSE"] = "世界防御"
 
---BCM.protectedText = "<Protected Text>"
+--L.protectedText = "<Protected Text>"

@@ -13,7 +13,6 @@ local _, L = ...
 -- L["BCM_GMOTD"] = ""
 -- L["BCM_Highlight"] = ""
 -- L["BCM_History"] = ""
--- L["BCM_InviteLinks"] = ""
 -- L["BCM_Justify"] = ""
 -- L["BCM_PlayerNames"] = ""
 -- L["BCM_Resize"] = ""
@@ -50,4 +49,4 @@ local _, L = ...
 -- L["WARNING"] = ""
 -- L["WORLDDEFENSE"] = ""
 
---BCM.protectedText = "<Protected Text>"
+--L.protectedText = "<Protected Text>"
