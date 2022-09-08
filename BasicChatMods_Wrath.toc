@@ -45,7 +45,7 @@ history.lua
 
 AltInvite_Classic.lua
 autolog.lua
-bnet_Classic.lua
+bnet.lua
 buttons_Classic.lua
 channelnames.lua
 chatcopy.lua
