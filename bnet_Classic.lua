@@ -15,7 +15,15 @@ BCM.modules[#BCM.modules+1] = function()
 			_, _, _, _, _, _, _, englishClass = BNGetGameAccountInfo(bnetIDGameAccount)
 		end
 
-		if bcmDB.noRealName then -- Replace real name with battle tag if enabled
+		if not battleTag then
+			local msg = "Tell the BasicChatMods dev: ERROR battleTag was nil!"
+			print(msg)
+			geterrorhandler()(msg)
+		elseif battleTag == "" then
+			local msg = "Tell the BasicChatMods dev: ERROR battleTag was blank!"
+			print(msg)
+			geterrorhandler()(msg)
+		elseif bcmDB.noRealName then -- Replace real name with battle tag if enabled
 			fakeName = battleTag:gsub("^(.+)#%d+$", "%1")
 		end
 
