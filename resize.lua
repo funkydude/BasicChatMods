@@ -7,8 +7,12 @@ BCM.modules[#BCM.modules+1] = function()
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(cF)
 		--Allow resizing chatframes to whatever size you wish!
-		cF:SetMinResize(100,10)
-		cF:SetMaxResize(0,0)
+		if cF.SetResizeBounds then -- XXX Dragonflight compat
+			cF:SetResizeBounds(100, 10, 0, 0)
+		else
+			cF:SetMinResize(100,10)
+			cF:SetMaxResize(0,0)
+		end
 	end
 end
 

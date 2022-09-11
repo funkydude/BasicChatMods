@@ -451,8 +451,8 @@ BCM.modules[#BCM.modules+1] = function()
 					local cF = _G[format("%s%d", "ChatFrame", i)]
 					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local _, size = cF:GetFont()
-					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
-					cFE:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag)
+					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag or "")
+					cFE:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag or "")
 				end
 			end
 			local lsm = LibStub and LibStub("LibSharedMedia-3.0", true)
@@ -502,8 +502,8 @@ BCM.modules[#BCM.modules+1] = function()
 				local cF = _G[format("%s%d", "ChatFrame", i)]
 				local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 				local fName = cF:GetFont()
-				cF:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag)
-				cFE:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag)
+				cF:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag or "")
+				cFE:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag or "")
 			end
 		end)
 		BCM_FontSizeHigh:SetText(20)
@@ -518,7 +518,7 @@ BCM.modules[#BCM.modules+1] = function()
 		fontFlag.initialize = function()
 			local selected, info = BCM_FontFlagText:GetText(), wipe(BCM.info)
 			info.func = function(v) BCM_FontFlagText:SetText(v:GetText())
-				if v.value == NONE then 
+				if v.value == NONE then
 					bcmDB.fontflag = nil
 				else
 					bcmDB.fontflag = v.value
@@ -527,8 +527,8 @@ BCM.modules[#BCM.modules+1] = function()
 					local cF = _G[format("%s%d", "ChatFrame", i)]
 					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local fName, size = cF:GetFont()
-					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
-					cFE:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag)
+					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag or "")
+					cFE:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag or "")
 				end
 			end
 			local tbl = {NONE, "OUTLINE", "THICKOUTLINE", "MONOCHROME"}
