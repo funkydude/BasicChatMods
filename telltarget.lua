@@ -8,7 +8,7 @@ BCM.modules[#BCM.modules+1] = function()
 	SlashCmdList["TELLTARGET"] = function(msg)
 		if UnitIsPlayer("target") and UnitIsFriend("player", "target") and msg and msg:len() > 0 then
 			local name, realm = UnitName("target")
-			if realm then
+			if realm and realm ~= "" then
 				name = name.."-"..realm
 			end
 			SendChatMessage(msg, "WHISPER", nil, name)
