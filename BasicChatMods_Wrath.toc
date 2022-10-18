@@ -55,7 +55,7 @@ font.lua
 gmotd.lua
 highlight.lua
 justify.lua
-playernames.lua
+playernames_Wrath.lua
 resize.lua
 scrolldown.lua
 smartgroup.lua
