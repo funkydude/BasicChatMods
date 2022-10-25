@@ -11,7 +11,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local onShow = function(frame)
 		--Don't move recycled widgets when opening the main BCM panel
-		if InterfaceOptionsFramePanelContainer.displayedPanel and InterfaceOptionsFramePanelContainer.displayedPanel.name == name then return end
+		if _G.BCM:IsShown() then return end
 		local panel = frame:GetName()
 
 		local btn = BCMEnableButton
@@ -97,7 +97,14 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	--[[ Slash handler ]]--
-	SlashCmdList[name] = function() InterfaceOptionsFrame_OpenToCategory(name) InterfaceOptionsFrame_OpenToCategory(name) end
+	SlashCmdList[name] = function()
+		if Settings then -- XXX Dragonflight
+			Settings.OpenToCategory(name)
+		else
+			InterfaceOptionsFrame_OpenToCategory(name)
+			InterfaceOptionsFrame_OpenToCategory(name)
+		end
+	end
 	SLASH_BasicChatMods1 = "/bcm"
 
 	--[[ Main Panel ]]--
