@@ -176,7 +176,7 @@ BCM.modules[#BCM.modules+1] = function()
 		return "|Hplayer:"..fullName..misc..bcmDB.playerLBrack..nameToChange..bcmDB.playerRBrack..(colon == ":" and bcmDB.playerSeparator or colon).."|h"
 	end
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
-		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h(:?)", changeName)
+		text = text:gsub("|Hplayer:([^:|]+)([^ %[]+)%[([^%]]+)%]|h(:?)", changeName)
 		return text
 	end
 end
