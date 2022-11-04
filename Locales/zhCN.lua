@@ -46,7 +46,7 @@ L["SHOWLEVELS"] = "玩家等级在名字旁边显示"
 L["SIZE"] = "大小"
 L["TOP"] = "顶部"
 L["TRADE"] = "交易"
-L["WARNING"] = "<<你改变的设置需要 /relaod 重载界面后方可生效>>"
+L["WARNING"] = "<<你改变的设置需要 /reload 重载界面后方可生效>>"
 L["WORLDDEFENSE"] = "世界防务"
 
 L.protectedText = "<加密文本>"
