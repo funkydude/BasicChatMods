@@ -50,3 +50,4 @@ L["WARNING"] = "<<更改的設定需要 /reload 重載介面才會生效>>"
 L["WORLDDEFENSE"] = "世界防務"
 
 L.protectedText = "<受保護的文本>"
+--L.TRADE_SERVICES = "Trade (Services)"

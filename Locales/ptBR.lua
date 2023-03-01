@@ -50,3 +50,4 @@ local _, L = ...
 -- L["WORLDDEFENSE"] = ""
 
 --L.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"

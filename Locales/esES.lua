@@ -50,3 +50,4 @@ L["WARNING"] = "<<Los cambios realizados requieren a volver a cargar la interfaz
 L["WORLDDEFENSE"] = "DefensaGeneral"
 
 --L.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"

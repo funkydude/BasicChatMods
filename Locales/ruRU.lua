@@ -50,3 +50,4 @@ L["WARNING"] = "<<Внесенные вами изменения требуют 
 L["WORLDDEFENSE"] = "Оборона: глобальный"
 
 L.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"

@@ -59,3 +59,4 @@ L["PLAYERBRACKETS"] = "플레이어 괄호:"
 L["CLICKTOCOPY"] = "Shift-클릭으로 대화를 복사합니다."
 
 --BCM.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"

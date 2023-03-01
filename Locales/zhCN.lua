@@ -50,3 +50,4 @@ L["WARNING"] = "<<你改变的设置需要 /reload 重载界面后方可生效>>
 L["WORLDDEFENSE"] = "世界防务"
 
 L.protectedText = "<被保护的文本>"
+--L.TRADE_SERVICES = "Trade (Services)"

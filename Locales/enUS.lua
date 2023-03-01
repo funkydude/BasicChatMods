@@ -42,6 +42,7 @@ L.CENTER = "Center"
 
 L.GENERAL = "General"
 L.TRADE = "Trade"
+L.TRADE_SERVICES = "Trade (Services)"
 L.WORLDDEFENSE = "WorldDefense"
 L.LOCALDEFENSE = "LocalDefense"
 L.LFG = "LookingForGroup"

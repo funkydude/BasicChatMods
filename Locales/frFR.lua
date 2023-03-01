@@ -50,3 +50,4 @@ L["WARNING"] = "<<Les changements effectués nécessite un /reload pour prendre 
 L["WORLDDEFENSE"] = "DéfenseUniverselle"
 
 --L.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"

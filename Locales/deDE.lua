@@ -30,7 +30,7 @@ L["CHATLOG"] = "Chat immer aufzeichnen."
 L["CLICKTOCOPY"] = "Shift-Klick, um den Chat zu kopieren."
 L["COLORMISC"] = "Freund-/Gilden-Einloggung in Klassenfarben."
 L["COMBATLOG"] = "Kampflog in Schlachtzugsinstanzen aufzeichnen."
-L["CORE"] = [=[Willkommen bei BasicChatMods, ein einfacher und modularer Ansatz zur Chat-Anpassung. Aufgrund der Art, wie BCM gestaltet ist, könnte ein /reload für manche Änderungen benötigt werden. 
+L["CORE"] = [=[Willkommen bei BasicChatMods, ein einfacher und modularer Ansatz zur Chat-Anpassung. Aufgrund der Art, wie BCM gestaltet ist, könnte ein /reload für manche Änderungen benötigt werden.
 
 Standardmäßig wird dir BCM erlauben, deine Chatfenster an den äußersten Rand des Bildschirms zu ziehen, die verbleibende Anpassung wird in den Modulen von BCM gemacht, welche, je nach Wunsch, aktiviert oder deaktiviert werden können.
 
@@ -54,3 +54,4 @@ L["WARNING"] = "<<Die Änderungen werden erst nach einem /reload wirksam>>"
 L["WORLDDEFENSE"] = "Weltverteidigung"
 
 --L.protectedText = "<Protected Text>"
+--L.TRADE_SERVICES = "Trade (Services)"
