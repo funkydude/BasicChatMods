@@ -1,4 +1,4 @@
-## Interface: 100007
+## Interface: 100100
 ## Title: BasicChatMods
 ## Author: Funkydude
 ## Version: @project-version@
