@@ -5,10 +5,8 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_ChatCopy then return end
 
-	local BCMCopyFrame
-
 	local scrollDown = function()
-		BCMCopyFrame.scroll:SetVerticalScroll((BCMCopyFrame.scroll:GetVerticalScrollRange()) or 0)
+		BCMCopyScroll:SetVerticalScroll((BCMCopyScroll:GetVerticalScrollRange()) or 0)
 	end
 
 	--Copying Functions
@@ -28,7 +26,7 @@ BCM.modules[#BCM.modules+1] = function()
 		text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
 		BCMCopyFrame.box:SetText(text)
 		BCMCopyFrame:Show()
-		C_Timer.After(0, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
+		C_Timer.After(0.25, scrollDown) -- Scroll to the bottom, we have to delay it unfortunately
 	end
 	local tt = CreateFrame("GameTooltip", "BCMtooltip", UIParent, "GameTooltipTemplate")
 	local hintFuncEnter = function(frame)
@@ -38,45 +36,50 @@ BCM.modules[#BCM.modules+1] = function()
 		tt:AddLine("|T135769:20|t"..BCM.CLICKTOCOPY, 1, 0, 0) -- Interface\\Icons\\Spell_ChargePositive
 		tt:Show()
 	end
-	local hintFuncLeave = function()
+	local hintFuncLeave = function(frame)
 		if bcmDB.noChatCopyTip then return end
 
 		tt:Hide()
 	end
 
 	--Create Frames/Objects
-	BCMCopyFrame = CreateFrame("Frame", nil, UIParent, "SettingsFrameTemplate")
-	BCMCopyFrame:SetWidth(750)
-	BCMCopyFrame:SetHeight(600)
-	BCMCopyFrame:SetPoint("CENTER", UIParent, "CENTER")
-	BCMCopyFrame:Hide()
-	BCMCopyFrame:SetFrameStrata("DIALOG")
-	BCMCopyFrame.NineSlice.Text:SetText("BasicChatMods")
+	local frame = CreateFrame("Frame", "BCMCopyFrame", UIParent, "BackdropTemplate")
+	frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+		tile = true, tileSize = 16, edgeSize = 16,
+		insets = {left = 1, right = 1, top = 1, bottom = 1}}
+	)
+	frame:SetBackdropColor(0,0,0,1)
+	frame:SetWidth(650)
+	frame:SetHeight(500)
+	frame:SetPoint("CENTER", UIParent, "CENTER")
+	frame:Hide()
+	frame:SetFrameStrata("DIALOG")
 
-	local scrollArea = CreateFrame("ScrollFrame", nil, BCMCopyFrame, "ScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", BCMCopyFrame, "TOPLEFT", 8, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", BCMCopyFrame, "BOTTOMRIGHT", -25, 5)
-	scrollArea.ScrollBar:SetPanExtentPercentage(0.01)
-	scrollArea.ScrollBar.SetPanExtentPercentage = function() end
+	local scrollArea = CreateFrame("ScrollFrame", "BCMCopyScroll", frame, "UIPanelScrollFrameTemplate")
+	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -5)
+	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 5)
 
-	local editBox = CreateFrame("EditBox", nil, BCMCopyFrame)
+	local editBox = CreateFrame("EditBox", nil, frame)
 	editBox:SetMultiLine(true)
-	editBox:SetMaxLetters(0)
+	editBox:SetMaxLetters(99999)
 	editBox:EnableMouse(true)
 	editBox:SetAutoFocus(false)
 	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetWidth(720)
-	editBox:SetHeight(595)
+	editBox:SetWidth(620)
+	editBox:SetHeight(495)
 	editBox:SetScript("OnEscapePressed", function(f) f:GetParent():GetParent():Hide() f:SetText("") end)
 
 	scrollArea:SetScrollChild(editBox)
 
-	local font = BCMCopyFrame:CreateFontString(nil, nil, "GameFontNormal")
+	local close = CreateFrame("Button", "BCMCloseButton", frame, "UIPanelCloseButton")
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 25)
+
+	local font = frame:CreateFontString(nil, nil, "GameFontNormal")
 	font:Hide()
 
 	BCMCopyFrame.font = font
 	BCMCopyFrame.box = editBox
-	BCMCopyFrame.scroll = scrollArea
 
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(_, n)
 		local tab = _G[n.."Tab"]
