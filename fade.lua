@@ -172,7 +172,7 @@ BCM.modules[#BCM.modules+1] = function()
 				--Items that will always cause the frame to fade in.
 				if ( MOVING_CHATFRAME or chatFrame.ResizeButton:GetButtonState() == "PUSHED" or
 					(chatFrame.isDocked and GENERAL_CHAT_DOCK.overflowButton.list:IsShown()) or
-					(chatFrame.ScrollBar and chatFrame.ScrollBar:IsDraggingThumb())) then
+					(chatFrame.ScrollBar and chatFrame.ScrollBar:IsThumbMouseDown())) then
 					if values[i] == 0 then
 						values[i] = 1
 						FadeFunc(chatFrame)
@@ -180,7 +180,7 @@ BCM.modules[#BCM.modules+1] = function()
 				--Things that will cause the frame to fade in if the mouse is stationary.
 				elseif (chatFrame:IsMouseOver(topOffset, -2, -2, 2) or --This should be slightly larger than the hit rect insets to give us some wiggle room.
 					(chatFrame.isDocked and QuickJoinToastButton:IsMouseOver()) or
-					(chatFrame.ScrollBar and (chatFrame.ScrollBar:IsDraggingThumb() or chatFrame.ScrollBar:IsMouseOver())) or
+					(chatFrame.ScrollBar and (chatFrame.ScrollBar:IsThumbMouseDown() or chatFrame.ScrollBar:IsMouseOver())) or
 					(chatFrame.ScrollToBottomButton and chatFrame.ScrollToBottomButton:IsMouseOver()) or
 					(chatFrame.buttonFrame:IsMouseOver())) then
 					if values[i] == 0 then
