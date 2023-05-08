@@ -56,8 +56,6 @@ BCM.modules[#BCM.modules+1] = function()
 	local scrollArea = CreateFrame("ScrollFrame", nil, BCMCopyFrame, "ScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", BCMCopyFrame, "TOPLEFT", 8, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", BCMCopyFrame, "BOTTOMRIGHT", -25, 5)
-	scrollArea.ScrollBar:SetPanExtentPercentage(0.01)
-	scrollArea.ScrollBar.SetPanExtentPercentage = function() end
 
 	local editBox = CreateFrame("EditBox", nil, BCMCopyFrame)
 	editBox:SetMultiLine(true)
