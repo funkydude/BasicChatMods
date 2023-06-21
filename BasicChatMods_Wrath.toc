@@ -1,4 +1,4 @@
-## Interface: 30401
+## Interface: 30402
 ## Title: BasicChatMods
 ## Author: Funkydude
 ## Version: @project-version@
