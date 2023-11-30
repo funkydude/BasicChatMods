@@ -48,7 +48,7 @@ autolog.lua
 bnet.lua
 buttons_Classic.lua
 channelnames.lua
-chatcopy_Classic.lua
+chatcopy.lua
 editbox.lua
 fade_Classic.lua
 font.lua
