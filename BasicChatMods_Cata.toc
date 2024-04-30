@@ -1,4 +1,4 @@
-## Interface: 11502
+## Interface: 40400
 ## Title: BasicChatMods
 ## Author: Funkydude
 ## Version: @project-version@
@@ -45,7 +45,7 @@ history.lua
 
 AltInvite_Classic.lua
 autolog.lua
-bnet_Classic.lua
+bnet.lua
 buttons_Classic.lua
 channelnames.lua
 chatcopy.lua
@@ -55,7 +55,7 @@ font.lua
 gmotd.lua
 highlight.lua
 justify.lua
-playernames.lua
+playernames_Wrath.lua
 resize.lua
 scrolldown.lua
 smartgroup.lua
