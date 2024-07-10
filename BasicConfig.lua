@@ -91,34 +91,45 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 	local makePanel = function(frameName, bcm, panelName)
 		local panel = CreateFrame("Frame", frameName, bcm)
-		panel.name, panel.parent = panelName, name
+		panel.name, panel.parent = panelName, bcm.name
 		panel:SetScript("OnShow", onShow)
-		InterfaceOptions_AddCategory(panel)
-	end
-
-	--[[ Slash handler ]]--
-	SlashCmdList[name] = function()
-		if Settings then -- XXX Dragonflight
-			Settings.OpenToCategory(name)
+		if InterfaceOptions_AddCategory then -- XXX compat
+			InterfaceOptions_AddCategory(panel)
 		else
-			InterfaceOptionsFrame_OpenToCategory(name)
-			InterfaceOptionsFrame_OpenToCategory(name)
+			local subcategory = Settings.RegisterCanvasLayoutSubcategory(bcm.settingsCategory, panel, panelName)
+			Settings.RegisterAddOnCategory(subcategory)
 		end
 	end
-	SLASH_BasicChatMods1 = "/bcm"
 
 	--[[ Main Panel ]]--
 	local bcm = CreateFrame("Frame", "BCM", InterfaceOptionsFramePanelContainer)
 	bcm.name = name
-	InterfaceOptions_AddCategory(bcm)
+	if InterfaceOptions_AddCategory then -- XXX compat
+		InterfaceOptions_AddCategory(bcm)
+	else
+		local category = Settings.RegisterCanvasLayoutCategory(bcm, bcm.name)
+		bcm.settingsCategory = category
+		Settings.RegisterAddOnCategory(category)
+	end
 	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 	bcmTitle:SetPoint("CENTER", bcm, "TOP", 0, -30)
-	bcmTitle:SetText(name.." @project-version@") --wowace magic, replaced with tag version
+	bcmTitle:SetText(name.." @project-version@") -- packager magic, replaced with tag version
 	local bcmDesc = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	bcmDesc:SetPoint("CENTER")
 	bcmDesc:SetText(BCM.CORE)
 	bcmDesc:SetWidth(450)
 	bcmDesc:SetJustifyH("CENTER")
+
+	--[[ Slash handler ]]--
+	SlashCmdList[name] = function()
+		if InterfaceOptionsFrame_OpenToCategory then -- XXX compat
+			InterfaceOptionsFrame_OpenToCategory(name)
+			InterfaceOptionsFrame_OpenToCategory(name)
+		else
+			Settings.OpenToCategory(bcm.settingsCategory.ID)
+		end
+	end
+	SLASH_BasicChatMods1 = "/bcm"
 
 	--[[ The main enable button, enable text, and panel description that all modules use, recycled ]]--
 	local panelDesc = bcm:CreateFontString("BCMPanelDesc", "ARTWORK", "GameFontNormalLarge")
