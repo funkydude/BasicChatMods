@@ -27,4 +27,3 @@ BCM.modules[#BCM.modules+1] = function()
 		btnFrame:Hide() --Hide the up/down arrows
 	end
 end
-

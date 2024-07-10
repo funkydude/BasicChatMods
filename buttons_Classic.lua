@@ -23,6 +23,10 @@ BCM.modules[#BCM.modules+1] = function()
 		local btnFrame = _G[n.."ButtonFrame"]
 		btnFrame:HookScript("OnShow", hideFunc) --Hide the up/down arrows
 		btnFrame:Hide() --Hide the up/down arrows
+		local minimizeButton = _G[n.."MinimizeButton"]
+		if minimizeButton then
+			minimizeButton:HookScript("OnShow", hideFunc) --Hide the minimize button
+			minimizeButton:Hide() --Hide the minimize button
+		end
 	end
 end
-
