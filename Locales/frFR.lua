@@ -51,3 +51,4 @@ L["WORLDDEFENSE"] = "DéfenseUniverselle"
 
 --L.protectedText = "<Protected Text>"
 --L.TRADE_SERVICES = "Trade (Services)"
+--L.NEWCOMER = "Newcomer Chat"

@@ -55,7 +55,7 @@ BCM.modules[#BCM.modules+1] = function()
 			BCM_PlayerSeparator:SetText(bcmDB.playerSeparator)
 		elseif panel == "BCM_ChannelNames" and BCM_ChanName_Input then
 			BCM_ChanName_Input:SetText("1234567890")
-			BCM_ChanName_Input:SetText(bcmDB.shortNames[1])
+			BCM_ChanName_Input:SetText(bcmDB.shorterNames[1])
 		elseif panel == "BCM_PlayerNames" and BCM_PlayerLevel_Button then
 			BCM_PlayerBrackDesc:SetParent(frame)
 			BCM_PlayerBrackDesc:SetPoint("TOPLEFT", 16, -240)
@@ -316,10 +316,10 @@ BCM.modules[#BCM.modules+1] = function()
 				local input = BCM_ChanName_Input
 				input:EnableMouse(true)
 				input:SetText("1234567890") --for some reason the text wont display without calling something long
-				input:SetText(bcmDB.shortNames[v.value])
+				input:SetText(bcmDB.shorterNames[v.value])
 				input.value = v.value
 			end
-			local tbl = {BCM.GENERAL, BCM.TRADE_SERVICES, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.GUILDRECRUIT, INSTANCE_CHAT, INSTANCE_CHAT_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL}
+			local tbl = {BCM.GENERAL, BCM.TRADE_SERVICES, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.NEWCOMER_CHAT, BCM.GUILDRECRUIT, INSTANCE_CHAT, INSTANCE_CHAT_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL}
 			for i=1, #tbl do
 				info.text = tbl[i]
 				info.value = i
@@ -339,7 +339,7 @@ BCM.modules[#BCM.modules+1] = function()
 		chanNameInput:SetMaxLetters(10)
 		chanNameInput:EnableMouse(false)
 		chanNameInput:SetScript("OnTextChanged", function(frame, changed)
-			if changed then bcmDB.shortNames[frame.value] = frame:GetText() end
+			if changed then bcmDB.shorterNames[frame.value] = frame:GetText() end
 		end)
 		chanNameInput:SetScript("OnEnterPressed", chanNameInput:GetScript("OnEscapePressed"))
 	end
