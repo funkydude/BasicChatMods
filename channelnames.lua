@@ -1,14 +1,19 @@
 
 --[[     Channel Name Replacements Module     ]]--
-
+channelnames_version = 10 -- Update if you need to clear old names.
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
-	bcmDB.replacements = nil -- Remove old SV, 10.0.5
-	bcmDB.shortNames = nil -- Remove old SV, 11.0.5
-	if bcmDB.BCM_ChannelNames then bcmDB.shorterNames = nil return end
+	if not bcmDB.channelnames_version then
+		bcmdb.channelnames_version = channelnames_version
+		bcmDB.replacements = nil -- Remove old SV, 10.0.5
+		bcmDB.shortNames = nil -- Remove old SV, 11.0.5
+	end
+	if bcmDB.channelnames_version != channelnames_version then
+		bcmDB.replacementNames = nil -- Clean old SV for updated module
+	if bcmDB.BCM_ChannelNames then bcmDB.replacementNames = nil return end
 
-	if not bcmDB.shorterNames then
-		bcmDB.shorterNames = {
+	if not bcmDB.replacementNames then
+		bcmDB.replacementNames = {
 			"[GEN]", --General
 			"[T(S)]", --Trade (Services)
 			"[T]", --Trade
@@ -31,7 +36,7 @@ BCM.modules[#BCM.modules+1] = function()
 		}
 	end
 
-	local rplc = bcmDB.shorterNames
+	local rplc = bcmDB.replacementNames
 	local gsub = gsub
 	local chn = {
 		"%[%d%d?%. General[^%]]*%]",
