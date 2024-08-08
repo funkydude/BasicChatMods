@@ -4,12 +4,13 @@ channelnames_version = 10 -- Update if you need to clear old names.
 local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if not bcmDB.channelnames_version then
-		bcmdb.channelnames_version = channelnames_version
+		bcmDB.channelnames_version = channelnames_version
 		bcmDB.replacements = nil -- Remove old SV, 10.0.5
 		bcmDB.shortNames = nil -- Remove old SV, 11.0.5
 	end
-	if bcmDB.channelnames_version != channelnames_version then
+	if bcmDB.channelnames_version ~= channelnames_version then
 		bcmDB.replacementNames = nil -- Clean old SV for updated module
+	end
 	if bcmDB.BCM_ChannelNames then bcmDB.replacementNames = nil return end
 
 	if not bcmDB.replacementNames then
