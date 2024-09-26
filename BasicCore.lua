@@ -183,6 +183,10 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		end
 	end)
 
+	if BCM.configModule then
+		BCM.configModule()
+	end
+
 	--[[ Self-Cleanup ]]--
 	BCM.modules = nil
 	frame.PLAYER_LOGIN = nil

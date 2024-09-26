@@ -2,9 +2,7 @@
 --[[     Basic Config Module     ]]--
 
 local name, BCM = ...
-BCM.modules[#BCM.modules+1] = function()
-	if bcmDB.noconfig then return end
-
+BCM.configModule = function()
 	--[[-------------------------------
 	-- Core widgets/functions/etc
 	-------------------------------]]--
