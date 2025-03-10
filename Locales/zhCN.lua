@@ -51,3 +51,4 @@ L["WORLDDEFENSE"] = "世界防务"
 
 L.protectedText = "<被保护的文本>"
 --L.TRADE_SERVICES = "Trade (Services)"
+--L.NEWCOMER = "Newcomer Chat"
