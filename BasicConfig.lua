@@ -91,24 +91,16 @@ BCM.configModule = function()
 		local panel = CreateFrame("Frame", frameName, bcm)
 		panel.name, panel.parent = panelName, bcm.name
 		panel:SetScript("OnShow", onShow)
-		if InterfaceOptions_AddCategory then -- XXX compat
-			InterfaceOptions_AddCategory(panel)
-		else
-			local subcategory = Settings.RegisterCanvasLayoutSubcategory(bcm.settingsCategory, panel, panelName)
-			Settings.RegisterAddOnCategory(subcategory)
-		end
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(bcm.settingsCategory, panel, panelName)
+		Settings.RegisterAddOnCategory(subcategory)
 	end
 
 	--[[ Main Panel ]]--
 	local bcm = CreateFrame("Frame", "BCM", InterfaceOptionsFramePanelContainer)
 	bcm.name = name
-	if InterfaceOptions_AddCategory then -- XXX compat
-		InterfaceOptions_AddCategory(bcm)
-	else
-		local category = Settings.RegisterCanvasLayoutCategory(bcm, bcm.name)
-		bcm.settingsCategory = category
-		Settings.RegisterAddOnCategory(category)
-	end
+	local category = Settings.RegisterCanvasLayoutCategory(bcm, bcm.name)
+	bcm.settingsCategory = category
+	Settings.RegisterAddOnCategory(category)
 	local bcmTitle = bcm:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 	bcmTitle:SetPoint("CENTER", bcm, "TOP", 0, -30)
 	bcmTitle:SetText(name.." @project-version@") -- packager magic, replaced with tag version
@@ -120,12 +112,7 @@ BCM.configModule = function()
 
 	--[[ Slash handler ]]--
 	SlashCmdList[name] = function()
-		if InterfaceOptionsFrame_OpenToCategory then -- XXX compat
-			InterfaceOptionsFrame_OpenToCategory(name)
-			InterfaceOptionsFrame_OpenToCategory(name)
-		else
-			Settings.OpenToCategory(bcm.settingsCategory.ID)
-		end
+		Settings.OpenToCategory(bcm.settingsCategory.ID)
 	end
 	SLASH_BasicChatMods1 = "/bcm"
 
