@@ -8,4 +8,5 @@ Type /bcm to configure BasicChatMods, a basic and modular approach to chat custo
 Currently provided by Blizzard, right-click combat log tab > Settings > Formatting > Show Timestamp. Repeat this for every combat log, e.g. "My Actions", "What happened to me?".
 
 ## Download
-<https://www.curseforge.com/wow/addons/basic-chat-mods>
+* <https://www.curseforge.com/wow/addons/basic-chat-mods>
+* <https://addons.wago.io/addons/basicchatmods>
