@@ -1,6 +1,6 @@
-## Interface: 50500
+## Interface: 50503, 50502
 ## Title: BasicChatMods
-## Author: Funkydude
+## Author: Funkeh
 ## Version: @project-version@
 ## Notes: Basic Chat Mods
 ## Notes-zhCN: Basic Chat Mods

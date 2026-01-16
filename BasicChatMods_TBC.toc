@@ -1,6 +1,6 @@
-## Interface: 20504
+## Interface: 20505
 ## Title: BasicChatMods
-## Author: Funkydude
+## Author: Funkeh
 ## Version: @project-version@
 ## Notes: Basic Chat Mods
 ## Notes-zhCN: Basic Chat Mods

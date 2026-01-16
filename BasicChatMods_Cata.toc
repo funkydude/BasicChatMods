@@ -1,6 +1,6 @@
-## Interface: 40402, 40401
+## Interface: 40402
 ## Title: BasicChatMods
-## Author: Funkydude
+## Author: Funkeh
 ## Version: @project-version@
 ## Notes: Basic Chat Mods
 ## Notes-zhCN: Basic Chat Mods

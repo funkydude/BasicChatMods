@@ -1,6 +1,6 @@
-## Interface: 11506, 11507
+## Interface: 11508, 11507
 ## Title: BasicChatMods
-## Author: Funkydude
+## Author: Funkeh
 ## Version: @project-version@
 ## Notes: Basic Chat Mods
 ## Notes-zhCN: Basic Chat Mods
