@@ -8,7 +8,11 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 	if not bcmDB.lines then bcmDB.lines = {["ChatFrame1"] = 1000} end
 	for k, v in next, bcmDB.lines do
 		local f = _G[k]
-		f.historyBuffer.maxElements = v
+		if type(f.historyBuffer.maxElements) == "table" then
+			f.historyBuffer.maxElements.value = v
+		else
+			f.historyBuffer.maxElements = v
+		end
 		if k == "ChatFrame2" then
 			COMBATLOG_MESSAGE_LIMIT = v -- Blizzard keeps changing the combat log max lines in Blizzard_CombatLog_Refilter... this better not cause taint issues.
 		end
@@ -19,7 +23,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 			local cF = _G[k]
 			if cF then
 				local buffer = cF.historyBuffer
-				local num = buffer.headIndex
+				local num = type(buffer.headIndex) == "table" and buffer.headIndex.value or buffer.headIndex
 				local prevElements = buffer.elements
 				local curTime = GetTime()
 				local restore = {
@@ -40,7 +44,11 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 					end
 				end
 
-				buffer.headIndex = #restore
+				if type(buffer.headIndex) == "table" then
+					buffer.headIndex.value = #restore
+				else
+					buffer.headIndex = #restore
+				end
 				for i = 1, #restore do
 					prevElements[i] = restore[i]
 					restore[i] = nil
@@ -63,7 +71,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 					local cf = _G[name]
 					if cf then
 						local tbl = {1, 2, 3, 4, 5}
-						local num = cf.historyBuffer.headIndex
+						local num = type(cf.historyBuffer.headIndex) == "table" and cf.historyBuffer.headIndex.value or cf.historyBuffer.headIndex
 						local tblCount = 5
 						for i = num, -10, -1 do
 							if i > 0 then

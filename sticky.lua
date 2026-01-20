@@ -5,7 +5,7 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Sticky then bcmDB.sticky = nil return end
 
-	if not bcmDB.sticky then 
+	if not bcmDB.sticky then
 		bcmDB.sticky = {}
 		bcmDB.sticky.EMOTE = 1
 		bcmDB.sticky.YELL = 1

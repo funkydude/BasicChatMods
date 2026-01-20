@@ -16,7 +16,11 @@ BCM.modules[#BCM.modules+1] = function()
 			if player then
 				InviteUnit(player)
 				-- We use a secure hook to stay clean (avoid taint), but this means a whisper window will open, so we close it.
-				ChatEdit_OnEscapePressed(ChatFrame1EditBox)
+				if ChatEdit_OnEscapePressed then -- Midnight compat code
+					ChatEdit_OnEscapePressed(ChatFrame1EditBox)
+				else
+					ChatFrame1EditBox:ClearChat()
+				end
 			else
 				local bnetAccountID = link:match("^BNplayer:[^:]+:([^:]+)")
 				if bnetAccountID then
@@ -24,7 +28,11 @@ BCM.modules[#BCM.modules+1] = function()
 					if accountInfoTbl and accountInfoTbl.gameAccountInfo and accountInfoTbl.gameAccountInfo.gameAccountID then
 						BNInviteFriend(accountInfoTbl.gameAccountInfo.gameAccountID)
 						-- We use a secure hook to stay clean (avoid taint), but this means a whisper window will open, so we close it.
-						ChatEdit_OnEscapePressed(ChatFrame1EditBox)
+						if ChatEdit_OnEscapePressed then -- Midnight compat code
+							ChatEdit_OnEscapePressed(ChatFrame1EditBox)
+						else
+							ChatFrame1EditBox:ClearChat()
+						end
 					end
 				end
 			end

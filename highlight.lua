@@ -58,7 +58,9 @@ BCM.modules[#BCM.modules+1] = function()
 	--[[ End one-time table creation ]]--
 
 	local gsub, UnitIsUnit, Ambiguate = gsub, UnitIsUnit, Ambiguate
+	local issecretvalue = issecretvalue or function() return false end
 	local filterFunc = function(_, _, msg, player, ...)
+		if issecretvalue(msg) then return end
 		local trimmedPlayer = Ambiguate(player, "none")
 		if not UnitIsUnit("player", trimmedPlayer) then
 			for i=1, #myNames do

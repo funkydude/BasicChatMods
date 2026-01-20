@@ -72,15 +72,16 @@ do
 end
 
 local tostring = tostring
+local issecretvalue = issecretvalue or function() return false end
 local EditMessage = function(self)
 	-- We can't use #self.elements, for some reason a nil get's added to the table at some point which breaks counting
-	local num = self.headIndex
+	local num = type(self.headIndex) == "table" and self.headIndex.value or self.headIndex
 	if num == 0 then
-		num = self.maxElements
+		num = type(self.maxElements) == "table" and self.maxElements.value or self.maxElements
 	end
 	local tbl = self.elements[num]
 	local text = tbl and tbl.message
-	if text then
+	if text and not issecretvalue(text) then
 		text = tostring(text)
 		for i=1, #BCM.chatFuncs do
 			text = BCM.chatFuncs[i](text)
@@ -131,7 +132,7 @@ BCM.Events.PLAYER_LOGIN = function(frame)
 		local cF = _G[n]
 		BCM.chatFrameRefs[i] = cF
 		if i ~= 2 then --skip combatlog
-			local num = cF.historyBuffer.headIndex
+			local num = type(cF.historyBuffer.headIndex) == "table" and cF.historyBuffer.headIndex.value or cF.historyBuffer.headIndex
 			if num > 0 then -- Catch up on any lines we missed during the log in process
 				for l = 1, num do
 					local tbl = cF.historyBuffer.elements[l]
