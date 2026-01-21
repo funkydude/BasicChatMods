@@ -58,5 +58,5 @@ L["PLAYERBRACKETS"] = "플레이어 괄호:"
 
 L["CLICKTOCOPY"] = "Shift-클릭으로 대화를 복사합니다."
 
---BCM.protectedText = "<Protected Text>"
---L.TRADE_SERVICES = "Trade (Services)"
+L.protectedText = "<보호된 텍스트>"
+L.TRADE_SERVICES = "거래(서비스)"
