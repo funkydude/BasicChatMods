@@ -43,7 +43,7 @@ BasicConfig.lua
 
 history.lua
 
-AltInvite_Classic.lua
+AltInvite.lua
 autolog.lua
 bnet.lua
 buttons_Classic.lua
