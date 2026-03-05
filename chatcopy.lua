@@ -12,13 +12,14 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	--Copying Functions
+	local issecretvalue = issecretvalue or function() return false end
 	local copyFunc = function(frame)
 		if not IsShiftKeyDown() then return end
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]
 		local text = ""
 		for i = 1, cf:GetNumMessages() do
 			local line = cf:GetMessageInfo(i)
-			if line then
+			if not issecretvalue(line) and line then
 				BCMCopyFrame.font:SetFormattedText("%s\n", line) -- We do this to fix special pipe methods e.g. 5 |4hour:hours; Example: copying /played text
 				local cleanLine = BCMCopyFrame.font:GetText() or ""
 				text = text .. cleanLine
@@ -27,6 +28,7 @@ BCM.modules[#BCM.modules+1] = function()
 		text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 		text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
+		text = text:gsub("|A[^|]+|a", "") -- Remove any other icons to prevent copying issues
 		text = text:gsub("|K[^|]+|k", BCM.protectedText) -- Remove protected text
 		BCMCopyFrame.box:SetText(text)
 		BCMCopyFrame:Show()

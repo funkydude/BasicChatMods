@@ -24,19 +24,20 @@ BCM.modules[#BCM.modules+1] = function()
 		local stamp = BetterDate(bcmDB.stampfmt, time())
 		num = num + 1
 		if bcmDB.stampcol == "" then
-			text = format("|Hgarrmission:BCMts:%d:|h%s|h%s", num, stamp, text)
+			text = format("|Haddon:BCMts:%d:|h%s|h%s", num, stamp, text)
 		else
-			text = format("|cFF%s|Hgarrmission:BCMts:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
+			text = format("|cFF%s|Haddon:BCMts:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
 		end
 		return text
 	end
 
-	hooksecurefunc("SetItemRef", function(link, _, _, frame)
+	local issecretvalue = issecretvalue or function() return false end
+	EventRegistry:RegisterCallback("SetItemRef", function(_, link, _, _, frame)
 		local _, bcm = strsplit(":", link)
 		if bcm == "BCMts" then
 			for i = frame:GetNumMessages(), 1, -1 do
 				local text = frame:GetMessageInfo(i)
-				if text and text:find(link, nil, true) then
+				if not issecretvalue(text) and text and text:find(link, nil, true) then
 					text = text:gsub("|T[^\\]+\\[^\\]+\\[Uu][Ii]%-[Rr][Aa][Ii][Dd][Tt][Aa][Rr][Gg][Ee][Tt][Ii][Nn][Gg][Ii][Cc][Oo][Nn]_(%d)[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 					text = text:gsub("|T13700([1-8])[^|]+|t", "{rt%1}") -- I like being able to copy raid icons
 					text = text:gsub("|T[^|]+|t", "") -- Remove any other icons to prevent copying issues
@@ -48,4 +49,3 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 	end)
 end
-
