@@ -7,7 +7,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	SlashCmdList["SMARTGROUP"] = function(msg)
 		if msg and msg:len() > 0 then
-			SendChatMessage(msg, (IsInGroup(2) and "INSTANCE_CHAT") or (IsInRaid() and "RAID") or (IsInGroup() and "PARTY") or "SAY")
+			C_ChatInfo.SendChatMessage(msg, (IsInGroup(2) and "INSTANCE_CHAT") or (IsInRaid() and "RAID") or (IsInGroup() and "PARTY") or "SAY")
 		end
 	end
 	SLASH_SMARTGROUP1 = "/gr"

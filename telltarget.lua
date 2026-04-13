@@ -11,7 +11,7 @@ BCM.modules[#BCM.modules+1] = function()
 			if realm and realm ~= "" then
 				name = name.."-"..realm
 			end
-			SendChatMessage(msg, "WHISPER", nil, name)
+			C_ChatInfo.SendChatMessage(msg, "WHISPER", nil, name)
 		end
 	end
 	SLASH_TELLTARGET1 = "/tt"

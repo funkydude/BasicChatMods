@@ -110,6 +110,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if found > 0 then return false, newMsg, ... end
 	end
 
+	local ChatFrame_AddMessageEventFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", filterFunc)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", filterFunc)
