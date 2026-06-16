@@ -84,7 +84,7 @@ BCM.earlyModules[#BCM.earlyModules+1] = function()
 								end
 							else -- Compensate for less than 5 lines of history
 								if tblCount > 0 then
-									tremove(tbl, tblCount)
+									table.remove(tbl, tblCount)
 									tblCount = tblCount - 1
 								else
 									break

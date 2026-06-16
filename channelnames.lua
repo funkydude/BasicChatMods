@@ -30,7 +30,7 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local rplc = bcmDB.shortNames
-	local gsub = gsub
+	local gsub = string.gsub
 	local chn = {
 		"%[%d%d?%. General[^%]]*%]",
 		"%[%d%d?%. Trade %([^%]]*%]", -- Trade (Services)

@@ -13,6 +13,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	--Copying Functions
 	local issecretvalue = issecretvalue or function() return false end
+	local format = string.format
 	local copyFunc = function(frame)
 		if not IsShiftKeyDown() then return end
 		local cf = _G[format("%s%d", "ChatFrame", frame:GetID())]

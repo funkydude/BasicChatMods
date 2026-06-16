@@ -58,7 +58,7 @@ BCM.modules[#BCM.modules+1] = function()
 		end
 		BCM.Events.GROUP_ROSTER_UPDATE = function()
 			if not IsInGroup() then
-				if nameGroup then wipe(nameGroup) end
+				if nameGroup then nameGroup = {} end
 				return
 			end
 

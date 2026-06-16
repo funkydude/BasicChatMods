@@ -295,7 +295,7 @@ BCM.configModule = function()
 		BCM_ChanName_DropMiddle:SetWidth(130)
 		BCM_ChanName_DropText:SetText(ADD_CHANNEL)
 		chan.initialize = function()
-			local selected, info = BCM_ChanName_DropText:GetText(), wipe(BCM.info)
+			local selected, info = BCM_ChanName_DropText:GetText(), table.wipe(BCM.info)
 			info.func = function(v) BCM_ChanName_DropText:SetText(v:GetText())
 				if v:GetText() == BCM.CUSTOMCHANNEL then BCM_ChanName_Tip:Show() else BCM_ChanName_Tip:Hide() end
 				local input = BCM_ChanName_Input
@@ -304,7 +304,7 @@ BCM.configModule = function()
 				input:SetText(bcmDB.shortNames[v.value])
 				input.value = v.value
 			end
-			local tbl = {BCM.GENERAL, BCM.TRADE_SERVICES, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.GUILDRECRUIT, INSTANCE_CHAT, INSTANCE_CHAT_LEADER, GUILD, PARTY, PARTY_LEADER, gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL}
+			local tbl = {BCM.GENERAL, BCM.TRADE_SERVICES, BCM.TRADE, BCM.WORLDDEFENSE, BCM.LOCALDEFENSE, BCM.LFG, BCM.GUILDRECRUIT, INSTANCE_CHAT, INSTANCE_CHAT_LEADER, GUILD, PARTY, PARTY_LEADER, string.gsub(CHAT_PARTY_GUIDE_GET, ".*%[(.*)%].*", "%1"), OFFICER, RAID, RAID_LEADER, RAID_WARNING, BCM.CUSTOMCHANNEL}
 			for i=1, #tbl do
 				info.text = tbl[i]
 				info.value = i
@@ -312,7 +312,6 @@ BCM.configModule = function()
 				UIDropDownMenu_AddButton(info)
 				tbl[i] = nil
 			end
-			tbl = nil
 		end
 
 		local chanNameInput = CreateFrame("EditBox", "BCM_ChanName_Input", BCM_ChannelNames, "InputBoxTemplate")
@@ -360,7 +359,7 @@ BCM.configModule = function()
 				PlaySound(856) -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 				bcmDB.noEditBoxBG = true
 				for i=1, BCM.chatFrames do
-					local eb = format("%s%d%s", "ChatFrame", i, "EditBox")
+					local eb = string.format("%s%d%s", "ChatFrame", i, "EditBox")
 					_G[eb.."Left"]:Hide()
 					_G[eb.."Mid"]:Hide()
 					_G[eb.."Right"]:Hide()
@@ -369,7 +368,7 @@ BCM.configModule = function()
 				PlaySound(857) -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF
 				bcmDB.noEditBoxBG = nil
 				for i=1, BCM.chatFrames do
-					local eb = format("%s%d%s", "ChatFrame", i, "EditBox")
+					local eb = string.format("%s%d%s", "ChatFrame", i, "EditBox")
 					_G[eb.."Left"]:Show()
 					_G[eb.."Mid"]:Show()
 					_G[eb.."Right"]:Show()
@@ -389,7 +388,7 @@ BCM.configModule = function()
 		editBoxSlider:SetScript("OnValueChanged", function(_, v)
 			BCM_EditBoxScale_SliderText:SetFormattedText("%s %.1f", BCM.SIZE, v)
 			if v == 1 then bcmDB.editBoxScale = nil else bcmDB.editBoxScale = v end
-			for i=1, BCM.chatFrames do _G[format("%s%d%s", "ChatFrame", i, "EditBox")]:SetScale(v) end
+			for i=1, BCM.chatFrames do _G[string.format("%s%d%s", "ChatFrame", i, "EditBox")]:SetScale(v) end
 		end)
 		BCM_EditBoxScale_SliderHigh:SetText(2)
 		BCM_EditBoxScale_SliderLow:SetText(0.5)
@@ -401,7 +400,7 @@ BCM.configModule = function()
 		BCM_EditBoxPositionMiddle:SetWidth(100)
 		BCM_EditBoxPositionText:SetText(bcmDB.editBoxOnBottom and BCM.BOTTOM or BCM.TOP)
 		editBoxPosition.initialize = function()
-			local selected, info = BCM_EditBoxPositionText:GetText(), wipe(BCM.info)
+			local selected, info = BCM_EditBoxPositionText:GetText(), table.wipe(BCM.info)
 			info.func = function(v) BCM_EditBoxPositionText:SetText(v:GetText())
 				if v.value == "BOTTOM" then
 					bcmDB.editBoxOnBottom = true
@@ -447,12 +446,12 @@ BCM.configModule = function()
 		BCM_FontNameMiddle:SetWidth(100)
 		BCM_FontNameText:SetText("Font")
 		fontName.initialize = function()
-			local selected, info = BCM_FontNameText:GetText(), wipe(BCM.info)
+			local selected, info = BCM_FontNameText:GetText(), table.wipe(BCM.info)
 			info.func = function(v) BCM_FontNameText:SetText(v:GetText())
 				bcmDB.fontname = v.value
 				for i=1, BCM.chatFrames do
-					local cF = _G[format("%s%d", "ChatFrame", i)]
-					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+					local cF = _G[string.format("%s%d", "ChatFrame", i)]
+					local cFE = _G[string.format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local _, size = cF:GetFont()
 					cF:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag or "")
 					cFE:SetFont(v.value, bcmDB.fontsize or size, bcmDB.fontflag or "")
@@ -488,7 +487,6 @@ BCM.configModule = function()
 					UIDropDownMenu_AddButton(info)
 					tbl[k] = nil
 				end
-				tbl = nil
 			end
 		end
 
@@ -498,12 +496,12 @@ BCM.configModule = function()
 		fontSizeSlider:SetValueStep(1)
 		fontSizeSlider:SetWidth(110)
 		fontSizeSlider:SetScript("OnValueChanged", function(_, v)
-			v = floor(v)
+			v = math.floor(v)
 			BCM_FontSizeText:SetFormattedText(FONT_SIZE.." "..FONT_SIZE_TEMPLATE, v)
 			bcmDB.fontsize = v
 			for i=1, BCM.chatFrames do
-				local cF = _G[format("%s%d", "ChatFrame", i)]
-				local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+				local cF = _G[string.format("%s%d", "ChatFrame", i)]
+				local cFE = _G[string.format("%s%d%s", "ChatFrame", i, "EditBox")]
 				local fName = cF:GetFont()
 				cF:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag or "")
 				cFE:SetFont(bcmDB.fontname or fName, v, bcmDB.fontflag or "")
@@ -519,7 +517,7 @@ BCM.configModule = function()
 		BCM_FontFlagMiddle:SetWidth(100)
 		BCM_FontFlagText:SetText(NONE)
 		fontFlag.initialize = function()
-			local selected, info = BCM_FontFlagText:GetText(), wipe(BCM.info)
+			local selected, info = BCM_FontFlagText:GetText(), table.wipe(BCM.info)
 			info.func = function(v) BCM_FontFlagText:SetText(v:GetText())
 				if v.value == NONE then
 					bcmDB.fontflag = nil
@@ -527,8 +525,8 @@ BCM.configModule = function()
 					bcmDB.fontflag = v.value
 				end
 				for i=1, BCM.chatFrames do
-					local cF = _G[format("%s%d", "ChatFrame", i)]
-					local cFE = _G[format("%s%d%s", "ChatFrame", i, "EditBox")]
+					local cF = _G[string.format("%s%d", "ChatFrame", i)]
+					local cFE = _G[string.format("%s%d%s", "ChatFrame", i, "EditBox")]
 					local fName, size = cF:GetFont()
 					cF:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag or "")
 					cFE:SetFont(bcmDB.fontname or fName, bcmDB.fontsize or size, bcmDB.fontflag or "")
@@ -541,7 +539,6 @@ BCM.configModule = function()
 				UIDropDownMenu_AddButton(info)
 				tbl[i] = nil
 			end
-			tbl = nil
 		end
 	end
 
@@ -586,7 +583,7 @@ BCM.configModule = function()
 		chatFrameSlider:SetValue(1)
 		chatFrameSlider:SetValueStep(1)
 		chatFrameSlider:SetScript("OnValueChanged", function(_, v)
-			v = floor(v)
+			v = math.floor(v)
 			local cF = ("ChatFrame%d"):format(v)
 			BCM_History_GetText:SetFormattedText("%s: %s", cF, _G[cF].name)
 			BCM_History_Set:SetValue(bcmDB.lines and bcmDB.lines[cF] or _G[cF]:GetMaxLines())
@@ -603,7 +600,7 @@ BCM.configModule = function()
 		linesSetSlider:SetValueStep(10)
 		linesSetSlider:SetWidth(200)
 		linesSetSlider:SetScript("OnValueChanged", function(_, v)
-			v = floor(v)
+			v = math.floor(v)
 			BCM_History_SetText:SetFormattedText("%s: %d", HISTORY, v)
 			local cF = ("ChatFrame%d"):format(BCM_History_Get:GetValue())
 			if v == _G[cF]:GetMaxLines() then return end -- No value changed, don't save anything
@@ -628,7 +625,7 @@ BCM.configModule = function()
 		chatFrameSlider:SetValue(1)
 		chatFrameSlider:SetValueStep(1)
 		chatFrameSlider:SetScript("OnValueChanged", function(_, v)
-			v = floor(v)
+			v = math.floor(v)
 			local cF = ("ChatFrame%d"):format(v)
 			BCM_Justify_GetText:SetFormattedText("%s: %s", cF, _G[cF].name)
 			BCM_Justify_Set:SetValue(bcmDB.justify and ((bcmDB.justify[cF] == "RIGHT" and 3) or (bcmDB.justify[cF] == "CENTER" and 2)) or 1)
@@ -644,7 +641,7 @@ BCM.configModule = function()
 		justifyPosition:SetValue(bcmDB.justify and ((bcmDB.justify.ChatFrame1 == "RIGHT" and 3) or (bcmDB.justify.ChatFrame1 == "CENTER" and 2)) or 1)
 		justifyPosition:SetValueStep(1)
 		justifyPosition:SetScript("OnValueChanged", function(_, v)
-			v = floor(v)
+			v = math.floor(v)
 			if not bcmDB.justify then bcmDB.justify = {} end
 			local cF = ("ChatFrame%d"):format(BCM_Justify_Get:GetValue())
 			local justify = v == 1 and "LEFT" or v == 2 and "CENTER" or v == 3 and "RIGHT"
@@ -760,7 +757,7 @@ BCM.configModule = function()
 		sticky:SetPoint("TOPLEFT", 16, -140)
 		BCM_Sticky_DropText:SetText(GUILD_NEWS_MAKE_STICKY)
 		sticky.initialize = function()
-			local info = wipe(BCM.info)
+			local info = table.wipe(BCM.info)
 			info.func = function(v)
 				if ChatTypeInfo[v.value].sticky == 1 then
 					ChatTypeInfo[v.value].sticky = 0
@@ -780,7 +777,6 @@ BCM.configModule = function()
 				UIDropDownMenu_AddButton(info)
 				tbl[i] = nil
 			end
-			tbl = nil
 		end
 	end
 
@@ -836,7 +832,7 @@ BCM.configModule = function()
 		stampFormatTitle:SetText(FORMATTING..":")
 		local stampFormatText = BCM_Timestamp:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 		stampFormatText:SetPoint("TOPLEFT", 20, -210)
-		stampFormatText:SetText("%p == "..TIMEMANAGER_AM.."/"..TIMEMANAGER_PM.."\n%S == "..gsub(D_SECONDS, ".*:(.*);$", "%1").."\n%M == "..gsub(D_MINUTES, ".*:(.*);$", "%1").."\n%I == "..AUCTION_DURATION_ONE.."\n%H == "..AUCTION_DURATION_TWO)
+		stampFormatText:SetText("%p == "..TIMEMANAGER_AM.."/"..TIMEMANAGER_PM.."\n%S == "..string.gsub(D_SECONDS, ".*:(.*);$", "%1").."\n%M == "..string.gsub(D_MINUTES, ".*:(.*);$", "%1").."\n%I == "..AUCTION_DURATION_ONE.."\n%H == "..AUCTION_DURATION_TWO)
 		local stampBrackInput = CreateFrame("EditBox", "BCM_Timestamp_Format", BCM_Timestamp, "InputBoxTemplate")
 		stampBrackInput:SetPoint("TOPLEFT", 25, -280)
 		stampBrackInput:SetAutoFocus(false)
@@ -852,7 +848,5 @@ BCM.configModule = function()
 
 	--[[ URLCopy ]]--
 	makePanel("BCM_URLCopy", bcm, "URL Copy")
-
-	makePanel = nil
 end
 

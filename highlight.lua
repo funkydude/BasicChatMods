@@ -28,9 +28,9 @@ BCM.modules[#BCM.modules+1] = function()
 	end
 
 	local pName, myNames = UnitName("player"), {}
-	local up, down, count, tally = strupper(pName), strlower(pName), strlenutf8(pName), 1
+	local up, down, count, tally = string.upper(pName), string.lower(pName), strlenutf8(pName), 1
 	myNames[1] = ""
-	for i=1, count do
+	for _=1, count do
 		--Good thing we only need to run this nonsense once
 		local len = strlen(utf8sub(up, tally, 1))
 		myNames[1] = myNames[1].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"..(len > 1 and "+" or "")
@@ -42,9 +42,9 @@ BCM.modules[#BCM.modules+1] = function()
 	myNames[1] = " ".. myNames[1] .." "
 
 	if bcmDB.highlightWord then
-		up, down, count, tally = strupper(bcmDB.highlightWord), strlower(bcmDB.highlightWord), strlenutf8(bcmDB.highlightWord), 1
+		up, down, count, tally = string.upper(bcmDB.highlightWord), string.lower(bcmDB.highlightWord), strlenutf8(bcmDB.highlightWord), 1
 		myNames[5] = ""
-		for i=1, count do
+		for _=1, count do
 			local len = strlen(utf8sub(up, tally, 1))
 			myNames[5] = myNames[5].. "[" ..utf8sub(up, tally, 1).. utf8sub(down, tally, 1).. "]"..(len > 1 and "+" or "")
 			tally = tally + len
@@ -54,10 +54,9 @@ BCM.modules[#BCM.modules+1] = function()
 		myNames[8] = "^".. myNames[5] .." "
 		myNames[5] = " ".. myNames[5] .." "
 	end
-	utf8sub = nil
 	--[[ End one-time table creation ]]--
 
-	local gsub, UnitIsUnit, Ambiguate = gsub, UnitIsUnit, Ambiguate
+	local gsub, UnitIsUnit, Ambiguate = string.gsub, UnitIsUnit, Ambiguate
 	local issecretvalue = issecretvalue or function() return false end
 	local filterFunc = function(_, _, msg, player, ...)
 		if issecretvalue(msg) then return end

@@ -17,7 +17,7 @@ BCM.modules[#BCM.modules+1] = function()
 	if not bcmDB.stampfmt then bcmDB.stampfmt = "[%I:%M:%S] " end --add a format if we lack one
 
 	local time = time
-	local format = format
+	local format = string.format
 	local num = 0
 
 	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
