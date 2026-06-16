@@ -1,6 +1,6 @@
 
 if GetLocale() ~= "itIT" then return end
-local _, L = ...
+--local _, L = ...
 -- L["BCM_AltInvite"] = ""
 -- L["BCM_AutoLog"] = ""
 -- L["BCM_BNet"] = ""
