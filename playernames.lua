@@ -18,6 +18,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo = GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo
 	local tostring = tostring
+	local issecretvalue = issecretvalue or function() return false end
 
 	--[[ Start Harvest Data ]]--
 	local nameLevels, nameGroup, nameColor = nil, nil, nil
@@ -30,7 +31,7 @@ BCM.modules[#BCM.modules+1] = function()
 			if UnitIsPlayer("target") and UnitIsFriend("player", "target") then
 				local n, s = UnitName("target")
 				local l = UnitLevel("target")
-				if n and l and l > 0 then
+				if n and l and not issecretvalue(n) and not issecretvalue(s) and not issecretvalue(l) and l > 0 then
 					if s and s ~= "" then n = n.."-"..s end
 					nameLevels[n] = tostring(l)
 				end
@@ -42,7 +43,7 @@ BCM.modules[#BCM.modules+1] = function()
 			if UnitIsPlayer("mouseover") and UnitIsFriend("player", "mouseover") then
 				local n, s = UnitName("mouseover")
 				local l = UnitLevel("mouseover")
-				if n and l and l > 0 then
+				if n and l and not issecretvalue(n) and not issecretvalue(s) and not issecretvalue(l) and l > 0 then
 					if s and s ~= "" then n = n.."-"..s end
 					nameLevels[n] = tostring(l)
 				end
