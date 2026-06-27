@@ -5,7 +5,6 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Fade then return end
 
-	local LCA = LibStub("LibChatAnims")
 	local storedFuncs = {}
 	local values = {0}
 	-- Instead of just changing the global fading variables like we previously did,
@@ -52,7 +51,7 @@ BCM.modules[#BCM.modules+1] = function()
 		if self:IsShown() then
 			local SetAlpha, frameValue = storedFuncs[self][1], storedFuncs[self][2]
 			if SetAlpha then
-				if values[frameValue] == 1 or self.alerting or LCA:IsAlerting(self) then
+				if values[frameValue] == 1 or self.alerting then
 					SetAlpha(self, 1)
 				else
 					SetAlpha(self, values[frameValue])

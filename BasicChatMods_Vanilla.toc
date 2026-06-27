@@ -22,11 +22,6 @@
 ## X-WoWI-ID: 11290
 ## X-Wago-ID: 9rN4PrND
 
-## OptionalDeps: LibChatAnims
-## X-Embeds: LibChatAnims
-
-embeds.xml
-
 Locales\enUS.lua
 Locales\deDE.lua
 Locales\koKR.lua
