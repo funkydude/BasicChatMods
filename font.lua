@@ -5,6 +5,7 @@ local _, BCM = ...
 BCM.modules[#BCM.modules+1] = function()
 	if bcmDB.BCM_Font then bcmDB.fontname, bcmDB.fontsize, bcmDB.fontflag = nil, nil, nil return end
 
+	local IsKnownFile = C_UIFileAsset and C_UIFileAsset.IsKnownFile or function() return true end
 	BCM.chatFuncsPerFrame[#BCM.chatFuncsPerFrame+1] = function(cF, n)
 		local cFE = _G[n.."EditBox"]
 		local name, size = cF:GetFont()
@@ -12,6 +13,7 @@ BCM.modules[#BCM.modules+1] = function()
 			--remove defaults
 			if name == bcmDB.fontname then bcmDB.fontname = nil end
 			if bcmDB.fontsize and (tostring(size)):find(bcmDB.fontsize..".", nil, true) then bcmDB.fontsize = nil end
+			if bcmDB.fontname and not IsKnownFile(bcmDB.fontname) then bcmDB.fontname = nil end
 		end
 
 		cF:SetFont(bcmDB.fontname or name, bcmDB.fontsize or size, bcmDB.fontflag or "")

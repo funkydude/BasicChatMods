@@ -20,15 +20,18 @@ BCM.modules[#BCM.modules+1] = function()
 	local format = string.format
 	local num = 0
 
-	BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
-		local stamp = BetterDate(bcmDB.stampfmt, time())
-		num = num + 1
-		if bcmDB.stampcol == "" then
-			text = format("|Haddon:BCMts:%d:|h%s|h%s", num, stamp, text)
-		else
-			text = format("|cFF%s|Haddon:BCMts:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
+	do
+		local BetterDate = TimeUtil and TimeUtil.BetterDate or BetterDate
+		BCM.chatFuncs[#BCM.chatFuncs+1] = function(text)
+			local stamp = BetterDate(bcmDB.stampfmt, time())
+			num = num + 1
+			if bcmDB.stampcol == "" then
+				text = format("|Haddon:BCMts:%d:|h%s|h%s", num, stamp, text)
+			else
+				text = format("|cFF%s|Haddon:BCMts:%d:|h%s|h|r%s", bcmDB.stampcol, num, stamp, text)
+			end
+			return text
 		end
-		return text
 	end
 
 	local issecretvalue = issecretvalue or function() return false end

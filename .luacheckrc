@@ -10,6 +10,10 @@ ignore = {
 not_globals = {
 	"arg", -- arg is a standard global, so without this it won't error when we typo "args" in a module
 }
+read_globals = {
+	"C_UIFileAsset",
+	"TimeUtil",
+}
 globals = {
 	"bcmDB",
 	"GetCVar",
