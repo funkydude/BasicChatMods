@@ -40,8 +40,7 @@ history.lua
 
 AltInvite.lua
 autolog.lua
-bnet.lua [AllowLoadGameType mainline, wrath, cata, mists]
-bnet_Classic.lua [AllowLoadGameType vanilla, tbc]
+bnet.lua
 buttons.lua [AllowLoadGameType mainline]
 buttons_Classic.lua [AllowLoadGameType classic]
 channelnames.lua
