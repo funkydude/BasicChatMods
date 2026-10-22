@@ -1,4 +1,4 @@
-## Interface: 120100, 120105, 120007
+## Interface: 11508, 11509, 16001, 20505, 20506, 30405, 38002, 40402, 50503, 50504, 120100, 120105, 120107
 ## Title: BasicChatMods
 ## Author: Funkeh
 ## Version: @project-version@
@@ -40,17 +40,21 @@ history.lua
 
 AltInvite.lua
 autolog.lua
-bnet.lua
-buttons.lua
+bnet.lua [AllowLoadGameType mainline, wrath, cata, mists]
+bnet_Classic.lua [AllowLoadGameType vanilla, tbc]
+buttons.lua [AllowLoadGameType mainline]
+buttons_Classic.lua [AllowLoadGameType classic]
 channelnames.lua
 chatcopy.lua
 editbox.lua
-fade.lua
+fade.lua [AllowLoadGameType mainline]
+fade_Classic.lua [AllowLoadGameType classic]
 font.lua
 gmotd.lua
 highlight.lua
 justify.lua
-playernames.lua
+playernames.lua [AllowLoadGameType mainline, vanilla, tbc]
+playernames_Wrath.lua [AllowLoadGameType wrath, cata, mists]
 resize.lua
 scrolldown.lua
 smartgroup.lua
