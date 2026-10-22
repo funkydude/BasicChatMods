@@ -18,7 +18,7 @@ BCM.modules[#BCM.modules+1] = function()
 
 	local GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo = GetGuildRosterInfo, Ambiguate, GetRaidRosterInfo
 	local tostring = tostring
-	local issecretvalue = issecretvalue or function() return false end
+	local issecretvalue = issecretvalue
 
 	--[[ Start Harvest Data ]]--
 	local nameLevels, nameGroup, nameColor = nil, nil, nil
