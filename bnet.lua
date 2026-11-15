@@ -12,16 +12,18 @@ BCM.modules[#BCM.modules+1] = function()
 		local accountInfoTbl = GetAccountInfoByID(id)
 		local battleTag, englishClass = accountInfoTbl.battleTag, accountInfoTbl.gameAccountInfo.className
 
-		if not battleTag then
-			local msg = "Tell the BasicChatMods dev: ERROR battleTag was nil!"
-			print(msg)
-			geterrorhandler()(msg)
-		elseif battleTag == "" then
-			local msg = "Tell the BasicChatMods dev: ERROR battleTag was blank!"
-			print(msg)
-			geterrorhandler()(msg)
-		elseif bcmDB.noRealName then -- Replace real name with battle tag if enabled
-			fakeName = battleTag:gsub("^(.+)#%d+$", "%1")
+		if accountInfoTbl.isBattleTagFriend then
+			if not battleTag then
+				local msg = "Tell the BasicChatMods dev: ERROR battleTag was nil!"
+				print(msg)
+				geterrorhandler()(msg)
+			elseif battleTag == "" then
+				local msg = "Tell the BasicChatMods dev: ERROR battleTag was blank!"
+				print(msg)
+				geterrorhandler()(msg)
+			elseif bcmDB.noRealName then -- Replace real name with battle tag if enabled
+				fakeName = battleTag:gsub("^(.+)#%d+$", "%1")
+			end
 		end
 
 		if englishClass and englishClass ~= "" then -- Not playing wow, logging off, etc.
